@@ -1,3 +1,6 @@
+-- 该文件不会被读取
+-- 从 system.hotupdate 进行修改
+
 isDebug = false
 require("system.hotupdate")
 require("util.ReadOnlyMeta")

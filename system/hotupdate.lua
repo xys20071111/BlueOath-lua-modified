@@ -103,3 +103,5 @@ function luaReload(luaPath, reloaded)
     luaReload(k, reloaded)
   end
 end
+
+require("GlobalSettings")
