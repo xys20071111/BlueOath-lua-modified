@@ -69,6 +69,7 @@ function LuaUIPage:DoShow()
   self:autoRegisterRedDot()
   self:__ShowScene()
   self:DoOnOpen()
+  -- Service.userService:_UpdateUserInfo(nil, nil, 0, "")
 end
 
 function LuaUIPage:__ShowScene()
@@ -336,7 +337,7 @@ function LuaUIPage:RegisterRedDotById(redDot, redDotIdList, ...)
 end
 
 function LuaUIPage:RegisterRedDot(redDot, ...)
-  redDotManager:RegisterRedDot(self, redDot, ...)
+  -- redDotManager:RegisterRedDot(self, redDot, ...)
 end
 
 function LuaUIPage:SetDesignatedObjEnable(enable)

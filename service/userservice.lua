@@ -173,14 +173,11 @@ function UserService:_ReceiveUserLogin(_, state, err, errmsg)
 end
 
 function UserService:_ReceiveUserGetUserInfoFunc(_, state, err, errmsg)
-  if state ~= excMgr.ConnectCount then
-    return
-  end
   local msg = GlobalSettings.userInfo
   if err == 0 then
     self:SendLuaEvent(LuaEvent.LoginOk, msg)
     self:_UpdateUserInfo(nil, nil, 0, "")
-    eventManager:FireEventToCSharp(LuaCSharpEvent.LoginOk)
+    -- eventManager:FireEventToCSharp(LuaCSharpEvent.LoginOk)
   else
     Socket_net.Disconnect()
     self:SendLuaEvent(LuaEvent.LoginError)
@@ -189,8 +186,9 @@ function UserService:_ReceiveUserGetUserInfoFunc(_, state, err, errmsg)
 end
 
 function UserService:_UpdateUserInfo(ret, state, err, errmsg)
+  log("UserService:_UpdateUserInfo")
   if err == 0 then
-    local userInfo = GlobalSettings.userInfo
+    local userInfo = SetReadOnlyMeta(GlobalSettings.userInfo)
     if userInfo.Uid == nil and self.firstLogin then
       return
     end
@@ -339,7 +337,8 @@ function UserService:SendRefresh(fleetArr)
   local maxpoweridx, minpoweridx = Logic.fleetLogic:GetMaxPower()
   local arg = {MaxPowerIndex = maxpoweridx, MinPowerIndex = minpoweridx}
   arg = dataChangeManager:LuaToPb(arg, user_pb.TREFRESHARG)
-  self:SendNetEvent("user.Refresh", arg)
+  -- self:SendNetEvent("user.Refresh", arg)
+  self:_RefreshCallBack(nil, nil, 0, "")
 end
 
 function UserService:_RefreshCallBack(msg, state, err, errmsg)

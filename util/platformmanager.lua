@@ -208,7 +208,7 @@ function PlatformManager:sendUserInfo(type)
     Power = power,
     Gender = gender
   }
-  PlatformWrapper:sendInformationToPlatform(userInfo)
+  -- PlatformWrapper:sendInformationToPlatform(userInfo)
 end
 
 function PlatformManager:sendUserInfoToMtp()
@@ -220,7 +220,7 @@ function PlatformManager:sendUserInfoToMtp()
   local serverid = info.groupid
   local pid = self.pid
   local uid = Data.userData:GetUserUid()
-  MtpManager.Login(pl, serverid, pid, uid)
+  -- MtpManager.Login(pl, serverid, pid, uid)
 end
 
 function PlatformManager:isShowUserCenter()

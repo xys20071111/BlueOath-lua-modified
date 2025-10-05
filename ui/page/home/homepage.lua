@@ -131,7 +131,7 @@ function HomePage:DoOnOpen()
   local dotInfo = {
     info = "ui_main_scene"
   }
-  RetentionHelper.Retention(PlatformDotType.uilog, dotInfo)
+  -- RetentionHelper.Retention(PlatformDotType.uilog, dotInfo)
   local updateModule = moduleManager:OpenPageOpenModule()
   if updateModule ~= nil then
     moduleManager:SetOpenPageUpdateModule(nil)
@@ -147,8 +147,8 @@ function HomePage:DoOnOpen()
   if self.m_tabWidgets.obj_hide.activeSelf then
     actEnter:_CreateBanner()
   end
-  self:Refresh()
-  self:BuildSuccess()
+  -- self:Refresh()
+  -- self:BuildSuccess()
   self.m_tabWidgets.btn_announcement.gameObject:SetActive(false)
   announcementManager:EnableAnnouncement()
   if self.param then
@@ -337,10 +337,10 @@ function HomePage:_CorSignCheck()
     self.m_signTimer:Stop()
     self.m_signTimer = nil
   end
-  self.m_signTimer = FrameTimer.New(function()
-    self:_CorSignCall()
-  end, 0, 1)
-  self.m_signTimer:Start()
+  -- self.m_signTimer = FrameTimer.New(function()
+  --   self:_CorSignCall()
+  -- end, 0, 1)
+  -- self.m_signTimer:Start()
 end
 
 function HomePage:_CorSignCall()

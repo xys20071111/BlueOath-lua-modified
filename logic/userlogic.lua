@@ -17,10 +17,6 @@ function UserLogic:_CreateUser()
 end
 
 function UserLogic:_LoginOK()
-  if self.newUser then
-    platformManager:sendUserInfo(SendUserInfoType.CreateUser)
-  end
-  platformManager:sendUserInfoToMtp()
 end
 
 function UserLogic:_UserLevelUp()
