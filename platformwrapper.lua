@@ -232,7 +232,7 @@ function PlatformWrapper:cancelAllLocalNotification()
 end
 
 function PlatformWrapper:useSDK()
-  return BabelTimeSDK.UseSDK
+  return false -- 那肯定是不用SDK啊
 end
 
 function PlatformWrapper:sdkInitFinish()
