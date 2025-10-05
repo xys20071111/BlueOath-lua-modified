@@ -207,7 +207,7 @@ function logError(...)
     end
   end
   local str = stringify(...)
-  local logText = tostring(prefix) .. tostring(str) .. "\n" .. traceback
+  local logText = tostring(prefix) .. tostring(str) .. "\n" .. traceback .. '\n'
   LuaInterface_Debugger.LogError(logText)
   GlobalLogFile:write(logText)
   GlobalLogFile:flush()
@@ -216,7 +216,7 @@ end
 function logWarning(...)
   local traceback = debug.traceback("", 2)
   local str = stringify(...)
-  local logText = tostring(str) .. "\n" .. traceback
+  local logText = tostring(str) .. "\n" .. traceback .. '\n'
   LuaInterface_Debugger.LogWarning(logText)
   GlobalLogFile:write(logText)
   GlobalLogFile:flush()
@@ -227,7 +227,7 @@ function logDebug(...)
 end
 
 function log(...)
-  local str = stringify(...)
+  local str = stringify(...) .. '\n'
   LuaInterface_Debugger.Log(str)
   GlobalLogFile:write(str)
   GlobalLogFile:flush()
