@@ -21,12 +21,13 @@ function BaseService:UnBindEvent(eventName)
 end
 
 function BaseService:SendNetEvent(method, args, state, waitRecv)
-  if waitRecv == nil then
-    waitRecv = true
-  end
-  if nil ~= method then
-    Socket_net.send1(method, args, state, waitRecv)
-  end
+  logError('不应该有数据包发出，根据栈跟踪修改那里')
+  -- if waitRecv == nil then
+  --   waitRecv = true
+  -- end
+  -- if nil ~= method then
+  --   Socket_net.send1(method, args, state, waitRecv)
+  -- end
 end
 
 return BaseService

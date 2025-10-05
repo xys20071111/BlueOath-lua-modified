@@ -38,7 +38,9 @@ end
 
 function UserService:SendLogin(param)
   local state = excMgr.ConnectCount
-  self:SendNetEvent("player.Login", param, state)
+  -- 既然是离线版，也就没必要真的发请求了
+  -- self:SendNetEvent("player.Login", param, state)
+  self:_ReceiveLogin(nil, state, 0, "")
 end
 
 function UserService:SendLogoff()
@@ -52,7 +54,8 @@ end
 
 function UserService:UserLogin(param)
   local state = excMgr.ConnectCount
-  self:SendNetEvent("user.UserLogin", param, state)
+  -- self:SendNetEvent("user.UserLogin", param, state)
+  self:_ReceiveUserLogin(nil, state, 0, "")
 end
 
 function UserService:SendSecretary(param)
@@ -83,14 +86,16 @@ function UserService:SetPlayerHeadFrame(arg, state)
   self:SendNetEvent("user.SetPlayerHeadFrame", arg)
 end
 
-function UserService:_ReceiveLogin(msg, state, err, errmsg)
+function UserService:_ReceiveLogin(_, state, err, errmsg)
   if state ~= excMgr.ConnectCount then
     return
   end
+  local msg = { Ret = "ok", ErrCode = 0}
   if err == 0 and msg.Ret == "ok" then
     if msg.ErrCode == 0 then
       local currState = excMgr.ConnectCount
-      self:SendNetEvent("player.GetUserList", nil, currState)
+      -- self:SendNetEvent("player.GetUserList", nil, currState)
+      self:_ReceiveUserList(nil , state, 0, "")
       self:SendLuaEvent(LuaEvent.PlayerLogin)
     else
       Logic.loginLogic:SetUserKick(msg.ErrCode)
@@ -107,7 +112,12 @@ function UserService:_ReceiveUserList(msg, state, err, errmsg)
     return
   end
   if err == 0 then
-    self:SendLuaEvent(LuaEvent.GetUserList, msg)
+    -- 转移至LoginLogic
+    self:SendLuaEvent(LuaEvent.GetUserList, {
+      ArrUser = {
+        [1] = GlobalSettings.userInfo
+      }
+    })
   else
     Socket_net.Disconnect()
     logError("player.GetUserList Fail" .. err)
@@ -139,13 +149,17 @@ function UserService:_SetMessage(msg, state, err, errmsg)
   end
 end
 
-function UserService:_ReceiveUserLogin(msg, state, err, errmsg)
+function UserService:_ReceiveUserLogin(_, state, err, errmsg)
   if state ~= excMgr.ConnectCount then
     return
   end
+  local msg = {
+    Ret = "ok"
+  }
   if err == 0 and msg.Ret == "ok" then
     local currState = excMgr.ConnectCount
-    self:SendNetEvent("user.GetUserInfo", nil, currState)
+    -- self:SendNetEvent("user.GetUserInfo", nil, currState)
+    self:_ReceiveUserGetUserInfoFunc(nil, state, 0, "")
   elseif msg.Ret == "ban" then
     local info = dataChangeManager:PbToLua(msg, user_pb.TUSERLOGINRET)
     Socket_net.Disconnect()
@@ -158,10 +172,11 @@ function UserService:_ReceiveUserLogin(msg, state, err, errmsg)
   end
 end
 
-function UserService:_ReceiveUserGetUserInfoFunc(msg, state, err, errmsg)
+function UserService:_ReceiveUserGetUserInfoFunc(_, state, err, errmsg)
   if state ~= excMgr.ConnectCount then
     return
   end
+  local msg = GlobalSettings.userInfo
   if err == 0 then
     self:SendLuaEvent(LuaEvent.LoginOk, msg)
     eventManager:FireEventToCSharp(LuaCSharpEvent.LoginOk)
