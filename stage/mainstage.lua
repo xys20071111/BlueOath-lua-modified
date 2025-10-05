@@ -21,7 +21,6 @@ end
 
 function MainStage:StageEnter(lastPage, enterParam)
   memoryUtil.LuaMemory("\232\191\155\229\133\165Main\231\138\182\230\128\129")
-  log("MainStage:StageEnter 调用更新用户数据")
   self:RegisterEvent(LuaEvent.HomeSwitchState, self.__switchState, self)
   self:RegisterEvent(LuaEvent.DisconnectServer, self.__disconnectServer, self)
   self:RegisterEvent(LuaEvent.UserKick, excMgr._UserKick)

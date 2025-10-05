@@ -159,7 +159,8 @@ function UserService:_ReceiveUserLogin(_, state, err, errmsg)
   if err == 0 and msg.Ret == "ok" then
     local currState = excMgr.ConnectCount
     -- self:SendNetEvent("user.GetUserInfo", nil, currState)
-    self:_ReceiveUserGetUserInfoFunc(nil, state, 0, "")
+    self:_UpdateUserInfo(nil, nil, 0, "")
+    self:_ReceiveUserGetUserInfoFunc("abc", state, 0, "")
   elseif msg.Ret == "ban" then
     local info = dataChangeManager:PbToLua(msg, user_pb.TUSERLOGINRET)
     Socket_net.Disconnect()
@@ -172,11 +173,9 @@ function UserService:_ReceiveUserLogin(_, state, err, errmsg)
   end
 end
 
-function UserService:_ReceiveUserGetUserInfoFunc(_, state, err, errmsg)
-  local msg = GlobalSettings.userInfo
+function UserService:_ReceiveUserGetUserInfoFunc(msg, state, err, errmsg)
   if err == 0 then
     self:SendLuaEvent(LuaEvent.LoginOk, msg)
-    self:_UpdateUserInfo(nil, nil, 0, "")
     -- eventManager:FireEventToCSharp(LuaCSharpEvent.LoginOk)
   else
     Socket_net.Disconnect()
