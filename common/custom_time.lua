@@ -50,17 +50,18 @@ function time.getTimeZoneOffset()
   end
 end
 
-function os.time(...)
-  local args = {
-    ...
-  }
-  local ret = ostimeold(args[1])
-  if ret == nil then
-    logError("time conf is err  %s", args[1])
-    return 1847483647
-  end
-  return ret + time.getOffsetFromLocalToSvr()
-end
+-- function os.time(...)
+--   local args = {
+--     ...
+--   }
+--   log(args[1])
+--   local ret = ostimeold(args[1])
+--   if ret == nil then
+--     logError("time conf is err  %s", args[1])
+--     return 1847483647
+--   end
+--   return ret + time.getOffsetFromLocalToSvr()
+-- end
 
 function time.getOffsetFromLocalToSvr()
   local now = ostimeold()
@@ -69,15 +70,15 @@ function time.getOffsetFromLocalToSvr()
   return localSvrOffset
 end
 
-function os.date(format, t)
-  local ret_time
-  if format == "*t" and t ~= nil then
-    ret_time = osdateold("*t", t - time.getOffsetFromLocalToSvr())
-  else
-    ret_time = osdateold(format, t)
-  end
-  return ret_time
-end
+-- function os.date(format, t)
+--   local ret_time
+--   if format == "*t" and t ~= nil then
+--     ret_time = osdateold("*t", t - time.getOffsetFromLocalToSvr())
+--   else
+--     ret_time = osdateold(format, t)
+--   end
+--   return ret_time
+-- end
 
 function time.getWeekday()
   local curTime = time.getSvrTime()

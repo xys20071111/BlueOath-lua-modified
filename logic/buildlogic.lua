@@ -96,10 +96,11 @@ function BuildLogic:GetIsFirst()
 end
 
 function BuildLogic:GetPushNoticeParams(args)
+  logError("查看BuildLogic:GetPushNoticeParams的栈跟踪")
   local paramList = {}
   local noticeParam = {}
   local firstEndTime = 9999999999
-  if args.BuildingList == 0 then
+  if args.BuildingList == 0 or args.BuildingList == nil then
     return paramList
   end
   for k, v in pairs(args.BuildingList) do

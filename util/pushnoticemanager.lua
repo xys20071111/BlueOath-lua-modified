@@ -34,7 +34,7 @@ function PushNoticeManager:_PushAllNotice()
   end
   self:_CancelAllNotice()
   for key, paramHandler in pairs(noticeParamMap) do
-    self:_PushNotice(paramHandler())
+    -- self:_PushNotice(paramHandler())
   end
 end
 

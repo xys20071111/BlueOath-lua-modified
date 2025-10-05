@@ -247,24 +247,25 @@ function BathroomLogic:GetPushNoticeParams(args)
   local paramList = {}
   local noticeParam = {}
   local firstEndTime = 9999999999
-  if args[1].HeroId == nil then
-    return paramList
-  end
-  for k, v in pairs(args) do
-    if v.HeroId == nil then
-      break
-    end
-    local endTime = v.StartTime + 28800
-    if endTime > time.getSvrTime() then
-      firstEndTime = math.min(firstEndTime, endTime)
-    end
-  end
-  noticeParam.key = "bath"
-  noticeParam.text = configManager.GetDataById("config_pushnotice", 6).text
-  noticeParam.time = firstEndTime
-  noticeParam.repeatTime = LocalNotificationInterval.NoRepeat
-  paramList.bath = noticeParam
   return paramList
+  -- if args == nil or args[1].HeroId == nil then
+  --   return paramList
+  -- end
+  -- for k, v in pairs(args) do
+  --   if v.HeroId == nil then
+  --     break
+  --   end
+  --   local endTime = v.StartTime + 28800
+  --   if endTime > time.getSvrTime() then
+  --     firstEndTime = math.min(firstEndTime, endTime)
+  --   end
+  -- end
+  -- noticeParam.key = "bath"
+  -- noticeParam.text = configManager.GetDataById("config_pushnotice", 6).text
+  -- noticeParam.time = firstEndTime
+  -- noticeParam.repeatTime = LocalNotificationInterval.NoRepeat
+  -- paramList.bath = noticeParam
+  -- return paramList
 end
 
 return BathroomLogic
