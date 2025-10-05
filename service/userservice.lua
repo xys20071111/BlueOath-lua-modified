@@ -179,6 +179,7 @@ function UserService:_ReceiveUserGetUserInfoFunc(_, state, err, errmsg)
   local msg = GlobalSettings.userInfo
   if err == 0 then
     self:SendLuaEvent(LuaEvent.LoginOk, msg)
+    self:_UpdateUserInfo(nil, nil, 0, "")
     eventManager:FireEventToCSharp(LuaCSharpEvent.LoginOk)
   else
     Socket_net.Disconnect()
@@ -189,7 +190,7 @@ end
 
 function UserService:_UpdateUserInfo(ret, state, err, errmsg)
   if err == 0 then
-    local userInfo = dataChangeManager:PbToLua(ret, user_pb.TGETUSERINFORET)
+    local userInfo = GlobalSettings.userInfo
     if userInfo.Uid == nil and self.firstLogin then
       return
     end
