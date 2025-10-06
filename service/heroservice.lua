@@ -115,13 +115,12 @@ function HeroService:_HeroIntensify(ret, state, err, errmsg)
 end
 
 function HeroService:_UpdateHeroBagData(ret, state, err, errmsg)
-  if ret ~= nil then
-    local info = dataChangeManager:PbToLua(ret, hero_pb.THEROINFO)
-    Data.heroData:SetData(info)
-    Data.wishData:UpdateWishHero()
-    Data.equipData:RefreshHeroEquipData()
-    self:SendLuaEvent(LuaEvent.UpdateHeroData)
-  end
+  log("HeroService:_UpdateHeroBagData")
+  local info = GlobalSettings.heroBag
+  Data.heroData:SetData(info)
+  Data.wishData:UpdateWishHero()
+  Data.equipData:RefreshHeroEquipData()
+  self:SendLuaEvent(LuaEvent.UpdateHeroData)
 end
 
 function HeroService:SendHeroBreak(heroid, consumeIds, consumeItemIds)
@@ -143,7 +142,7 @@ function HeroService:_HeroBreak(ret, state, err, errmsg)
 end
 
 function HeroService:SendHeroLock(heroId, bLock)
-  local args = {HeroId = heroId, lock = bLock}
+  local args = { HeroId = heroId, lock = bLock }
   args = dataChangeManager:LuaToPb(args, hero_pb.TLOCKHEROARG)
   self:SendNetEvent("hero.LockHero", args, args)
 end
@@ -158,7 +157,7 @@ function HeroService:_HeroSetLock(ret, state, err, errmsg)
 end
 
 function HeroService:SendRetireHero(heroIds, isDisEquip)
-  local args = {HeroIds = heroIds, IsDisEquip = isDisEquip}
+  local args = { HeroIds = heroIds, IsDisEquip = isDisEquip }
   args = dataChangeManager:LuaToPb(args, hero_pb.TRETIREHEROARG)
   self:SendNetEvent("hero.RetireHero", args)
 end
@@ -250,7 +249,7 @@ function HeroService:_UpdateHeroData(ret, state, err, errmsg)
 end
 
 function HeroService:_SendHeroLFurther(heroId)
-  local args = {HeroId = heroId}
+  local args = { HeroId = heroId }
   args = dataChangeManager:LuaToPb(args, hero_pb.THEROADVMAXLVARG)
   self:SendNetEvent("hero.HeroAdvMaxLv", args)
 end
@@ -352,7 +351,7 @@ function HeroService:_GetEquipLockTransplant(ret, state, err, errmsg)
 end
 
 function HeroService:_SendCombinationLevelUp(heroId)
-  local args = {HeroId = heroId}
+  local args = { HeroId = heroId }
   args = dataChangeManager:LuaToPb(args, hero_pb.TCOMBINEUPARG)
   self:SendNetEvent("hero.HeroCombineUpLv", args)
 end
@@ -361,12 +360,12 @@ function HeroService:_GetCombLvUpCallBack(ret, state, err, errmsg)
   if err ~= 0 then
     logError("hero HeroCombineUpLv err:" .. errmsg)
   else
-    self:SendLuaEvent(LuaEvent.UpdateShipCombinationInfo, {isLevelUp = true})
+    self:SendLuaEvent(LuaEvent.UpdateShipCombinationInfo, { isLevelUp = true })
   end
 end
 
 function HeroService:_SendCombinationLevelUpFast(heroId)
-  local args = {HeroId = heroId}
+  local args = { HeroId = heroId }
   args = dataChangeManager:LuaToPb(args, hero_pb.TCOMBINEUPARG)
   self:SendNetEvent("hero.HeroCombineQuickLevelUp", args)
 end
@@ -375,12 +374,12 @@ function HeroService:_GetCombLvUpFastCallBack(ret, state, err, errmsg)
   if err ~= 0 then
     logError("hero HeroCombineQuickLevelUp err:" .. errmsg)
   else
-    self:SendLuaEvent(LuaEvent.UpdateShipCombinationInfo, {isLevelUp = true})
+    self:SendLuaEvent(LuaEvent.UpdateShipCombinationInfo, { isLevelUp = true })
   end
 end
 
 function HeroService:_SendCombinationBreakUp(heroId)
-  local args = {HeroId = heroId}
+  local args = { HeroId = heroId }
   args = dataChangeManager:LuaToPb(args, hero_pb.TCOMBINEUPARG)
   self:SendNetEvent("hero.HeroCombineBreak", args)
 end
@@ -389,7 +388,7 @@ function HeroService:_GetCombBreakUpCallBack(ret, state, err, errmsg)
   if err ~= 0 then
     logError("hero HeroCombineBreak err:" .. errmsg)
   else
-    self:SendLuaEvent(LuaEvent.UpdateShipCombinationInfo, {isBreak = true})
+    self:SendLuaEvent(LuaEvent.UpdateShipCombinationInfo, { isBreak = true })
   end
 end
 

@@ -160,6 +160,7 @@ function UserService:_ReceiveUserLogin(_, state, err, errmsg)
     local currState = excMgr.ConnectCount
     -- self:SendNetEvent("user.GetUserInfo", nil, currState)
     self:_UpdateUserInfo(nil, nil, 0, "")
+    Service.heroService:_UpdateHeroBagData(nil, nil, 0, "")
     self:_ReceiveUserGetUserInfoFunc("abc", state, 0, "")
   elseif msg.Ret == "ban" then
     local info = dataChangeManager:PbToLua(msg, user_pb.TUSERLOGINRET)
@@ -186,8 +187,7 @@ end
 
 function UserService:_UpdateUserInfo(ret, state, err, errmsg)
   log("UserService:_UpdateUserInfo")
-  if err == 0 then
-    local userInfo = SetReadOnlyMeta(GlobalSettings.userInfo)
+    local userInfo = GlobalSettings.userInfo
     if userInfo.Uid == nil and self.firstLogin then
       return
     end
@@ -199,9 +199,6 @@ function UserService:_UpdateUserInfo(ret, state, err, errmsg)
       self:SendLuaEvent(LuaEvent.ShopLevelGift)
       self:SendLuaEvent(LuaEvent.GoodsCopyBattle)
     end
-  else
-    logError("UpdateUserInfo err" .. err)
-  end
 end
 
 function UserService:_UpdateSvrTime(ret, state, err, errmsg)

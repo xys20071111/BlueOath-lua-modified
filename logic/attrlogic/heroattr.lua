@@ -5,7 +5,7 @@ local HeroEquipAttr = require("logic.AttrLogic.HeroEquipAttr")
 function HeroAttr:initialize(heroInfo, fleetType, copyId)
   self.totalAttr = {}
   self.finalAttr = {}
-  self:_GetHeroAttr(heroInfo.Lvl, heroInfo.TemplateId)
+  self:_GetHeroAttr(heroInfo.Level, heroInfo.TemplateId)
   self:_GetIntensify(heroInfo.Intensify)
   self:_GetRemould(heroInfo.ArrRemouldEffect)
   local equip = Data.heroData:GetEquipsByType(heroInfo.HeroId, fleetType)

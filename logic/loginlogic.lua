@@ -213,9 +213,9 @@ function LoginLogic:_GetUserList(msg)
     Service.userService:CreateUser(msg)
     return
   end
-  local arg = user_pb.TUserLoginArg()
-  arg.Uid = msg.ArrUser[1].Uid
-  Service.userService:UserLogin(arg)
+  -- local arg = user_pb.TUserLoginArg()
+  -- arg.Uid = msg.ArrUser[1].Uid
+  Service.userService:UserLogin(nil)
 end
 
 function LoginLogic:_CreateSuccess(msg)

@@ -60,6 +60,7 @@ function NoticeManager:ForceCloseBox()
 end
 
 function NoticeManager:ShowMsgBox(content, tabParams, layer)
+  logError(content)
   if type(content) == "number" then
     content = UIHelper.GetString(content) or ""
   end

@@ -62,7 +62,8 @@ end
 function TaskService:SendTaskTrigger(eventId)
   local args = {EventId = eventId}
   args = dataChangeManager:LuaToPb(args, task_pb.TTASKTRIGGERARG)
-  self:SendNetEvent("task.TaskTrigger", args, nil, false)
+  -- self:SendNetEvent("task.TaskTrigger", args, nil, false)
+  self:_TaskTrigger(nil, nil, 0, "")
 end
 
 function TaskService:_TaskTrigger(ret, state, err, errmsg)

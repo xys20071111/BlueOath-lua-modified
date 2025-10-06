@@ -178,36 +178,36 @@ function PlatformManager:hideToolBar()
 end
 
 function PlatformManager:sendUserInfo(type)
-  local uId = Data.userData:GetUserUid()
-  local uName = Data.userData:GetUserName()
-  local level = Data.userData:GetUserLevel()
-  local sName = ""
-  local sId = ""
-  local sInfo = Logic.loginLogic.SDKInfo
-  if sInfo then
-    sName = sInfo.name
-    sId = sInfo.groupid
-  end
-  local vip = Data.userData:GetVipLevel()
-  local balance = Data.userData:GetCurrency(CurrencyType.DIAMOND)
-  local guild = "\230\151\160"
-  local gender = "\230\151\160"
-  local power = "1"
-  local createTime = Data.userData:GetCreateTime()
-  local userInfo = {
-    Type = type,
-    UID = tostring(uId),
-    Uname = uName,
-    Ulevel = tostring(level),
-    ServerID = sId,
-    ServerName = sName,
-    RoleCreateTime = tostring(createTime),
-    Balance = balance,
-    VIP = vip,
-    Guild = guild,
-    Power = power,
-    Gender = gender
-  }
+  -- local uId = Data.userData:GetUserUid()
+  -- local uName = Data.userData:GetUserName()
+  -- local level = Data.userData:GetUserLevel()
+  -- local sName = ""
+  -- local sId = ""
+  -- local sInfo = Logic.loginLogic.SDKInfo
+  -- if sInfo then
+  --   sName = sInfo.name
+  --   sId = sInfo.groupid
+  -- end
+  -- local vip = Data.userData:GetVipLevel()
+  -- -- local balance = Data.userData:GetCurrency(CurrencyType.DIAMOND)
+  -- local guild = "无"
+  -- local gender = "无"
+  -- local power = "1"
+  -- local createTime = Data.userData:GetCreateTime()
+  -- local userInfo = {
+  --   Type = type,
+  --   UID = tostring(uId),
+  --   Uname = uName,
+  --   Ulevel = tostring(level),
+  --   ServerID = sId,
+  --   ServerName = sName,
+  --   RoleCreateTime = tostring(createTime),
+  --   Balance = balance,
+  --   VIP = vip,
+  --   Guild = guild,
+  --   Power = power,
+  --   Gender = gender
+  -- }
   -- PlatformWrapper:sendInformationToPlatform(userInfo)
 end
 
@@ -899,26 +899,26 @@ function PlatformManager:CheckUserAgreementVersion(funBackCall)
 end
 
 function PlatformManager:CheckUserExtraFunctionState()
-  local sId = ""
-  local sInfo = Logic.loginLogic.SDKInfo
-  if sInfo then
-    sId = sInfo.groupid
-  end
-  local arg = {
-    pid = tostring(self.pid),
-    serverid = sId
-  }
-  PlatformWrapper:CheckUserExtraFunctionState(arg, function(ret)
-    if ret then
-      self.extraInfo = ret.data
-      self.userInfo = ret.data.userInfo
-      if self.userInfo and self.userInfo.readQuestion then
-        eventManager:SendEvent(LuaEvent.UpdateGMAnswer, self.userInfo.readQuestion == 1)
-      end
-      self:GetPayBackReward()
-      self:getOldUserGift()
-    end
-  end)
+  -- local sId = ""
+  -- local sInfo = Logic.loginLogic.SDKInfo
+  -- if sInfo then
+  --   sId = sInfo.groupid
+  -- end
+  -- local arg = {
+  --   pid = tostring(self.pid),
+  --   serverid = sId
+  -- }
+  -- PlatformWrapper:CheckUserExtraFunctionState(arg, function(ret)
+  --   if ret then
+  --     self.extraInfo = ret.data
+  --     self.userInfo = ret.data.userInfo
+  --     if self.userInfo and self.userInfo.readQuestion then
+  --       eventManager:SendEvent(LuaEvent.UpdateGMAnswer, self.userInfo.readQuestion == 1)
+  --     end
+  --     self:GetPayBackReward()
+  --     self:getOldUserGift()
+  --   end
+  -- end)
 end
 
 function PlatformManager:GetPayBackReward()
