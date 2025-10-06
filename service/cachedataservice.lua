@@ -26,7 +26,7 @@ end
 function CacheDataService:ClearLocalCacheId()
   self.lastCacheId = ""
   self.lastModuleName = ""
-  logWarning("clear cacheId locally ")
+  -- logWarning("clear cacheId locally ")
 end
 
 function CacheDataService:SendCacheData(info, moduleName)
