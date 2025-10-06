@@ -12,13 +12,13 @@ local QusetionID = 114
 local MobilePhoneID = 107
 local MEDAL_LIMIT = 100
 local tabUIs = {
-  {id = 1},
-  {id = 2},
+  { id = 1 },
+  { id = 2 },
   {
     id = 31,
-    reddotIds = {32}
+    reddotIds = { 32 }
   },
-  {id = 4}
+  { id = 4 }
 }
 local ShopGiftRedDotId = 46
 local CumuRechargeRedDotId = 51
@@ -100,7 +100,7 @@ function HomePage:RegisterAllEvent()
   self:RegisterEvent(LuaEvent.IsHideHomePage, self._ShowBottomBtn, self)
   self:RegisterEvent(LuaEvent.AnnouncementState, self._ChangeAnnouncementState, self)
   self:RegisterEvent(LuaEvent.UpdateSignInfo, self._UpdateSignInfo, self)
-  self:RegisterRedDotById(self.m_tabWidgets.shop_reddot, {ShopGiftRedDotId, CumuRechargeRedDotId}, ShopGiftRedDotId)
+  self:RegisterRedDotById(self.m_tabWidgets.shop_reddot, { ShopGiftRedDotId, CumuRechargeRedDotId }, ShopGiftRedDotId)
   self:RegisterEvent(LuaEvent.RefreshActiveBrowse, self._InitActiveBrowse, self)
   self:RegisterEvent(LuaEvent.RefreshSetSecretary, self._RefreshSetSecretary, self)
   UGUIEventListener.AddButtonOnClick(self.m_tabWidgets.btn_act, self._ActGotoPage, self)
@@ -128,9 +128,6 @@ function HomePage:DoOnOpen()
   Logic.copyLogic:SetCopySign(EnterCopySign.Home)
   self:_UpdateRedDot()
   self:_PlayerData()
-  local dotInfo = {
-    info = "ui_main_scene"
-  }
   -- RetentionHelper.Retention(PlatformDotType.uilog, dotInfo)
   local updateModule = moduleManager:OpenPageOpenModule()
   if updateModule ~= nil then
@@ -164,8 +161,8 @@ function HomePage:DoOnOpen()
   end
   eventManager:SendEvent(LuaEvent.IsCloseHomeGirl, false)
   self:_SetSecretary()
-  self:_CorSignCheck()
-  self:_RegisterActSSRRedDot()
+  -- self:_CorSignCheck()
+  -- self:_RegisterActSSRRedDot()
   eventManager:SendEvent(LuaEvent.PlayNewYearEff)
 end
 
@@ -175,21 +172,22 @@ end
 
 function HomePage:_InitActiveBrowse()
   local browseInfo = Logic.homeLogic:GetActiveBrowseList()
-  UIHelper.CreateSubPart(self.m_tabWidgets.obj_browse, self.m_tabWidgets.trans_buttonList_up, #browseInfo, function(nIndex, tabPart)
-    UGUIEventListener.AddButtonOnClick(tabPart.btn_browse, function()
-      if platformManager:useSDK() then
-        local now = time.getSvrTime()
-        if self.timeClickBrowse and now - self.timeClickBrowse < 2 then
-          return
+  UIHelper.CreateSubPart(self.m_tabWidgets.obj_browse, self.m_tabWidgets.trans_buttonList_up, #browseInfo,
+    function(nIndex, tabPart)
+      UGUIEventListener.AddButtonOnClick(tabPart.btn_browse, function()
+        if platformManager:useSDK() then
+          local now = time.getSvrTime()
+          if self.timeClickBrowse and now - self.timeClickBrowse < 2 then
+            return
+          end
+          self.timeClickBrowse = now
+          local url = platformManager:GetFinallyQuestionnaire(browseInfo[nIndex].content)
+          self:_GetBrowseInfoCallBack(url)
         end
-        self.timeClickBrowse = now
-        local url = platformManager:GetFinallyQuestionnaire(browseInfo[nIndex].content)
-        self:_GetBrowseInfoCallBack(url)
-      end
-    end, self)
-    local img_str = browseInfo[nIndex].button_ico
-    UIHelper.SetImage(tabPart.img_browse, img_str)
-  end)
+      end, self)
+      local img_str = browseInfo[nIndex].button_ico
+      UIHelper.SetImage(tabPart.img_browse, img_str)
+    end)
 end
 
 function HomePage:_ShowMagazineEnter()
@@ -224,7 +222,7 @@ function HomePage:_ShowActivityNationalDayEnter()
   btnEnter.gameObject:SetActive(0 < #activityData)
   if 0 < #activityData then
     UGUIEventListener.AddButtonOnClick(btnEnter, function()
-      local pageParam = {showType = showType}
+      local pageParam = { showType = showType }
       UIHelper.OpenPage("ActivityPage", pageParam)
     end)
   end
@@ -253,7 +251,8 @@ function HomePage:_ShowEnter()
 end
 
 function HomePage:_ShowSchoolActivityEnter()
-  local activityData = Logic.activityLogic:GetOpenActivityByTypes(ActivityType.SchoolSign, ActivityType.SchoolActivity, ActivityType.SchoolAccumu)
+  local activityData = Logic.activityLogic:GetOpenActivityByTypes(ActivityType.SchoolSign, ActivityType.SchoolActivity,
+    ActivityType.SchoolAccumu)
   local imgActivitySchool = self.tab_Widgets.imgActivitySchool
   imgActivitySchool.gameObject:SetActive(0 < #activityData)
   if 0 < #activityData then
@@ -351,7 +350,8 @@ function HomePage:_CorSignCall()
   local isBigMonthReward = Logic.rechargeLogic:CheckLoginBigMonthRewards()
   local dailyLoginActivtyId = Logic.activityLogic:GetLoginActivityCanReward()
   local isLoginActivityReward_Vocation = 0 < dailyLoginActivtyId
-  self.needOpenAnnounce = platformManager:GetAnnounceState(AnnouncementType.Maintenance) and not announcementManager:Opened()
+  self.needOpenAnnounce = platformManager:GetAnnounceState(AnnouncementType.Maintenance) and
+      not announcementManager:Opened()
   if self.needOpenAnnounce and not isGuide and not isBuild and not self.announceOpen then
     self.announceOpen = true
     announcementManager:OpenAnnouncement(function()
@@ -366,7 +366,7 @@ function HomePage:_CorSignCall()
     end
     if isSign and isLoginActivityReward_Vocation then
       UIHelper.OpenPage("ActivityPage", {
-        GotoParam = {dailyLoginActivtyId}
+        GotoParam = { dailyLoginActivtyId }
       })
       return
     end
@@ -501,36 +501,38 @@ function HomePage:_CreateLeft(cur)
   self.leftFuncs = fifterShowTag
   if cur == nil then
     self.nCurIndex = 0
-    UIHelper.CreateSubPart(self.m_tabWidgets.obj_leftItem, self.m_tabWidgets.trans_leftContent, #fifterShowTag, function(nIndex, tabPart)
-      local functionId = fifterShowTag[nIndex]
-      local funConfig = configManager.GetDataById("config_function_info", tostring(functionId))
-      local redDotIdList = funConfig.focus
-      if redDotIdList and 0 < #redDotIdList then
-        self:RegisterRedDotById(tabPart.red_dot, redDotIdList)
-      end
-      self:SetBuildRed(functionId, tabPart)
-      local item = homeFunItem:new()
-      item:Init(self, tabPart, nIndex, fifterShowTag[nIndex])
-    end)
+    UIHelper.CreateSubPart(self.m_tabWidgets.obj_leftItem, self.m_tabWidgets.trans_leftContent, #fifterShowTag,
+      function(nIndex, tabPart)
+        local functionId = fifterShowTag[nIndex]
+        local funConfig = configManager.GetDataById("config_function_info", tostring(functionId))
+        local redDotIdList = funConfig.focus
+        if redDotIdList and 0 < #redDotIdList then
+          self:RegisterRedDotById(tabPart.red_dot, redDotIdList)
+        end
+        self:SetBuildRed(functionId, tabPart)
+        local item = homeFunItem:new()
+        item:Init(self, tabPart, nIndex, fifterShowTag[nIndex])
+      end)
   else
-    UIHelper.CreateSubPart(self.m_tabWidgets.obj_leftItem, self.m_tabWidgets.trans_leftContent, #fifterShowTag, function(nIndex, tabPart)
-      local functionId = fifterShowTag[nIndex]
-      local funConfig = configManager.GetDataById("config_function_info", tostring(functionId))
-      local redDotIdList = funConfig.focus
-      if redDotIdList and 0 < #redDotIdList then
-        self:RegisterRedDotById(tabPart.redDot, redDotIdList)
-      end
-      self:SetBuildRed(functionId, tabPart)
-      if self.m_bSelectLeft and cur == nIndex and tonumber(functionId) ~= FunctionID.BuildShip then
-        tabPart.tween_pos:Play(true)
-        tabPart.obj_line:SetActive(true)
-        tabPart.obj_select:SetActive(true)
-      else
-        tabPart.tween_pos:Play(false)
-        tabPart.obj_line:SetActive(false)
-        tabPart.obj_select:SetActive(false)
-      end
-    end)
+    UIHelper.CreateSubPart(self.m_tabWidgets.obj_leftItem, self.m_tabWidgets.trans_leftContent, #fifterShowTag,
+      function(nIndex, tabPart)
+        local functionId = fifterShowTag[nIndex]
+        local funConfig = configManager.GetDataById("config_function_info", tostring(functionId))
+        local redDotIdList = funConfig.focus
+        if redDotIdList and 0 < #redDotIdList then
+          self:RegisterRedDotById(tabPart.redDot, redDotIdList)
+        end
+        self:SetBuildRed(functionId, tabPart)
+        if self.m_bSelectLeft and cur == nIndex and tonumber(functionId) ~= FunctionID.BuildShip then
+          tabPart.tween_pos:Play(true)
+          tabPart.obj_line:SetActive(true)
+          tabPart.obj_select:SetActive(true)
+        else
+          tabPart.tween_pos:Play(false)
+          tabPart.obj_line:SetActive(false)
+          tabPart.obj_select:SetActive(false)
+        end
+      end)
   end
 end
 
@@ -545,11 +547,12 @@ end
 
 function HomePage:_CreateBottom()
   local tabConfig = configManager.GetDataById("config_home_page", m_tabPartId.Down)
-  local fifterShowTag = Logic.homeLogic:FilterShowBtn(tabConfig.function_id)
-  UIHelper.CreateSubPart(self.m_tabWidgets.obj_bottomItem, self.m_tabWidgets.trans_bottomContent, #fifterShowTag, function(nIndex, tabPart)
-    local item = homeFunItem:new()
-    item:Init(self, tabPart, nIndex, fifterShowTag[nIndex])
-  end)
+  local filterShowTag = Logic.homeLogic:FilterShowBtn(tabConfig.function_id)
+  UIHelper.CreateSubPart(self.m_tabWidgets.obj_bottomItem, self.m_tabWidgets.trans_bottomContent, #filterShowTag,
+    function(nIndex, tabPart)
+      local item = homeFunItem:new()
+      item:Init(self, tabPart, nIndex, filterShowTag[nIndex])
+    end)
 end
 
 function HomePage:_CreateRight()
@@ -636,7 +639,7 @@ function HomePage:_UpdateHome()
   local dotInfo = {
     info = "ui_main_scene"
   }
-  RetentionHelper.Retention(PlatformDotType.uilog, dotInfo)
+  -- RetentionHelper.Retention(PlatformDotType.uilog, dotInfo)
 end
 
 function HomePage:_ChangeShipGirl()
@@ -709,7 +712,11 @@ function HomePage:_PlayerData()
   end
   local shipShow = Logic.shipLogic:GetShipShowByHeroId(heroInfo.HeroId)
   if shipShow ~= nil then
-    local heroAttr = Logic.attrLogic:GetHeroFianlAttrById(tabUserInfo.SecretaryId)
+    -- 这里也一样，先改成100，跑起来再说
+    local heroAttr = {
+      [AttrType.HP] = 100
+    } 
+    -- local heroAttr = Logic.attrLogic:GetHeroFianlAttrById(tabUserInfo.SecretaryId)
     local curHp = Logic.shipLogic:GetHeroHp(heroInfo.HeroId)
     self.m_modelDress = Logic.shipLogic:GetDressupId(shipShow.model_id, curHp, heroAttr[AttrType.HP])
     self.m_secretaryInfo = shipShow
@@ -718,6 +725,8 @@ function HomePage:_PlayerData()
     local shipInfoConfig = Logic.shipLogic:GetShipInfoById(heroInfo.TemplateId)
     UIHelper.SetImage(self.m_tabWidgets.img_type, CardShipTypeImgMin[shipInfoConfig.ship_type], true)
     UIHelper.SetImage(self.m_tabWidgets.img_head, self.m_secretaryInfo.ship_icon4)
+  else
+    logError("No shipShow found")
   end
   self:_ShowMedal()
 end
@@ -726,7 +735,8 @@ function HomePage:_ShowMedal()
   local medalValue = Data.userData:GetCurrency(CurrencyType.MEDAL)
   if medalValue <= 0 then
     self.m_tabWidgets.obj_medal:SetActive(false)
-    self.m_tabWidgets.rect_userInfo.anchoredPosition = Vector2.New(self.m_tabWidgets.rect_userInfo.anchoredPosition.x, -611)
+    self.m_tabWidgets.rect_userInfo.anchoredPosition = Vector2.New(self.m_tabWidgets.rect_userInfo.anchoredPosition.x,
+      -611)
     return
   end
   local iconTab = Logic.currencyLogic:GetMedalIconTab()
@@ -798,7 +808,7 @@ function HomePage:_ClickModel(bHideBtn)
 end
 
 function HomePage:_TurnShowBtn(curBack)
-  UIHelper.SetUILock(true)
+  -- UIHelper.SetUILock(true)
   self.m_tabWidgets.script_pressure.enabled = false
   local tweenRota = self.m_tabWidgets.tween_rota
   tweenRota:SetOnFinished(function()
@@ -1047,7 +1057,7 @@ function HomePage:_RegisterActSSRRedDot()
   widgets.im_redDotAct.gameObject:SetActive(false)
   local redId, actId = Logic.activitySSRLogic:RegisterRed()
   if redId then
-    self:RegisterRedDotById(widgets.im_redDotAct, {redId}, actId)
+    self:RegisterRedDotById(widgets.im_redDotAct, { redId }, actId)
   end
 end
 
