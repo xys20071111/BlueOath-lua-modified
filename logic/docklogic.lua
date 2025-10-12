@@ -90,12 +90,14 @@ function DockLogic:GetSelectData()
 end
 
 function DockLogic:CalculatePropIndex(tabShipInfo, showPropNum)
-  if tabShipInfo == nil then
-    return 0
-  end
-  local temp = Logic.attrLogic:GetHeroFinalShowAttrById(tabShipInfo.HeroId)
-  local tabTemp = Logic.attrLogic:DealTabPropDock(temp, tabShipInfo.HeroId)
-  return math.ceil(#tabTemp / showPropNum)
+  -- if tabShipInfo == nil then
+  --   return 0
+  -- end
+  -- local temp = Logic.attrLogic:GetHeroFinalShowAttrById(tabShipInfo.HeroId)
+  -- local tabTemp = Logic.attrLogic:DealTabPropDock(temp, tabShipInfo.HeroId)
+  -- return math.ceil(#tabTemp / showPropNum)
+  -- 还是attr的问题，先跑起来，日后再说
+  return 100
 end
 
 function DockLogic:FilterShipList(dockListType, heroId, templateId)
