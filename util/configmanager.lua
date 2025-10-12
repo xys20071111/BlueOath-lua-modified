@@ -32,7 +32,12 @@ function ConfigManager.GetDataById(strName, strId, nocheck)
   if WakeTable[strName][strId] == nil then
     local configPath = './config/' .. strName .. '/' .. strId .. '.json'
     log("[Config] Reading: " .. configPath)
-    local strJson = io.readfile(configPath) -- SQLiteConfigManager.Instance:GetJsonData(strName, tostring(strId))
+    local strJson
+    if isDebug then
+      strJson = io.readfile(configPath)
+    else
+      strJson = SQLiteConfigManager.Instance:GetJsonData(strName, tostring(strId))
+    end
     local table = cjson.decode(strJson)
     WakeTable[strName][strId] = table
   end
