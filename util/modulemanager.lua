@@ -161,30 +161,31 @@ function ModuleManager:_UpdateModuleInfo()
 end
 
 function ModuleManager:_CheckCondition(funcId, condLevel, condCopyId, isAnd)
-  local userLevel = Data.userData:GetUserLevel()
-  if userLevel == nil or condLevel == nil then
-    return false
-  end
-  local levelCondition = condLevel == -1 or condLevel <= userLevel
-  local copyCondition = condCopyId == -1
-  if condCopyId ~= -1 then
-    local cid = Logic.copyLogic:GetChapterIdByCopyId(condCopyId)
-    local copyType = Logic.copyLogic:GetChaperConfById(cid).class_type
-    local copyInfo
-    if copyType == ChapterType.PlotCopy then
-      copyInfo = Data.copyData:GetPlotCopyDataCopyId(condCopyId)
-    else
-      copyInfo = Data.copyData:GetCopyDataByCopyId(condCopyId)
-    end
-    if copyInfo ~= nil and copyInfo.FirstPassTime > 0 then
-      copyCondition = true
-    end
-  end
-  if isAnd then
-    return levelCondition and copyCondition
-  else
-    return levelCondition or copyCondition
-  end
+  return true
+  -- local userLevel = Data.userData:GetUserLevel()
+  -- if userLevel == nil or condLevel == nil then
+  --   return false
+  -- end
+  -- local levelCondition = condLevel == -1 or condLevel <= userLevel
+  -- local copyCondition = condCopyId == -1
+  -- if condCopyId ~= -1 then
+  --   local cid = Logic.copyLogic:GetChapterIdByCopyId(condCopyId)
+  --   local copyType = Logic.copyLogic:GetChaperConfById(cid).class_type
+  --   local copyInfo
+  --   if copyType == ChapterType.PlotCopy then
+  --     copyInfo = Data.copyData:GetPlotCopyDataCopyId(condCopyId)
+  --   else
+  --     copyInfo = Data.copyData:GetCopyDataByCopyId(condCopyId)
+  --   end
+  --   if copyInfo ~= nil and copyInfo.FirstPassTime > 0 then
+  --     copyCondition = true
+  --   end
+  -- end
+  -- if isAnd then
+  --   return levelCondition and copyCondition
+  -- else
+  --   return levelCondition or copyCondition
+  -- end
 end
 
 function ModuleManager:_ShowNewModuleOpen()
