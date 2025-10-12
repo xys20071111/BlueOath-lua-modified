@@ -127,8 +127,8 @@ function Socket.OnConnState(prev, curr)
 end
 
 function Socket.Init(...)
-  BabelTime.Net.NetLogic.Init()
-  BabelTime.Net.NetLogic.InitLuaCallbacks(Socket.OnConnState, Socket.OnReceived)
+  -- BabelTime.Net.NetLogic.Init()
+  -- BabelTime.Net.NetLogic.InitLuaCallbacks(Socket.OnConnState, Socket.OnReceived)
 end
 
 function Socket.Cleanup(...)
@@ -139,7 +139,7 @@ end
 function Socket.Connect(host, port)
   tokenRequestHeap = {}
   tokenNum = 0
-  BabelTime.Net.NetLogic.Connect(host, port)
+  -- BabelTime.Net.NetLogic.Connect(host, port)
 end
 
 function Socket.Disconnect()
@@ -147,7 +147,7 @@ function Socket.Disconnect()
     onDisconnected()
     return
   end
-  BabelTime.Net.NetLogic.Disconnect()
+  -- BabelTime.Net.NetLogic.Disconnect()
 end
 
 function Socket.RegisterHandler(eventName, handler, target, pbType)
@@ -201,7 +201,8 @@ function Socket.ConnectImp(host, port)
   if Socket.curState == SocketConnState.Connecting or Socket.curState == SocketConnState.Connected then
     return
   end
-  Socket.Connect(host, port)
+  -- Socket.Connect(host, port)
+  Socket.OnConnState(nil, 2)
 end
 
 Socket.close = Socket.Disconnect
