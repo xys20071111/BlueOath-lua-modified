@@ -15,15 +15,9 @@ function ActivityService:_InitHandlers()
 end
 
 function ActivityService:_UpdateActivityInfo(ret, state, err, errmsg)
-  if err ~= 0 then
-    logError("_UpdateActivityInfo errmsg:" .. errmsg)
-    return
-  end
-  if ret ~= nil then
-    local info = dataChangeManager:PbToLua(ret, activity_pb.TRETACTIVITYINFO)
+    local info = GlobalSettings.activity -- dataChangeManager:PbToLua(ret, activity_pb.TRETACTIVITYINFO)
     Data.activityData:UpdateActivityInfo(info)
     self:SendLuaEvent(LuaEvent.UpdateActivity)
-  end
 end
 
 function ActivityService:SendSign()

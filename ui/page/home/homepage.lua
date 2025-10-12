@@ -25,12 +25,13 @@ local CumuRechargeRedDotId = 51
 local WorldBossID = 16
 
 function HomePage:DoInit()
+  log("HomePage:DoInit")
   self.m_tabWidgets = nil
   if self.m_tabWidgets == nil then
     self.m_tabWidgets = self:GetWidgets()
   end
   self:_CreateRight()
-  -- 找到问题了，下面这行会卡住，
+  -- 找到问题了，下面这行会卡住，现在修好了
   Logic.bagLogic:_SetBagSort()
   self.m_bSelectLeft = false
   self.m_secretaryInfo = nil

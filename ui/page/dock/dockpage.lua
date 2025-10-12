@@ -16,26 +16,40 @@ function DockPage:DoInit()
 end
 
 function DockPage:DoOnOpen()
+  log("DockPage:DoOnOpen")
   if self.m_tabWidgets == nil then
     self.m_tabWidgets = self:GetWidgets()
   end
+  log("DockPage:DoOnOpen 1")
   local shipTotal = Logic.shipLogic:GetBaseShipNum()
+  log("DockPage:DoOnOpen 1.1")
   self.m_tabHaveHero = Data.heroData:GetHeroData()
   self:_GetButtonData()
+  log("DockPage:DoOnOpen 2")
   self:_CtrlTogDis(self.m_showPropIndex)
+  log("DockPage:DoOnOpen 3")
   self:_ShowSortWay(self.sortway)
+  log("DockPage:DoOnOpen 4")
   self.m_tabWidgets.txt_sortway.text = HeroSortHelper.GetSortName(self.m_tabOutParams[2])
+  log("DockPage:DoOnOpen 5")
   self.m_tabShowHero = HeroSortHelper.FilterAndSort1(self.m_tabHaveHero, self.m_tabOutParams[1], self.m_tabOutParams[2], self.sortway)
+  log("DockPage:DoOnOpen 6")
   self:_SetShipNum(#self.m_tabShowHero)
+  log("DockPage:DoOnOpen 7")
   self.m_indexMax = Logic.dockLogic:CalculatePropIndex(self.m_tabHaveHero[1], SHOWPROPNUM) + 1
-  self:_LoadShipItem(self.m_tabShowHero, self.m_showPropIndex)
+  log("DockPage:DoOnOpen 9")
   self:OpenTopPage("DockPage", 1, "\232\136\185\229\157\158", self, true)
+  log("DockPage:DoOnOpen 8")
+  -- 这里会卡死，所以把OpenTopPage移到了上面，确保有个返回键
+  self:_LoadShipItem(self.m_tabShowHero, self.m_showPropIndex)
+  log("DockPage:DoOnOpen 10")
   local dotinfo = {
     info = "ui_shipyard",
     type = "main_shipyard"
   }
   RetentionHelper.Retention(PlatformDotType.uilog, dotinfo)
   eventManager:SendEvent(LuaEvent.TopAddItem, {isShow = false, CurrencyInfo = nil})
+  log("DockPage:DoOnOpen 11")
 end
 
 function DockPage:RegisterAllEvent()
