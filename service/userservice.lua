@@ -159,8 +159,9 @@ function UserService:_ReceiveUserLogin(_, state, err, errmsg)
   if err == 0 and msg.Ret == "ok" then
     local currState = excMgr.ConnectCount
     -- self:SendNetEvent("user.GetUserInfo", nil, currState)
-    self:_UpdateUserInfo(nil, nil, 0, "")
-    Service.heroService:_UpdateHeroBagData(nil, nil, 0, "")
+    self:_UpdateUserInfo()
+    Service.heroService:_UpdateHeroBagData()
+    Service.activityService:_UpdateActivityInfo()
     self:_ReceiveUserGetUserInfoFunc("abc", state, 0, "")
   elseif msg.Ret == "ban" then
     local info = dataChangeManager:PbToLua(msg, user_pb.TUSERLOGINRET)
