@@ -66,7 +66,8 @@ local _createClass = function(name, super)
   setmetatable(aClass, {
     __index = aClass.static,
     __call = _call,
-    __newindex = _declareInstanceMethod
+    __newindex = _declareInstanceMethod,
+    __tostring = _tostring
   })
   return aClass
 end

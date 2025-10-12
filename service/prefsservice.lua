@@ -31,8 +31,9 @@ end
 function PrefsService:SendSavePrefs(arg)
   local data = {}
   data.PrefsDataStr = arg.PrefsDataStr
+  log(arg.PrefsDataStr)
   local msg = dataChangeManager:LuaToPb(data, prefs_pb.TSAVEPREFSARG)
-  self:SendNetEvent("prefs.SavePrefs", msg, arg)
+  -- self:SendNetEvent("prefs.SavePrefs", msg, arg)
 end
 
 function PrefsService:_ReceiveSavePrefs(ret, state, err, errmsg)
