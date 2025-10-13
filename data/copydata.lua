@@ -90,7 +90,8 @@ function CopyData:SetData(param)
     end
     for i = 1, #param.BaseInfo do
       local copyInfo = param.BaseInfo[i]
-      copyInfo.Pass = 0 < copyInfo.FirstPassTime
+      -- 一律按通关处理
+      copyInfo.Pass = true -- 0 < copyInfo.FirstPassTime
       self.CopyInfo[param.BaseInfo[i].BaseId] = copyInfo
       self.AllCopyInfo[param.BaseInfo[i].BaseId] = copyInfo
     end
@@ -110,7 +111,8 @@ function CopyData:SetData(param)
         self.newSeaDetail = param.BaseInfo[i]
       end
       local copyInfo = param.BaseInfo[i]
-      copyInfo.Pass = 0 < copyInfo.FirstPassTime
+      -- 一律按通关处理
+      copyInfo.Pass = true -- 0 < copyInfo.FirstPassTime
       self.SeaInfo[param.BaseInfo[i].BaseId] = copyInfo
       self.AllCopyInfo[param.BaseInfo[i].BaseId] = copyInfo
     end
@@ -126,7 +128,8 @@ function CopyData:SetData(param)
     self.newPassTrainCopy = nil
     for i = 1, #param.BaseInfo do
       local copyInfo = param.BaseInfo[i]
-      copyInfo.Pass = 0 < copyInfo.FirstPassTime
+      -- 一律按通关处理
+      copyInfo.Pass = true -- 0 < copyInfo.FirstPassTime
       copyInfo.StarNum = self:StarLevel2Num(copyInfo.StarLevel)
       local oldInfo = self.TrainInfo[copyInfo.BaseId]
       if oldInfo and not oldInfo.Pass and copyInfo.Pass then
@@ -148,7 +151,8 @@ function CopyData:SetData(param)
     for i = 1, #param.BaseInfo do
       local copyInfo = param.BaseInfo[i]
       copyInfo.StarNum = self:StarLevel2Num(copyInfo.StarLevel)
-      copyInfo.Pass = 0 < copyInfo.FirstPassTime
+      -- 一律按通关处理
+      copyInfo.Pass = true -- 0 < copyInfo.FirstPassTime
       local oldInfo = self.TrainAdvInfo[copyInfo.BaseId]
       if oldInfo and not oldInfo.Pass and copyInfo.Pass then
         self.newPassTrainAdvCopy = copyInfo
@@ -163,7 +167,8 @@ function CopyData:SetData(param)
   if param.CopyType == ChapterType.TrainLv then
     for i = 1, #param.BaseInfo do
       local copyInfo = param.BaseInfo[i]
-      copyInfo.Pass = 0 < copyInfo.FirstPassTime
+      -- 一律按通关处理
+      copyInfo.Pass = true -- 0 < copyInfo.FirstPassTime
       self.TrainLvInfo[param.BaseInfo[i].BaseId] = copyInfo
       self.AllCopyInfo[param.BaseInfo[i].BaseId] = copyInfo
     end
@@ -231,7 +236,8 @@ function CopyData:SetData(param)
   if param.CopyType == ChapterType.BossCopy then
     for i = 1, #param.BaseInfo do
       local copyInfo = param.BaseInfo[i]
-      copyInfo.Pass = 0 < copyInfo.FirstPassTime
+      -- 一律按通关处理
+      copyInfo.Pass = true -- 0 < copyInfo.FirstPassTime
       self.BossCopyInfo[param.BaseInfo[i].BaseId] = copyInfo
       self.AllCopyInfo[param.BaseInfo[i].BaseId] = copyInfo
     end
@@ -239,7 +245,8 @@ function CopyData:SetData(param)
   if param.CopyType == ChapterType.MubarCopy then
     for i = 1, #param.BaseInfo do
       local copyInfo = param.BaseInfo[i]
-      copyInfo.Pass = 0 < copyInfo.FirstPassTime
+      -- 一律按通关处理
+      copyInfo.Pass = true -- 0 < copyInfo.FirstPassTime
       self.MubarCopyInfo[param.BaseInfo[i].BaseId] = copyInfo
       self.AllCopyInfo[param.BaseInfo[i].BaseId] = copyInfo
     end
@@ -247,7 +254,8 @@ function CopyData:SetData(param)
   if param.CopyType == ChapterType.MultiPersonPlotCopy then
     for i = 1, #param.BaseInfo do
       local copyInfo = param.BaseInfo[i]
-      copyInfo.Pass = 0 < copyInfo.FirstPassTime
+      -- 一律按通关处理
+      copyInfo.Pass = true -- 0 < copyInfo.FirstPassTime
       self.MultiPersonPlotCopyInfo[param.BaseInfo[i].BaseId] = copyInfo
       self.AllCopyInfo[param.BaseInfo[i].BaseId] = copyInfo
     end
@@ -255,7 +263,8 @@ function CopyData:SetData(param)
   if param.CopyType == ChapterType.MultiPveBattle then
     for i = 1, #param.BaseInfo do
       local copyInfo = param.BaseInfo[i]
-      copyInfo.Pass = 0 < copyInfo.FirstPassTime
+      -- 一律按通关处理
+      copyInfo.Pass = true -- 0 < copyInfo.FirstPassTime
       self.MultiPveBattleCopyInfo[param.BaseInfo[i].BaseId] = copyInfo
       self.AllCopyInfo[param.BaseInfo[i].BaseId] = copyInfo
     end

@@ -36,6 +36,7 @@ function NoticeManager:OpenTipPage(handler, content, contentNum)
 end
 
 function NoticeManager:ShowTip(content, position)
+  logError(content)
   position = position or Vector3.zero
   UIBoxManager:Tips(content, position)
 end

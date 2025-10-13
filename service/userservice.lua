@@ -164,7 +164,7 @@ function UserService:_ReceiveUserLogin(_, state, err, errmsg)
     Service.activityService:_UpdateActivityInfo()
     Service.fleetService:_GetHerosTactic()
     for _, v in pairs(GlobalSettings.copyInfo) do
-      Service.copyService:_GetCopyService(GlobalSettings.copyInfo)
+      Service.copyService:_GetCopyService(v)
     end
     self:_ReceiveUserGetUserInfoFunc("abc", state, 0, "")
   elseif msg.Ret == "ban" then

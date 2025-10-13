@@ -431,7 +431,8 @@ end
 function CopyService:SendGetCopyInfo(copyId, star)
   local args = { CopyId = copyId, ExStar = star }
   args = dataChangeManager:LuaToPb(args, copyinfo_pb.TCOPYINFOARG)
-  self:SendNetEvent("copyinfo.GetCopyInfo", args)
+  eventManager:SendEvent(LuaEvent.GetCopyInfo, {})
+  -- self:SendNetEvent("copyinfo.GetCopyInfo", args)
 end
 
 function CopyService:_GetCopyInfoRet(ret, state, err, errmsg)

@@ -134,6 +134,7 @@ function PlotCopyDetailPage:_CreateCopyPlotInfo()
     tabPart.txt_name.text = copyDesConf.name
     UGUIEventListener.AddButtonOnClick(tabPart.btn_plot.gameObject, function()
       if copyData == nil then
+        log("level not unlock: " .. levelList[nIndex])
         noticeManager:OpenTipPage(self, UIHelper.GetString(961002))
       else
         self.selectLevel = nIndex

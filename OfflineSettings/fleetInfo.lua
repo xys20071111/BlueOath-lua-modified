@@ -8,9 +8,9 @@ local fleetInfo = {
         -- 第一个 TTactic 对象
         {
             tacticName = "test",
-            heroInfo = {1},
+            heroInfo = {1,2},
             modeId = 1,
-            strategyId = 10,
+            strategyId = 101,
             formationId = 1001,
             type = 1
         },
