@@ -25,7 +25,6 @@ local CumuRechargeRedDotId = 51
 local WorldBossID = 16
 
 function HomePage:DoInit()
-  log("HomePage:DoInit")
   self.m_tabWidgets = nil
   if self.m_tabWidgets == nil then
     self.m_tabWidgets = self:GetWidgets()
@@ -511,7 +510,8 @@ function HomePage:_CreateLeft(cur)
         if redDotIdList and 0 < #redDotIdList then
           self:RegisterRedDotById(tabPart.red_dot, redDotIdList)
         end
-        self:SetBuildRed(functionId, tabPart)
+        -- 与红点有关的问题
+        -- self:SetBuildRed(functionId, tabPart)
         local item = homeFunItem:new()
         item:Init(self, tabPart, nIndex, fifterShowTag[nIndex])
       end)

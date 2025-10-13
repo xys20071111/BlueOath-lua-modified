@@ -129,7 +129,7 @@ function CopyService:BackSweepCopyInfo(ret, state, err, errmsg)
           end
         end
         if allReward ~= nil and 0 < #allReward then
-          UIHelper.OpenPage("GetRewardsPage", {Rewards = allReward, DontMerge = false})
+          UIHelper.OpenPage("GetRewardsPage", { Rewards = allReward, DontMerge = false })
         end
       elseif RewardInfo ~= nil and 0 < #RewardInfo then
         local param = {}
@@ -140,7 +140,7 @@ function CopyService:BackSweepCopyInfo(ret, state, err, errmsg)
             ExtraRewards = ExtraReward
           }
         else
-          param = {Rewards = RewardInfo, DontMerge = false}
+          param = { Rewards = RewardInfo, DontMerge = false }
         end
         UIHelper.OpenPage("GetRewardsPage", param)
       end
@@ -172,7 +172,7 @@ function CopyService:_QuitBattleCallBack(ret, state, err, errmsg)
 end
 
 function CopyService:UnLockCopy(copyId)
-  local arg = {CopyId = copyId}
+  local arg = { CopyId = copyId }
   arg = dataChangeManager:LuaToPb(arg, copy_pb.TUNLOCKEDCOPYARG)
   self:SendNetEvent("copy.UnLockCopy", arg)
 end
@@ -223,7 +223,8 @@ function CopyService:JoinBattleFleetList(strategyId, fleetId, chapterId, copyId,
         if 0 < #fleetList and battleHeroIdList[heroIndex] then
           for _, f in ipairs(fleetList) do
             if table.containV(f.HeroIdList, battleHeroIdList[heroIndex]) then
-              logError("\233\133\141\231\189\174\232\161\168\233\135\140\233\133\141\231\189\174\228\186\134\233\135\141\229\164\141\231\154\132\232\139\177\233\155\132id")
+              logError(
+              "\233\133\141\231\189\174\232\161\168\233\135\140\233\133\141\231\189\174\228\186\134\233\135\141\229\164\141\231\154\132\232\139\177\233\155\132id")
             end
           end
         end
@@ -245,7 +246,8 @@ function CopyService:JoinBattleFleetList(strategyId, fleetId, chapterId, copyId,
   return fleetList
 end
 
-function CopyService:SendStartBase(chapterId, baseId, isRunningFight, tacticId, cacheId, strategyId, dailyGroupId, battleMode, exBuff, roomId)
+function CopyService:SendStartBase(chapterId, baseId, isRunningFight, tacticId, cacheId, strategyId, dailyGroupId,
+                                   battleMode, exBuff, roomId)
   strategyId = strategyId or -1
   local fleetType = Logic.copyLogic:GetFleetTypeById(chapterId)
   local power = Logic.fleetLogic:GetFleetPower(tacticId, fleetType)
@@ -275,7 +277,8 @@ function CopyService:SendStartBase(chapterId, baseId, isRunningFight, tacticId, 
   self:SendNetEvent("copy.StartBase", args)
 end
 
-function CopyService:SendStartBasePve(chapterId, baseId, isRunningFight, tacticId, cacheId, strategyId, dailyGroupId, battleMode, exBuff, roomId, matchType)
+function CopyService:SendStartBasePve(chapterId, baseId, isRunningFight, tacticId, cacheId, strategyId, dailyGroupId,
+                                      battleMode, exBuff, roomId, matchType)
   strategyId = strategyId or -1
   matchType = matchType or 0
   local fleetType = Logic.copyLogic:GetFleetTypeById(chapterId)
@@ -351,16 +354,14 @@ function CopyService:SendStartBaseTeamPve(arg)
 end
 
 function CopyService:_GetCopyService(ret, state, err, errmsg)
-  if err == 0 then
-    local copy = dataChangeManager:PbToLua(ret, copy_pb.TUSERCOPYINFO)
-    Data.copyData:SetData(copy)
-    self:SendLuaEvent(LuaEvent.GetCopyData)
-    if Data.copyData:IsPassNewCopy() then
-      self:SendLuaEvent(LuaEvent.PassNewCopy)
-    end
-    if Data.copyData:GetPassNewDaily() then
-      self:SendLuaEvent(LuaEvent.PassNewDailyCopy, copy)
-    end
+  local copy = ret -- dataChangeManager:PbToLua(ret, copy_pb.TUSERCOPYINFO)
+  Data.copyData:SetData(copy)
+  self:SendLuaEvent(LuaEvent.GetCopyData)
+  if Data.copyData:IsPassNewCopy() then
+    self:SendLuaEvent(LuaEvent.PassNewCopy)
+  end
+  if Data.copyData:GetPassNewDaily() then
+    self:SendLuaEvent(LuaEvent.PassNewDailyCopy, copy)
   end
 end
 
@@ -398,7 +399,7 @@ function CopyService:_CopyPassBase(ret, state, err, errmsg)
 end
 
 function CopyService:SendStarReward(chapterId, level)
-  local args = {ChapterId = chapterId, Index = level}
+  local args = { ChapterId = chapterId, Index = level }
   args = dataChangeManager:LuaToPb(args, copy_pb.TSTARREWARDARG)
   self:SendNetEvent("copy.StarReward", args, args)
 end
@@ -413,7 +414,7 @@ function CopyService:_StarRewardCallback(ret, state, err, errmsg)
 end
 
 function CopyService:SendGetRandomFactors(copyId)
-  local args = {CopyId = copyId}
+  local args = { CopyId = copyId }
   args = dataChangeManager:LuaToPb(args, copy_pb.TGETRANDOMFACTORARG)
   self:SendNetEvent("copy.GetRandomFactors", args)
 end
@@ -428,7 +429,7 @@ function CopyService:_GetRandomFactorCallback(ret, state, err, errmsg)
 end
 
 function CopyService:SendGetCopyInfo(copyId, star)
-  local args = {CopyId = copyId, ExStar = star}
+  local args = { CopyId = copyId, ExStar = star }
   args = dataChangeManager:LuaToPb(args, copyinfo_pb.TCOPYINFOARG)
   self:SendNetEvent("copyinfo.GetCopyInfo", args)
 end
@@ -443,7 +444,7 @@ function CopyService:_GetCopyInfoRet(ret, state, err, errmsg)
 end
 
 function CopyService:SendDotBase(copyId)
-  local args = {CopyId = copyId}
+  local args = { CopyId = copyId }
   args = dataChangeManager:LuaToPb(args, copy_pb.TDOTBASEARG)
   self:SendNetEvent("copy.DotBase", args)
 end
@@ -523,7 +524,7 @@ function CopyService:_ArchiveCopyData(ret, state, err, errmsg)
 end
 
 function CopyService:SendChooseSafeLv(copyId, lv)
-  local args = {CopyId = copyId, SafeLv = lv}
+  local args = { CopyId = copyId, SafeLv = lv }
   args = dataChangeManager:LuaToPb(args, copy_pb.TCOPYCHOOSESFLVARG)
   self:SendNetEvent("copy.ChooseSfLv", args)
 end
@@ -591,7 +592,7 @@ function CopyService:_GetBossTeamRank(ret, state, err, errmsg)
 end
 
 function CopyService:SendAddCopyRewardCount(chapterId, num)
-  local arg = {Chapter = chapterId, RewardTime = num}
+  local arg = { Chapter = chapterId, RewardTime = num }
   local msg = dataChangeManager:LuaToPb(arg, copyextra_pb.TCOPYREWARDTIMES)
   self:SendNetEvent("copyextra.AddCopyRewardCount", msg)
 end
