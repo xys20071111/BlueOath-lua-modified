@@ -713,12 +713,8 @@ function HomePage:_PlayerData()
     return
   end
   local shipShow = Logic.shipLogic:GetShipShowByHeroId(heroInfo.HeroId)
-  if shipShow ~= nil then
-    -- 这里也一样，先改成100，跑起来再说
-    local heroAttr = {
-      [AttrType.HP] = 100
-    } 
-    -- local heroAttr = Logic.attrLogic:GetHeroFianlAttrById(tabUserInfo.SecretaryId)
+  if shipShow ~= nil then 
+    local heroAttr = Logic.attrLogic:GetHeroFianlAttrById(tabUserInfo.SecretaryId)
     local curHp = Logic.shipLogic:GetHeroHp(heroInfo.HeroId)
     self.m_modelDress = Logic.shipLogic:GetDressupId(shipShow.model_id, curHp, heroAttr[AttrType.HP])
     self.m_secretaryInfo = shipShow

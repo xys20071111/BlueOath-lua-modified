@@ -51,10 +51,21 @@ local heroBag = {
         { SkillId = 502, Level = 8 }
       },
       PSkill = { -- 技能列表
-        { PSkillId = 501, PSkillExp = 10, Level = 10 },
-        { PSkillId = 502, PSkillExp = 10, Level = 10 }
+        { PSkillId = 10631, PSkillExp = 10, Level = 10 },
+        { PSkillId = 10633, PSkillExp = 10, Level = 10 }
       },
-      Equips = {}
+      Intensify = {
+        {
+          AttrType = 1,
+          IntensifyLvl = 1,
+          CurExp = 10,
+        }
+      },
+      CombinationInfo = {},
+      Equips = {},
+      MarryTime = 0,
+      Affection = 0,
+      UpdateTime = os.time()
     },
   },
   -- 英雄背包容量
