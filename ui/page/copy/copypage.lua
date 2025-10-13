@@ -44,7 +44,7 @@ function CopyPage:RegisterAllEvent()
 end
 
 function CopyPage:DoOnOpen()
-  self:OpenTopPage("CopyPage", 2, "\230\181\183\229\159\159", self, true)
+  self:OpenTopPage("CopyPage", 2, "海域", self, true)
   SoundManager.Instance:PlayMusic("System|Expedition")
   eventManager:SendEvent(LuaEvent.TopShowPvePt)
   local param = self:GetParam()

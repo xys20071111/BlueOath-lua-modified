@@ -12,7 +12,8 @@ function RepaireService:SendGetRepair(heroId, mType)
   mType = mType or 0
   local args = {HeroIds = heroId, Type = mType}
   args = dataChangeManager:LuaToPb(args, repair_pb.TREPAIRARG)
-  self:SendNetEvent("repair.RepairHero", args)
+  -- self:SendNetEvent("repair.RepairHero", args)
+  self:SendLuaEvent("getRepaireMsg")
 end
 
 function RepaireService:_GetRepaireService(ret, state, err, errmsg)

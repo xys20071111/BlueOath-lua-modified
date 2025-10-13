@@ -1657,7 +1657,7 @@ local plotInfo = {
     },
     StarInfo = {},
     MaxCopyId = 5014,
-    CopyType = 1
+    CopyType = 2
 }
 
 local seaInfo = {
@@ -1713,7 +1713,7 @@ local seaInfo = {
     },
     StarInfo = {},
     MaxCopyId = 13,
-    CopyType = 2
+    CopyType = 1
 }
 
 for i = 0, 20806 do
