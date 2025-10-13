@@ -29,11 +29,10 @@ function FleetService:SendGetFleet()
 end
 
 function FleetService:_GetHerosTactic(ret, state, err, errmsg)
-  if ret ~= nil then
-    local info = dataChangeManager:PbToLua(ret, tactic_pb.TSELFTACTIS)
+    -- local info = dataChangeManager:PbToLua(ret, tactic_pb.TSELFTACTIS)
+    local info = GlobalSettings.fleetInfo
     Data.fleetData:SetData(info)
     self:SendLuaEvent(LuaEvent.GetFleetMsg)
-  end
 end
 
 return FleetService

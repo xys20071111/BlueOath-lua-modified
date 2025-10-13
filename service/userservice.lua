@@ -162,7 +162,10 @@ function UserService:_ReceiveUserLogin(_, state, err, errmsg)
     self:_UpdateUserInfo()
     Service.heroService:_UpdateHeroBagData()
     Service.activityService:_UpdateActivityInfo()
-    Service.copyService:_GetCopyService(GlobalSettings.copyInfo)
+    Service.fleetService:_GetHerosTactic()
+    for _, v in pairs(GlobalSettings.copyInfo) do
+      Service.copyService:_GetCopyService(GlobalSettings.copyInfo)
+    end
     self:_ReceiveUserGetUserInfoFunc("abc", state, 0, "")
   elseif msg.Ret == "ban" then
     local info = dataChangeManager:PbToLua(msg, user_pb.TUSERLOGINRET)

@@ -2,6 +2,7 @@ local heroBag = require("OfflineSettings.HeroBag")
 local userInfo = require("OfflineSettings.UserInfo")
 local activity = require("OfflineSettings.ActivityInfo")
 local copyInfo = require("OfflineSettings.CopyInfo")
+local fleetInfo = require("OfflineSettings.fleetInfo")
 
 -- custom log file
 GlobalLogFile = io.open("./log.txt", "w")
@@ -12,7 +13,8 @@ GlobalSettings = {
   heroBag = heroBag,
   activity = activity,
   userInfo = userInfo,
-  copyInfo = copyInfo
+  copyInfo = copyInfo,
+  fleetInfo = fleetInfo
 }
 
 function GlobalAddTrackerToTable(table, logPrefix)
