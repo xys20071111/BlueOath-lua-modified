@@ -651,7 +651,7 @@ end
 
 function ShipLogic:GetPSkillName(pskillId)
   if type(pskillId) == "table" then
-    return "\230\136\152\229\167\172\230\173\166\232\163\133"
+    return "战姬武装"
   end
   local id = self:GetPSkillDisplayIdByGroupId(pskillId)
   return self:GetPSkillDisplayConfigById(id).skill_name

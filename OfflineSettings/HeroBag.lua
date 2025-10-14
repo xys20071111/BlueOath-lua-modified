@@ -62,7 +62,8 @@ local heroBag = {
       Affection = 0,
       UpdateTime = os.time(),
       Mood = 100,
-      ArrRemouldEffect = {}
+      ArrRemouldEffect = {},
+      RemouldLV = 1
     },
   },
   -- 英雄背包容量

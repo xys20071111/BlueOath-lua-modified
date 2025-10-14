@@ -314,6 +314,8 @@ function GirlShowPage:_LoadSkillInfo(pskillArr, heroId)
   local heroInfo = Data.heroData:GetHeroById(heroId)
   local displayArr = {}
   for i, pskillId in ipairs(pskillArr) do
+    -- 不知道为什么，加上下面这一行战姬信息页面就不会报错了
+    log("pskillId:" .. pskillId)
     local displayData = {}
     displayData.pskillId = pskillId
     displayData.heroId = heroId
