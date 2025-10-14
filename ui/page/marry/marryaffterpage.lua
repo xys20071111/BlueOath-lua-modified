@@ -16,49 +16,48 @@ function MarryAffterPage:RegisterAllEvent()
 end
 
 function MarryAffterPage:_Dotinfo()
-  local shipInfoId = Logic.shipLogic:GetShipInfoIdByHeroId(self.param[1])
-  local name = Logic.shipLogic:GetName(shipInfoId)
-  local loveInfo, num = Logic.marryLogic:GetLoveInfo(self.param[1], MarryType.Love)
-  local dotinfo = {
-    info = "ui_open_marryafter",
-    ship_name = name,
-    affection = math.modf(num / 10000)
-  }
-  RetentionHelper.Retention(PlatformDotType.uilog, dotinfo)
 end
 
 function MarryAffterPage:_LoadInformation()
+  log("MarryAffterPage:_LoadInformation")
   if self.param[4] == MarryAffterType.MarryProcess then
     self.effectObj = plotManager:GetMarryEff()
   end
+  log("MarryAffterPage:_LoadInformation 1")
   local eventListner = self.tab_Widgets.animator_root.gameObject:GetComponent(UnityEngine_Animator.GetClassType())
   self.tab_Widgets.tween_content:Play(true)
   eventListner.enabled = self.param[4] == MarryAffterType.MarryProcess
   local userData = Data.userData:GetUserData()
+  log("MarryAffterPage:_LoadInformation 2")
   local loveInfo, num = Logic.marryLogic:GetLoveInfo(self.param[1], MarryType.Love)
   local noMarry = configManager.GetDataById("config_parameter", 155).arrValue
   local marryed = configManager.GetDataById("config_parameter", 156).arrValue
   local singleGirl = Data.heroData:GetHeroById(self.param[1])
-  if singleGirl.Name ~= "" then
+  log("MarryAffterPage:_LoadInformation 3")
+  if singleGirl.Name and singleGirl.Name ~= "" then
     UIHelper.SetText(self.tab_Widgets.tx_girlName, singleGirl.Name)
     self.tab_Widgets.tx_des.text = string.format(loveInfo.affection_describe, singleGirl.Name)
   else
     UIHelper.SetText(self.tab_Widgets.tx_girlName, self.param[2])
     self.tab_Widgets.tx_des.text = string.format(loveInfo.affection_describe, self.param[2])
   end
+  log("MarryAffterPage:_LoadInformation 4")
   local createTime = time.formatTimerToYMD(singleGirl.CreateTime)
   local marryTime = time.formatTimerToYMD(singleGirl.MarryTime)
+  log("MarryAffterPage:_LoadInformation 5")
   UIHelper.SetText(self.tab_Widgets.tx_createTime, createTime)
-  UIHelper.SetText(self.tab_Widgets.tx_marryTime, "\232\170\147\231\186\166\230\151\165" .. marryTime)
+  UIHelper.SetText(self.tab_Widgets.tx_marryTime, "誓约日" .. marryTime)
   UIHelper.SetImage(self.tab_Widgets.im_loveIcon, loveInfo.affection_icon)
   UIHelper.SetImage(self.tab_Widgets.im_girl, self.param[3])
   UIHelper.SetText(self.tab_Widgets.tx_userName, userData.Uname)
+  log("MarryAffterPage:_LoadInformation 6")
   local max = 0
   if singleGirl.MarryTime == 0 then
     max = math.modf(noMarry[2] / 10000)
   else
     max = math.modf(marryed[2] / 10000)
   end
+  log("MarryAffterPage:_LoadInformation 7")
   UIHelper.SetText(self.tab_Widgets.tx_value, math.modf(num / 10000) .. "/" .. max)
   self.tab_Widgets.slider_love.interactable = false
   self.tab_Widgets.slider_love.value = math.modf(num / 10000) / max
@@ -66,6 +65,7 @@ function MarryAffterPage:_LoadInformation()
     local sliderTween = self:_CreateSliderTween(self.tab_Widgets.slider_love.gameObject, 0.5, 0, math.modf(num / 10000) / max)
     sliderTween:Play(true)
   end
+  log("MarryAffterPage:_LoadInformation 8")
   local shipInfo = Data.heroData:GetHeroById(self.param[1])
   local shipConfig = Logic.shipLogic:GetShipShowByHeroId(shipInfo.HeroId)
   local position = configManager.GetDataById("config_ship_position", shipConfig.ss_id).affection_position
@@ -76,6 +76,7 @@ function MarryAffterPage:_LoadInformation()
   self.tab_Widgets.btn_marry.gameObject:SetActive(self.param[4] == MarryAffterType.GirlInfo)
   self.tab_Widgets.btn_tips.gameObject:SetActive(self.param[4] == MarryAffterType.GirlInfo)
   self:_ShowCondition()
+  log("MarryAffterPage:_LoadInformation 9")
 end
 
 function MarryAffterPage:_ShowCondition()

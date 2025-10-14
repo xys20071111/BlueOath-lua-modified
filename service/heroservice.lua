@@ -176,8 +176,9 @@ function HeroService:SendMarry(args)
     HeroId = args.HeroId,
     MarryType = args.MarryType
   }
-  args = dataChangeManager:LuaToPb(args, hero_pb.TMARRYARG)
-  self:SendNetEvent("hero.Marry", args)
+  -- args = dataChangeManager:LuaToPb(args, hero_pb.TMARRYARG)
+  -- self:SendNetEvent("hero.Marry", args)
+  self:SendLuaEvent(LuaEvent.MarrySuccess)
 end
 
 function HeroService:_MarryHero(ret, state, err, errmsg)

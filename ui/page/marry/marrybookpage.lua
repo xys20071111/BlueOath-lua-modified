@@ -38,7 +38,7 @@ function MarryBookPage:_LoadInformation()
   local noMarry = configManager.GetDataById("config_parameter", 155).arrValue
   local marryed = configManager.GetDataById("config_parameter", 156).arrValue
   local singleGirl = Data.heroData:GetHeroById(self.param[1])
-  if singleGirl.Name ~= "" then
+  if singleGirl.Name and singleGirl.Name ~= "" then
     UIHelper.SetText(self.tab_Widgets.tx_girlName, singleGirl.Name)
     self.tab_Widgets.tx_des.text = string.format(loveInfo.affection_describe, singleGirl.Name)
   else
@@ -110,15 +110,13 @@ function MarryBookPage:_ClickMarry(...)
     ringNum = math.tointeger(ringNum.num)
   end
   local loveInfo, num = Logic.marryLogic:GetLoveInfo(self.param[1], MarryType.Love)
-  if marry_allow_affection > num then
+  -- if marry_allow_affection > num then
+  if false then
     noticeManager:OpenTipPage(self, UIHelper.GetString(1500007))
-  elseif ringNum < marry_cost[3] then
+  -- elseif ringNum < marry_cost[3] then
+  elseif false then
     globalNoitceManager:_OpenGoShopBox(marry_cost[2])
   else
-    local shipInfoId = Logic.shipLogic:GetShipInfoIdByHeroId(self.param[1])
-    local name = Logic.shipLogic:GetName(shipInfoId)
-    local dotinfo = {info = "ui_marry", ship_name = name}
-    RetentionHelper.Retention(PlatformDotType.uilog, dotinfo)
     UIHelper.OpenPage("SelectMarryRingPage", {
       self.param[1],
       ringNum
