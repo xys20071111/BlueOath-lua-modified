@@ -174,9 +174,8 @@ function ShipLogic:GetHeroMaxHp(heroId, fleetType)
     local heroData = Data.heroData:GetHeroById(heroId)
     return heroData.MaxHp
   else
-    -- local finalAttrs = Logic.attrLogic:GetHeroFinalShowAttrById(heroId, fleetType)
-    -- attrLogic有问题，日后再研究,先直接返回个100，反正也不能出击，随便啦
-    return 100
+   local finalAttrs = Logic.attrLogic:GetHeroFinalShowAttrById(heroId, fleetType)
+    return finalAttrs[AttrType.HP]
   end
 end
 
