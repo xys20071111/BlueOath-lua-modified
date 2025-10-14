@@ -1,11 +1,10 @@
 local userInfo = {
   Uid = 10001,
-  Uname = "Test123",
+  Uname = "Test123", -- 昵称
   OrderRecord = {},
   Level = 100,
   Exp = 100,
-  -- --秘书舰
-  SecretaryId = 1,
+  SecretaryId = 1, -- 秘书舰，填HeroBag里的HeroId
   -- 各种游戏币的信息
   Gold = 5000,
   Diamond = 5000,
