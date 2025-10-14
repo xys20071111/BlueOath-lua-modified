@@ -28,7 +28,9 @@ local heroBag = {
       Equips = {},
       MarryTime = 0,
       Affection = 0,
-      UpdateTime = os.time()
+      UpdateTime = os.time(),
+      Mood = 100,
+      ArrRemouldEffect = {}
     },
     {
       HeroId = 2,
@@ -58,7 +60,9 @@ local heroBag = {
       Equips = {},
       MarryTime = 0,
       Affection = 0,
-      UpdateTime = os.time()
+      UpdateTime = os.time(),
+      Mood = 100,
+      ArrRemouldEffect = {}
     },
   },
   -- 英雄背包容量

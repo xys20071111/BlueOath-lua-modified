@@ -65,7 +65,7 @@ function ShipCardItem:LoadVerticalCard(heroId, tabPart, mType, addMarriageEffCB,
         tabPart.im_mood.gameObject:SetActive(moodInfo.mood_id == 1)
       end
       if tabPart.tx_mood then
-        UIHelper.SetText(tabPart.tx_mood, "\229\191\131\230\131\133" .. num)
+        UIHelper.SetText(tabPart.tx_mood, "心情" .. num)
       end
     end
     if tabPart.im_love then
@@ -87,7 +87,7 @@ function ShipCardItem:LoadVerticalCard(heroId, tabPart, mType, addMarriageEffCB,
     end
     local loveInfo1, num1 = Logic.marryLogic:GetLoveInfo(heroId, MarryType.Love)
     if tabPart.tx_love then
-      UIHelper.SetText(tabPart.tx_love, "\229\165\189\230\132\159\229\186\166" .. num1)
+      UIHelper.SetText(tabPart.tx_love, "好感度" .. num1)
     end
     if tabPart.obj_eff then
       local effInfo = Logic.marryLogic:GetLoveInfo(heroId, MarryType.Kuang)
