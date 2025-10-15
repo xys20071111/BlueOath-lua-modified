@@ -1,15 +1,22 @@
 local Building3DScenePage = class("UI.Building.Building3D.Building3DScenePage", LuaUIPage)
 
 function Building3DScenePage:DoOnOpen()
+  log("Building3DScenePage:DoOnOpen")
   local buildingId = self:GetParam().buildingId
   self.buildingData = Data.buildingData:GetBuildingById(buildingId)
+  log("Building3DScenePage:DoOnOpen 1")
   self.buildingCfg = configManager.GetDataById("config_buildinginfo", self.buildingData.Tid)
   local name = Logic.buildingLogic:GetBuildName(self.buildingData.Tid)
+  log("Building3DScenePage:DoOnOpen 2")
   self:OpenTopPage("Building3DScenePage", 1, name, self, true)
   SoundManager.Instance:PreLoad("CV_role_sd_bank")
+  log("Building3DScenePage:DoOnOpen 3")
   self:InitUI()
+  log("Building3DScenePage:DoOnOpen 3.1")
   self:LoadScene()
+  log("Building3DScenePage:DoOnOpen 4")
   eventManager:SendEvent(LuaEvent.Build3DLoadOk)
+  log("Building3DScenePage:DoOnOpen 5")
 end
 
 function Building3DScenePage:RegisterAllEvent()
@@ -90,6 +97,7 @@ function Building3DScenePage:LoadScene()
 end
 
 function Building3DScenePage:InitUI()
+  log("Building3DScenePage:InitUI")
   self.showFuncBtns = true
   local widgets = self:GetWidgets()
   UIHelper.SetText(widgets.txt_girl_num, string.format("%s/%s", #self.buildingData.HeroList, self.buildingCfg.heronumber))
@@ -97,9 +105,13 @@ function Building3DScenePage:InitUI()
   widgets.obj_line2.gameObject:SetActive(false)
   widgets.obj_line3.gameObject:SetActive(false)
   widgets.btn_Renovation.gameObject:SetActive(false)
+  log("Building3DScenePage:InitUI 1")
   self:SetMoodState()
+  log("Building3DScenePage:InitUI 2")
   self:SetDetailInfo()
+  log("Building3DScenePage:InitUI 3")
   self:StartCountDownTimer()
+  log("Building3DScenePage:InitUI 4")
 end
 
 function Building3DScenePage:UpdateUI()
@@ -108,6 +120,7 @@ function Building3DScenePage:UpdateUI()
 end
 
 function Building3DScenePage:SetMoodState()
+  log("Building3DScenePage:SetMoodState")
   self.showMoodState = false
   local widgets = self:GetWidgets()
   local btype = self.buildingCfg.type
@@ -128,8 +141,12 @@ function Building3DScenePage:SetMoodState()
     end
   else
     local moodEmpty = false
+    log("Building3DScenePage:SetMoodState 1")
     for i, heroId in ipairs(self.buildingData.HeroList) do
+      log("Building3DScenePage:SetMoodState 1.1")
       local _, curMood = Logic.marryLogic:GetLoveInfo(heroId, MarryType.Mood)
+      log("Building3DScenePage:SetMoodState 1.2")
+      log(curMood)
       if curMood <= 0 then
         moodEmpty = true
         break
@@ -140,6 +157,7 @@ function Building3DScenePage:SetMoodState()
       widgets.obj_low:SetActive(true)
       widgets.obj_high:SetActive(false)
     end
+    log("Building3DScenePage:SetMoodState 2")
   end
   widgets.obj_state:SetActive(self.showMoodState)
 end
@@ -213,6 +231,7 @@ function Building3DScenePage:SetItemFactoryInfo()
 end
 
 function Building3DScenePage:SetOtherInfo()
+  log("Building3DScenePage:SetOtherInfo")
   local widgets = self:GetWidgets()
   local count = Logic.buildingLogic:Produce(self.buildingData)
   local resouceIcons = configManager.GetDataById("config_parameter", 216).arrValue
@@ -238,20 +257,22 @@ function Building3DScenePage:SetOtherInfo()
   local attrs = Logic.buildingLogic:GetBuilding3DAttrs(self.buildingCfg.type, self.buildingData)
   local bec = #attrs.BuildingEffects
   local attrCount = bec + #attrs.HeroEffects
-  UIHelper.CreateSubPart(widgets.obj_property, widgets.trans_property, attrCount, function(index, tabPart)
-    if index <= bec then
-      local effectFunc = attrs.BuildingEffects[index]
-      local key, value = Logic.buildingLogic[effectFunc](Logic.buildingLogic, self.buildingData)
-      UIHelper.SetText(tabPart.txt_key, key .. "\239\188\154")
-      UIHelper.SetText(tabPart.txt_value, value)
-    else
-      index = index - bec
-      local effectFunc = attrs.HeroEffects[index]
-      local key, valueStr, value = Logic.buildingLogic[effectFunc](Logic.buildingLogic, self.buildingData)
-      UIHelper.SetText(tabPart.txt_key, key .. "\239\188\154")
-      UIHelper.SetText(tabPart.txt_value, valueStr)
-    end
-  end)
+  log("Building3DScenePage:SetOtherInfo half")
+  -- TODO: 日后再研究
+  -- UIHelper.CreateSubPart(widgets.obj_property, widgets.trans_property, attrCount, function(index, tabPart)
+  --   if index <= bec then
+  --     local effectFunc = attrs.BuildingEffects[index]
+  --     local key, value = Logic.buildingLogic[effectFunc](Logic.buildingLogic, self.buildingData)
+  --     UIHelper.SetText(tabPart.txt_key, key .. "：")
+  --     UIHelper.SetText(tabPart.txt_value, value)
+  --   else
+  --     index = index - bec
+  --     local effectFunc = attrs.HeroEffects[index]
+  --     local key, valueStr, value = Logic.buildingLogic[effectFunc](Logic.buildingLogic, self.buildingData)
+  --     UIHelper.SetText(tabPart.txt_key, key .. "：")
+  --     UIHelper.SetText(tabPart.txt_value, valueStr)
+  --   end
+  -- end)
 end
 
 function Building3DScenePage:StartCountDownTimer()

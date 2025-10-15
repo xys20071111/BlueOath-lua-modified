@@ -84,7 +84,7 @@ function BuildingService:_OnDownBuilding(ret, state, err, errmsg)
     local result = dataChangeManager:PbToLua(ret, building_pb.TRECEIVERET)
     self:SendLuaEvent(LuaEvent.BuildingReceiveResult, result)
   elseif err == 3409 then
-    noticeManager:ShowTip("\233\153\141\231\186\167\229\144\142\233\163\159\231\137\169\228\184\141\232\182\179\239\188\140\228\184\141\232\131\189\233\153\141\231\186\167")
+    noticeManager:ShowTip("降级后食物不足，不能降级")
   else
     logError("down building err:" .. err .. " errmsg:" .. errmsg)
   end
@@ -215,17 +215,13 @@ function BuildingService:_ReceiveResource(ret, state, err, errmsg)
 end
 
 function BuildingService:_UpdateBuildingInfo(ret, state, err, errmsg)
-  if err == 0 then
-    local buildingInfo = dataChangeManager:PbToLua(ret, building_pb.TUSERBUILDINGINFO)
+    local buildingInfo = ret -- dataChangeManager:PbToLua(ret, building_pb.TUSERBUILDINGINFO)
     Data.buildingData:SetData(buildingInfo)
     self:SendLuaEvent(LuaEvent.BuildingRefreshData)
-    if Logic.loginLogic:GetLoginOK() == true then
-      local noticeParam = Logic.buildingLogic:GetPushNoticeParams(buildingInfo.BuildingInfos)
-      self:SendLuaEvent(LuaEvent.PushNotice, noticeParam)
-    end
-  else
-    logError("err: " .. err .. ", errmsg: " .. errmsg)
-  end
+    -- if Logic.loginLogic:GetLoginOK() == true then
+    --   local noticeParam = Logic.buildingLogic:GetPushNoticeParams(buildingInfo.BuildingInfos)
+    --   self:SendLuaEvent(LuaEvent.PushNotice, noticeParam)
+    -- end
 end
 
 function BuildingService:UseStrengthSpeedup(buildingId, useCount)
@@ -245,7 +241,7 @@ end
 function BuildingService:UpdateHeroAddition(buildingIdList)
   local args = {BuildingIdList = buildingIdList}
   args = dataChangeManager:LuaToPb(args, building_pb.TUPDATEHEROADDITIONARG)
-  self:SendNetEvent("building.UpdateHeroAddition", args)
+  -- self:SendNetEvent("building.UpdateHeroAddition", args)
 end
 
 function BuildingService:_UpdateHeroAddition(ret, state, err, errmsg)

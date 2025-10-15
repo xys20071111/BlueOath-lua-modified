@@ -377,18 +377,24 @@ function BuildingLogic:GetBuildingEffects(type)
 end
 
 function BuildingLogic:GetBuilding3DAttrs(type, buildingData)
+  log("BuildingLogic:GetBuilding3DAttrs")
   local attrs = clone(Building3DAttrs[type])
   local heroEffects = {}
+  log("BuildingLogic:GetBuilding3DAttrs 1")
   for i, effectFunc in ipairs(attrs.HeroEffects) do
+    log("BuildingLogic:GetBuilding3DAttrs 1.1")
     if effectFunc == HeroEffect.ItemProduceSpeedAdd or effectFunc == HeroEffect.CoinProduceSpeedAdd then
-      local key, valueStr, value = Logic.buildingLogic[effectFunc](Logic.buildingLogic, buildingData)
-      if 0 < value then
-        table.insert(heroEffects, effectFunc)
-      end
+      log("BuildingLogic:GetBuilding3DAttrs 1.2")
+      -- TODO: 日后再研究
+      -- local key, valueStr, value = Logic.buildingLogic[effectFunc](Logic.buildingLogic, buildingData)
+      -- if 0 < value then
+      --   table.insert(heroEffects, effectFunc)
+      -- end
     else
       table.insert(heroEffects, effectFunc)
     end
   end
+  log("BuildingLogic:GetBuilding3DAttrs 2")
   attrs.HeroEffects = heroEffects
   return attrs
 end
@@ -858,43 +864,44 @@ function BuildingLogic:RecoverStrength()
 end
 
 function BuildingLogic:CheckoutHeroMoodChange(heroId)
-  local buildingData = Data.buildingData:GetHeroBuilding(heroId)
-  local buildingType = Data.buildingData:GetHeroBuildingType(heroId)
-  if buildingType then
-    local heroList = buildingData.HeroList
-    for i, hid in ipairs(heroList) do
-      if hid == heroId then
-        local now = time.getSvrTime()
-        if buildingType == MBuildingType.DormRoom then
-          do
-            local delta = now - buildingData.LastUpdateTime
-            local timeUnit = BuildingTimeUnit
-            local ratio = timeUnit / configManager.GetDataById("config_parameter", 206).value
-            local addSpeed = buildingData.ProduceSpeed * ratio
-            local addCount = delta / timeUnit * addSpeed
-            return addCount
-          end
-          break
-        end
-        do
-          local lastTime = 0
-          if buildingType == MBuildingType.ElectricFactory then
-            lastTime = Data.buildingData:GetWorkerUpdateTime()
-          else
-            lastTime = buildingData.LastUpdateTime
-          end
-          local delta = now - lastTime
-          local bcfg = configManager.GetDataById("config_buildinginfo", buildingData.Tid)
-          local timeUnit = BuildingTimeUnit
-          local ratio = timeUnit / configManager.GetDataById("config_parameter", 207).value
-          local costSpeed = bcfg.moodcost * ratio
-          local subCount = delta / timeUnit * costSpeed
-          return -subCount
-        end
-        break
-      end
-    end
-  end
+  -- TODO: 日后再研究
+  -- local buildingData = Data.buildingData:GetHeroBuilding(heroId)
+  -- local buildingType = Data.buildingData:GetHeroBuildingType(heroId)
+  -- if buildingType then
+  --   local heroList = buildingData.HeroList
+  --   for i, hid in ipairs(heroList) do
+  --     if hid == heroId then
+  --       local now = time.getSvrTime()
+  --       if buildingType == MBuildingType.DormRoom then
+  --         do
+  --           local delta = now - buildingData.LastUpdateTime
+  --           local timeUnit = BuildingTimeUnit
+  --           local ratio = timeUnit / configManager.GetDataById("config_parameter", 206).value
+  --           local addSpeed = buildingData.ProduceSpeed * ratio
+  --           local addCount = delta / timeUnit * addSpeed
+  --           return addCount
+  --         end
+  --         break
+  --       end
+  --       do
+  --         local lastTime = 0
+  --         if buildingType == MBuildingType.ElectricFactory then
+  --           lastTime = Data.buildingData:GetWorkerUpdateTime()
+  --         else
+  --           lastTime = buildingData.LastUpdateTime
+  --         end
+  --         local delta = now - lastTime
+  --         local bcfg = configManager.GetDataById("config_buildinginfo", buildingData.Tid)
+  --         local timeUnit = BuildingTimeUnit
+  --         local ratio = timeUnit / configManager.GetDataById("config_parameter", 207).value
+  --         local costSpeed = bcfg.moodcost * ratio
+  --         local subCount = delta / timeUnit * costSpeed
+  --         return -subCount
+  --       end
+  --       break
+  --     end
+  --   end
+  -- end
   return 0
 end
 
@@ -2511,8 +2518,8 @@ function BuildingLogic:GetHeroRecipeType(data, recipeId)
 end
 
 function BuildingLogic:GetSortResult(maxLevel1, maxLevel2, sm_id1, sm_id2, charIdData1, charIdData2)
-  local math1 = false
-  local math2 = false
+  local match1 = false
+  local match2 = false
   local sf_id1 = Logic.shipLogic:GetSfidBySmid(sm_id1)
   local sf_id2 = Logic.shipLogic:GetSfidBySmid(sm_id2)
   local ship_order1 = configManager.GetDataById("config_ship_handbook", sf_id1).ship_order

@@ -33,7 +33,7 @@ function BuildingMainPage:DoInit()
 end
 
 function BuildingMainPage:DoOnOpen()
-  self:OpenTopPage("BuildingMainPage", 1, "\229\159\186\229\187\186", self, true)
+  self:OpenTopPage("BuildingMainPage", 1, "基建", self, true)
   Logic.buildingLogic:UpdateBuildings(false)
   Logic.chatLogic:InitLockedEmoji()
   self.timerTxts = {}
@@ -425,16 +425,6 @@ function BuildingMainPage:_BuildingFinish(buildingId)
 end
 
 function BuildingMainPage:_Dotinfo()
-  local buildingDatas = Data.buildingData:GetBuildingData()
-  local allBuildingId = {}
-  for k, v in pairs(buildingDatas) do
-    table.insert(allBuildingId, v.Tid)
-  end
-  local dotinfo = {
-    info = "building_info",
-    building_id = allBuildingId
-  }
-  RetentionHelper.Retention(PlatformDotType.uilog, dotinfo)
 end
 
 return BuildingMainPage

@@ -59,9 +59,11 @@ function UserService:UserLogin(param)
 end
 
 function UserService:SendSecretary(param)
-  local arg = {SecretaryId = param}
+  local arg = { SecretaryId = param }
   arg = dataChangeManager:LuaToPb(arg, user_pb.TSETUSERSECRETARYARG)
-  self:SendNetEvent("user.SetUserSecretary", arg)
+  -- self:SendNetEvent("user.SetUserSecretary", arg)
+  GlobalSettings.userInfo.SecretaryId = param
+  self:_SetUserSecretary()
 end
 
 function UserService:SendOrderRecord(param)
@@ -70,13 +72,13 @@ function UserService:SendOrderRecord(param)
 end
 
 function UserService:SendSetMessage(param)
-  local arg = {Message = param}
+  local arg = { Message = param }
   arg = dataChangeManager:LuaToPb(arg, user_pb.TSETUSERMSGARG)
   self:SendNetEvent("user.SetMessage", arg)
 end
 
 function UserService:SendChangeName(strNewName)
-  local arg = {Name = strNewName}
+  local arg = { Name = strNewName }
   arg = dataChangeManager:LuaToPb(arg, user_pb.TUSERCHANGENAMEARG)
   self:SendNetEvent("user.ChangeName", arg)
 end
@@ -90,12 +92,12 @@ function UserService:_ReceiveLogin(_, state, err, errmsg)
   if state ~= excMgr.ConnectCount then
     return
   end
-  local msg = { Ret = "ok", ErrCode = 0}
+  local msg = { Ret = "ok", ErrCode = 0 }
   if err == 0 and msg.Ret == "ok" then
     if msg.ErrCode == 0 then
       local currState = excMgr.ConnectCount
       -- self:SendNetEvent("player.GetUserList", nil, currState)
-      self:_ReceiveUserList(nil , state, 0, "")
+      self:_ReceiveUserList(nil, state, 0, "")
       self:SendLuaEvent(LuaEvent.PlayerLogin)
     else
       Logic.loginLogic:SetUserKick(msg.ErrCode)
@@ -159,6 +161,7 @@ function UserService:_ReceiveUserLogin(_, state, err, errmsg)
   if err == 0 and msg.Ret == "ok" then
     local currState = excMgr.ConnectCount
     -- self:SendNetEvent("user.GetUserInfo", nil, currState)
+    -- 初始化一下数据
     self:_UpdateUserInfo()
     Service.heroService:_UpdateHeroBagData()
     Service.activityService:_UpdateActivityInfo()
@@ -166,6 +169,7 @@ function UserService:_ReceiveUserLogin(_, state, err, errmsg)
     for _, v in pairs(GlobalSettings.copyInfo) do
       Service.copyService:_GetCopyService(v)
     end
+    Service.buildingService:_UpdateBuildingInfo(GlobalSettings.buildingInfo)
     self:_ReceiveUserGetUserInfoFunc("abc", state, 0, "")
   elseif msg.Ret == "ban" then
     local info = dataChangeManager:PbToLua(msg, user_pb.TUSERLOGINRET)
@@ -192,18 +196,18 @@ end
 
 function UserService:_UpdateUserInfo(ret, state, err, errmsg)
   log("UserService:_UpdateUserInfo")
-    local userInfo = GlobalSettings.userInfo
-    if userInfo.Uid == nil and self.firstLogin then
-      return
-    end
-    self.firstLogin = false
-    Data.userData:SetData(userInfo)
-    self:SendLuaEvent(LuaEvent.UpdataUserInfo)
-    if userInfo.Level ~= nil and 0 < userInfo.Level then
-      self:SendLuaEvent(LuaEvent.UserLevelUp)
-      self:SendLuaEvent(LuaEvent.ShopLevelGift)
-      self:SendLuaEvent(LuaEvent.GoodsCopyBattle)
-    end
+  local userInfo = GlobalSettings.userInfo
+  if userInfo.Uid == nil and self.firstLogin then
+    return
+  end
+  self.firstLogin = false
+  Data.userData:SetData(userInfo)
+  self:SendLuaEvent(LuaEvent.UpdataUserInfo)
+  if userInfo.Level ~= nil and 0 < userInfo.Level then
+    self:SendLuaEvent(LuaEvent.UserLevelUp)
+    self:SendLuaEvent(LuaEvent.ShopLevelGift)
+    self:SendLuaEvent(LuaEvent.GoodsCopyBattle)
+  end
 end
 
 function UserService:_UpdateSvrTime(ret, state, err, errmsg)
@@ -219,12 +223,8 @@ function UserService:_UpdateSvrTime(ret, state, err, errmsg)
   end
 end
 
-function UserService:_SetUserSecretary(msg, state, err, errmsg)
-  if err ~= 0 then
-    logError("SetUserSecretary error" .. err)
-  else
-    self:SendLuaEvent(LuaEvent.SetSecretaryFinish)
-  end
+function UserService:_SetUserSecretary()
+  self:SendLuaEvent(LuaEvent.SetSecretaryFinish)
 end
 
 function UserService:_SetUserOrderRecord(msg, state, err, errmsg)
@@ -234,7 +234,7 @@ function UserService:_SetUserOrderRecord(msg, state, err, errmsg)
 end
 
 function UserService:SendGetOtherInfo(param)
-  local arg = {Uid = param}
+  local arg = { Uid = param }
   arg = dataChangeManager:LuaToPb(arg, user_pb.TGETOTHERINFOARG)
   self:SendNetEvent("usersvr.GetOtherInfo", arg)
 end
@@ -284,7 +284,7 @@ function UserService:_KickRet(msg, state, err, errmsg)
 end
 
 function UserService:SendGetSupply(param)
-  local arg = {Id = param}
+  local arg = { Id = param }
   arg = dataChangeManager:LuaToPb(arg, user_pb.TUSERGETSUPPLYARG)
   self:SendNetEvent("user.GetSupply", arg)
 end
@@ -336,7 +336,7 @@ end
 
 function UserService:SendRefresh(fleetArr)
   local maxpoweridx, minpoweridx = Logic.fleetLogic:GetMaxPower()
-  local arg = {MaxPowerIndex = maxpoweridx, MinPowerIndex = minpoweridx}
+  local arg = { MaxPowerIndex = maxpoweridx, MinPowerIndex = minpoweridx }
   arg = dataChangeManager:LuaToPb(arg, user_pb.TREFRESHARG)
   -- self:SendNetEvent("user.Refresh", arg)
   self:_RefreshCallBack(nil, nil, 0, "")
