@@ -524,7 +524,8 @@ function HomePage:_CreateLeft(cur)
         if redDotIdList and 0 < #redDotIdList then
           self:RegisterRedDotById(tabPart.redDot, redDotIdList)
         end
-        self:SetBuildRed(functionId, tabPart)
+        -- 与红点有关的问题
+        -- self:SetBuildRed(functionId, tabPart)
         if self.m_bSelectLeft and cur == nIndex and tonumber(functionId) ~= FunctionID.BuildShip then
           tabPart.tween_pos:Play(true)
           tabPart.obj_line:SetActive(true)
