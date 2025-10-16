@@ -30,14 +30,13 @@ function ConfigManager.GetDataById(strName, strId, nocheck)
     WakeTable[strName] = {}
   end
   if WakeTable[strName][strId] == nil then
-    local configPath = './config/' .. strName .. '/' .. strId .. '.json'
-    log("[Config] Reading: " .. configPath)
+    log(string.format("[Config] Reading: %s/%s", strName, strId))
     local strJson = SQLiteConfigManager.Instance:GetJsonData(strName, tostring(strId))
     local table = cjson.decode(strJson)
     WakeTable[strName][strId] = table
   end
   if WakeTable[strName][strId] == nil and not nocheck then
-    logError("\229\164\167\230\166\130\231\142\135\230\152\175\231\173\150\229\136\146\233\133\141\231\189\174\233\151\174\233\162\152, can not find id:%s in configTable:%s", strId, strName)
+    logError("大概率是策划配置问题, can not find id:%s in configTable:%s", strId, strName)
   end
   return SetReadOnlyMeta(WakeTable[strName][strId])
 end
