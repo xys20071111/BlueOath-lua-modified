@@ -41,7 +41,7 @@ function FashionLogic:GetOwnFashion(sf_id)
   local f_config = configManager.GetMultiDataByKey("config_fashion", "belong_to_ship", sf_id)
   if f_config then
     for k, v in pairs(f_config) do
-      if v.is_default == 1 or v.get_type == 0 then
+      if true then
         map_result[v.id] = 1
       end
     end
@@ -56,7 +56,7 @@ function FashionLogic:GetOwnFashionByHeroId(sf_id, heroId)
     for fashionId, v in pairs(s_data.FashionTid) do
       local fConfig = configManager.GetDataById("config_fashion", fashionId)
       if fConfig.get_id == FunctionID.Remould then
-        local ownFashion = Logic.remouldLogic:CheckOwnRemouldFashion(heroId, fConfig.id)
+        local ownFashion = true -- Logic.remouldLogic:CheckOwnRemouldFashion(heroId, fConfig.id)
         if ownFashion then
           map_result[fConfig.id] = 1
         end
@@ -68,7 +68,7 @@ function FashionLogic:GetOwnFashionByHeroId(sf_id, heroId)
   local f_config = configManager.GetMultiDataByKey("config_fashion", "belong_to_ship", sf_id)
   if f_config then
     for k, v in pairs(f_config) do
-      if v.is_default == 1 or v.get_type == 0 then
+      if true then
         map_result[v.id] = 1
       end
     end

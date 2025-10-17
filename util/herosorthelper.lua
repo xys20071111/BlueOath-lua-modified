@@ -444,6 +444,7 @@ function HeroSortHelper._Sort(tab_heros, sortOrder, descend, custom)
       else
         return state == SortResult.Greater
       end
+      return true
     end
   end)
   return tab_heros

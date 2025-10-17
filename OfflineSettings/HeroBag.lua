@@ -33,7 +33,7 @@ local basicInfo = {
   ArrRemouldEffect = {}
 }
 
-local function genShipInfo(id, shipId, level, isMarried)
+local function genShipInfo(id, shipId, tempId, level, isMarried)
   local MarryTime = 0
   if isMarried then
     MarryTime = os.time()
@@ -41,7 +41,7 @@ local function genShipInfo(id, shipId, level, isMarried)
   return setmetatable({
     HeroId = id,
     Fashioning = shipId,     --ss_id，到config_fashion里找
-    TemplateId = shipId * 10 + 1,     --ss_id后面加点啥，一般加个1就行
+    TemplateId = tempId or shipId * 10 + 1,     --ss_id后面加点啥，一般加个1就行
     MarryTime = MarryTime, -- 这个大于0就是已誓约
     Level = level,         -- 等级，下一个也是，不知道为什么有两个
     Lvl = level,
@@ -63,7 +63,7 @@ if not configFile then
 end
 local configData = cjson.decode(configFile:read("a"))
 for i, v in ipairs(configData) do
-  table.insert(heroBag.HeroInfo, genShipInfo(i, v['id'], v['Level'], v['isMarried']))
+  table.insert(heroBag.HeroInfo, genShipInfo(i, v['id'], v['TemplateId'], v['Level'], v['isMarried']))
 end
 configFile:close()
 
