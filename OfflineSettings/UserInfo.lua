@@ -37,7 +37,7 @@ local basicInfo = {
 
 local configFile = io.open("./OfflineData/UserData.json")
 if not configFile then
-  GlobalLogFile:write("没有找到舰娘数据文件，请检查文件是否存在。目标文件: ./OfflineData/UserData.json\n")
+  GlobalLogFile:write("没有找到数据文件，请检查文件是否存在。目标文件: ./OfflineData/UserData.json\n")
   return
 end
 local userData = cjson.decode(configFile:read("a"))
