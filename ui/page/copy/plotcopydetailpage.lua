@@ -128,13 +128,12 @@ function PlotCopyDetailPage:_CreateCopyPlotInfo()
     tabPart.obj_battle:SetActive(copyDesConf.copy_display_type == 1)
     tabPart.im_game:SetActive(copyDesConf.copy_display_type == Copy_Display_Type.MiniGame)
     local copyData = Data.copyData:GetCopyInfoById(levelList[nIndex])
-    tabPart.obj_clear:SetActive(copyData ~= nil and copyData.FirstPassTime ~= 0)
-    tabPart.obj_lock:SetActive(copyData == nil)
+    tabPart.obj_clear:SetActive(true)
+    tabPart.obj_lock:SetActive(false)
     UIHelper.SetImage(tabPart.im_icon, copyDesConf.copy_thumbnail_before)
     tabPart.txt_name.text = copyDesConf.name
     UGUIEventListener.AddButtonOnClick(tabPart.btn_plot.gameObject, function()
-      if copyData == nil then
-        log("level not unlock: " .. levelList[nIndex])
+      if false then
         noticeManager:OpenTipPage(self, UIHelper.GetString(961002))
       else
         self.selectLevel = nIndex
@@ -167,8 +166,8 @@ function PlotCopyDetailPage:_ActCreateCopyPlotInfo()
     tabPart.obj_battle:SetActive(copyDesConf.copy_display_type == 1)
     tabPart.im_game:SetActive(copyDesConf.copy_display_type == Copy_Display_Type.MiniGame)
     local copyData = Data.copyData:GetCopyInfoById(levelList[nIndex])
-    tabPart.obj_clear:SetActive(copyData ~= nil and copyData.FirstPassTime ~= 0)
-    tabPart.obj_lock:SetActive(copyData == nil)
+    tabPart.obj_clear:SetActive(true)
+    tabPart.obj_lock:SetActive(false)
     UIHelper.SetImage(tabPart.im_icon, copyDesConf.copy_thumbnail_before)
     tabPart.txt_name.text = copyDesConf.name
     UGUIEventListener.AddButtonOnClick(tabPart.btn_plot.gameObject, function()
@@ -210,12 +209,13 @@ function PlotCopyDetailPage:_MemoryCreateCopyPlotInfo()
     tabPart.im_game:SetActive(copyDesConf.copy_display_type == Copy_Display_Type.MiniGame)
     local copyData = Data.copyData:GetCopyInfoById(levelList[nIndex])
     local index = PLOT_COPY_MAX * (self.currDisplayPage - 1) + nIndex
-    tabPart.obj_clear:SetActive(index <= achiveIndex)
-    tabPart.obj_lock:SetActive(index > achiveIndex)
+    tabPart.obj_clear:SetActive(true)
+    tabPart.obj_lock:SetActive(false)
     UIHelper.SetImage(tabPart.im_icon, copyDesConf.copy_thumbnail_before)
     tabPart.txt_name.text = copyDesConf.name
     UGUIEventListener.AddButtonOnClick(tabPart.btn_plot.gameObject, function()
-      if index > achiveIndex then
+      -- if index > achiveIndex then
+      if false then
         noticeManager:OpenTipPage(self, UIHelper.GetString(500002))
       else
         self.selectLevel = nIndex
