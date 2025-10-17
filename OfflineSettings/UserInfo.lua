@@ -1,10 +1,7 @@
-local userInfo = {
-  Uid = 10001,
-  Uname = "Test123", -- 昵称
-  OrderRecord = {},
-  Level = 100,
+local cjson = require('cjson')
+
+local basicInfo = {
   Exp = 100,
-  SecretaryId = 1, -- 秘书舰，填HeroBag里的HeroId
   -- 各种游戏币的信息
   Gold = 5000,
   Diamond = 5000,
@@ -27,7 +24,24 @@ local userInfo = {
   TeacherPrestige = 5000,
   BattlePassExp = 5000,
   BattlePassGold = 5000,
-  PvePt = 1,
+  PvePt = 5
 }
+-- local userInfo = {
+--   Uid = 10001,
+--   Uname = "Test123", -- 昵称
+--   OrderRecord = {},
+--   Level = 100,
+--   Exp = 100,
+--   SecretaryId = 1, -- 秘书舰，填HeroBag里的HeroId
+-- }
+
+local configFile = io.open("./OfflineData/UserData.json")
+if not configFile then
+  GlobalLogFile:write("没有找到舰娘数据文件，请检查文件是否存在。目标文件: ./OfflineData/UserData.json\n")
+  return
+end
+local userData = cjson.decode(configFile:read("a"))
+local userInfo = setmetatable(userData, {__index = basicInfo})
+configFile:close()
 
 return userInfo

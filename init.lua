@@ -1,7 +1,6 @@
--- 该文件不会被读取
--- 从 system.hotupdate 进行修改
-
 isDebug = false
+-- 加载离线版全局设置
+require("GlobalSettings")
 require("system.hotupdate")
 require("util.ReadOnlyMeta")
 require("unity_api")
