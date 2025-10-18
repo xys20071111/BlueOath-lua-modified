@@ -14,6 +14,7 @@ local basicInfo = {
     { PSkillId = 10631, PSkillExp = 10, Level = 10 },
     { PSkillId = 10633, PSkillExp = 10, Level = 10 }
   },
+  EquipEffects = {}, -- 装备特效？
   -- 剩下的参数的作用我就不清楚了
   Rank = 5,  -- 星级或阶级
   Skills = { -- 技能列表
