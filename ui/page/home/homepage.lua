@@ -163,6 +163,7 @@ function HomePage:DoOnOpen()
   eventManager:SendEvent(LuaEvent.IsCloseHomeGirl, false)
   self:_SetSecretary()
   -- self:_CorSignCheck()
+  self:_PlayLoginAnim()
   -- self:_RegisterActSSRRedDot()
   eventManager:SendEvent(LuaEvent.PlayNewYearEff)
 end
@@ -408,8 +409,10 @@ function HomePage:_PlayWaitAnim()
 end
 
 function HomePage:_PlayLoginAnim()
+  log("HomePage:_PlayLoginAnim")
   local firstOpen = self.bFirstLogin and self.bInitPage
   if firstOpen then
+    log("HomePage:_PlayLoginAnim 1")
     eventManager:SendEvent(LuaEvent.PlayLoginAnim)
   end
   self.bFirstLogin = false
