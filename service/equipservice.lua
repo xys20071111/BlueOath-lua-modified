@@ -13,7 +13,7 @@ function EquipService:_InitHandlers()
 end
 
 function EquipService:SendDismantleEquip(tabEquipId)
-  local args = {ConsumeIds = tabEquipId}
+  local args = { ConsumeIds = tabEquipId }
   args = dataChangeManager:LuaToPb(args, equip_pb.TEQUIPDISMANTLEARGS)
   self:SendNetEvent("equip.Dismantle", args)
 end
@@ -31,7 +31,7 @@ function EquipService:_DismantleRes(ret, state, err, errmsg)
 end
 
 function EquipService:SendRiseStar(equipId, tabSelectId)
-  local args = {EquipId = equipId, ConsumeIds = tabSelectId}
+  local args = { EquipId = equipId, ConsumeIds = tabSelectId }
   args = dataChangeManager:LuaToPb(args, equip_pb.TEQUIPRISESTARARGS)
   self:SendNetEvent("equip.RiseStar", args)
 end
@@ -49,7 +49,7 @@ function EquipService:SendEnhance(equipId, itemId, itemNum)
   local param = {}
   param.EquipId = equipId
   param.ItemArr = {
-    {TemplateId = itemId, ItemNum = itemNum}
+    { TemplateId = itemId, ItemNum = itemNum }
   }
   local args = dataChangeManager:LuaToPb(param, equip_pb.TEQUIPENHANCEARGS)
   Service.equipService:SendNetEvent("equip.Enhance", args, equipId)
@@ -68,7 +68,7 @@ function EquipService:SendEnhanceBind(equipId, itemId, itemNum)
   local param = {}
   param.EquipId = equipId
   param.ItemArr = {
-    {TemplateId = itemId, ItemNum = itemNum}
+    { TemplateId = itemId, ItemNum = itemNum }
   }
   local args = dataChangeManager:LuaToPb(param, equip_pb.TEQUIPENHANCEARGS)
   Service.equipService:SendNetEvent("equip.EnhanceBind", args, equipId)
@@ -83,13 +83,9 @@ function EquipService:_EnhanceBind(ret, state, err, errmsg)
 end
 
 function EquipService:_UpdateEquipInfo(ret, state, err, errmsg)
-  if err == 0 then
-    local info = dataChangeManager:PbToLua(ret, equip_pb.TEQUIPLIST)
-    Data.equipData:UpdateEquip(info)
-    self:SendLuaEvent(LuaEvent.UpdateEquipMsg)
-  else
-    logError("UpdateEquipInfo err" .. err)
-  end
+  local info = ret
+  Data.equipData:UpdateEquip(info)
+  self:SendLuaEvent(LuaEvent.UpdateEquipMsg)
 end
 
 return EquipService

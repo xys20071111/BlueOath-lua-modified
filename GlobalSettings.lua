@@ -15,6 +15,8 @@ local activity = require("OfflineSettings.ActivityInfo")
 local copyInfo = require("OfflineSettings.CopyInfo")
 local fleetInfo = require("OfflineSettings.FleetInfo")
 local buildingInfo = require("OfflineSettings.BuildingInfo")
+local equipInfo = require("OfflineSettings.EquipInfo")
+local illustrateInfo = require("OfflineSettings.IllustrateInfo")
 
 GlobalSettings = {
   uid = userInfo.Uid,
@@ -24,5 +26,7 @@ GlobalSettings = {
   userInfo = userInfo,
   copyInfo = copyInfo,
   fleetInfo = fleetInfo,
-  buildingInfo = buildingInfo
+  buildingInfo = buildingInfo,
+  equipInfo = equipInfo,
+  illustrateInfo = illustrateInfo
 }

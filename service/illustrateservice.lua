@@ -90,12 +90,8 @@ function IllustrateService:_AddBehaviour(ret, state, err, errmsg)
 end
 
 function IllustrateService:_IllustrateInfo(ret, state, err, errmsg)
-  if err ~= 0 then
-    logError("get task info err:" .. errmsg)
-    return
-  end
   if ret ~= nil then
-    local args = dataChangeManager:PbToLua(ret, illustrate_pb.TILLUSTRATEINFORET)
+    local args = ret
     Data.illustrateData:SetIllustrateData(args)
     Data.wishData:UpdateWishHero()
     self:SendLuaEvent(LuaEvent.UpdataIllustrateList, args)

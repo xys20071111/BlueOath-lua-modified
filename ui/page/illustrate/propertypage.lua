@@ -66,24 +66,11 @@ function PropertyPage:_ShowSubTitle(illustrateId, subtitleConfig, obj, trans)
       indexName = indexName + 1
     end
     UGUIEventListener.AddButtonOnClick(tabPart.btn_subtitle, function()
-      local shipName = Data.illustrateData:GetIllustrateById(illustrateId).Name
-      local dotinfo = {
-        info = "ui_handbook_dialogue",
-        ship_name = shipName,
-        behavior_name = config.behaviour_name,
-        open_state = open_state[unlock],
-        type = ship_2d3d_state[Logic.illustrateLogic:GetIs3D()]
+      local param = {
+        behName = config.behaviour_name,
+        id = subtitleConfig[index]
       }
-      RetentionHelper.Retention(PlatformDotType.uilog, dotinfo)
-      if not unlock then
-        noticeManager:ShowTip(UIHelper.GetString(500000))
-      else
-        local param = {
-          behName = config.behaviour_name,
-          id = subtitleConfig[index]
-        }
-        eventManager:SendEvent(LuaEvent.PlayBehaviour, param)
-      end
+      eventManager:SendEvent(LuaEvent.PlayBehaviour, param)
     end)
   end)
 end

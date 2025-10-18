@@ -147,13 +147,14 @@ function IllustrateData:UpdateHero(datas, server)
       item.GetTime = 0
       item.LikeTime = 0
       item.NewHero = false
-      if IllustrateShow.OPEN == config.show_state then
-        item.IllustrateState = IllustrateState.LOCK
-      elseif IllustrateShow.CLOSE == config.show_state then
-        item.IllustrateState = IllustrateState.CLOSE
-      elseif IllustrateShow.TIMEAFTER == config.show_state then
-        item.IllustrateState = checkClose(config.show_state, config.activatetime) and IllustrateState.CLOSE or IllustrateState.LOCK
-      end
+      item.IllustrateState = IllustrateState.UNLOCK
+      -- if IllustrateShow.OPEN == config.show_state then
+      --   item.IllustrateState = IllustrateState.LOCK
+      -- elseif IllustrateShow.CLOSE == config.show_state then
+      --   item.IllustrateState = IllustrateState.CLOSE
+      -- elseif IllustrateShow.TIMEAFTER == config.show_state then
+      --   item.IllustrateState = checkClose(config.show_state, config.activatetime) and IllustrateState.CLOSE or IllustrateState.LOCK
+      -- end
       item.BehaviourList = {}
       item.MarryCount = 0
       local shipInfoConfig = Logic.shipLogic:GetShipInfoBySiId(id)
