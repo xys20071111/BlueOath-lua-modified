@@ -21,6 +21,7 @@ local illustrateInfo = require("OfflineSettings.IllustrateInfo")
 GlobalSettings = {
   uid = userInfo.Uid,
   firstLogin = false,
+  NoHX = true,
   heroBag = heroBag,
   activity = activity,
   userInfo = userInfo,
