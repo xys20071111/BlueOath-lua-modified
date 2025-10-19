@@ -1,6 +1,7 @@
 local cjson = require('cjson')
 
 local basicInfo = {
+  HeadShow = 1,
   Exp = 100,
   -- 各种游戏币的信息
   Gold = 5000,

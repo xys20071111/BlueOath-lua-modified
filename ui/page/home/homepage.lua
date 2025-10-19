@@ -409,10 +409,8 @@ function HomePage:_PlayWaitAnim()
 end
 
 function HomePage:_PlayLoginAnim()
-  log("HomePage:_PlayLoginAnim")
   local firstOpen = self.bFirstLogin and self.bInitPage
   if firstOpen then
-    log("HomePage:_PlayLoginAnim 1")
     eventManager:SendEvent(LuaEvent.PlayLoginAnim)
   end
   self.bFirstLogin = false
@@ -677,7 +675,9 @@ function HomePage:_ReverseMask(tween_girlMask)
   }
   RetentionHelper.OtherEndAllBehaviour()
   local isMarry = false
-  if tabUserInfo.HeadShow and tabUserInfo.HeadShow == 1 then
+  -- 原版的代码加现在的用户数据会导致一律播放誓约后动画
+  -- 所以改成从herobag里读一下是否结婚了
+  if GlobalSettings.heroBag[GlobalSettings.userInfo.SecretaryId].MarryTime > 0 then
     isMarry = true
   end
   eventManager:SendEvent(LuaEvent.IsMarry, isMarry)
