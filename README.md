@@ -66,7 +66,7 @@
 |-------|----|
 |scenes/cj_tds_001|白天|
 |scenes/cj_tds_002|黄昏|
-|scenes/cj_tds_001|夜晚|
+|scenes/cj_tds_003|夜晚|
 |scenes/cj_zjm_001|旧版白天|
 |scenes/cj_zjm_002|旧版黄昏|
 |scenes/cj_zjm_003|旧版夜晚|
