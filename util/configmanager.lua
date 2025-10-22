@@ -32,7 +32,7 @@ function ConfigManager.GetDataById(strName, strId, nocheck)
   if WakeTable[strName][strId] == nil then
     log(string.format("[Config] Reading: ./clsy_Data/StreamingAssets/config/%s/%s.json", strName, strId))
     local strJson = SQLiteConfigManager.Instance:GetJsonData(strName, tostring(strId))
-    if GlobalSettings.NoHX then
+    if GlobalSettings.userSettings.NoHX then
       -- 剧情立绘反和谐方案
       strJson = string.gsub(strJson, "_hx", "")
     end

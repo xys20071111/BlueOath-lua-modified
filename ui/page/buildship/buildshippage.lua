@@ -137,6 +137,7 @@ local tweenParam = {
 }
 
 function BuildShipPage:DoInit()
+  Data.buildShipData:SetData(GlobalSettings.gachaInfo)
   self.selectTog = -1
   self.buildConfigInfo = nil
   self.offsetY = 0
@@ -166,7 +167,7 @@ end
 
 function BuildShipPage:DoOnOpen()
   self.uid = Data.userData:GetUserUid()
-  self:OpenTopPage("BuildShipPage", 1, "\230\142\162\231\180\162", self, false)
+  self:OpenTopPage("BuildShipPage", 1, "探索", self, false)
   eventManager:SendEvent(LuaEvent.TopUpdateCurrency, {
     {5, 2},
     {
@@ -383,43 +384,40 @@ function BuildShipPage:_DoClickBuildOne()
 end
 
 function BuildShipPage:_ClickBuild()
-  if not self:_CheckExpend() then
-    return
-  end
-  if not self:CheckStatus() then
-    return
-  end
-  if self.buildConfigInfo.extract_type == ExtractType.SHIP or self.buildConfigInfo.extract_type == ExtractType.LIMIT_SHIP then
-    local canBuild = Logic.rewardLogic:CanGotShip(self.buildNum)
-    if not canBuild then
-      return
-    end
-    RetentionHelper.SkipAllBehaviour()
-    eventManager:SendEvent(LuaEvent.HomeResetModel)
-    eventManager:SendEvent(LuaEvent.HomeTimerStop)
-    SoundManager.Instance:PlayMusic("System|Laochuan")
-    self.m_tabWidgets.obj_map:SetActive(true)
-    self.m_tabWidgets.obj_close:SetActive(true)
-    UIHelper.SetImage(self.m_tabWidgets.img_map, self.buildConfigInfo.explore_image[self.dispLv])
-    UIHelper.SetImage(self.m_tabWidgets.img_tenBg, self.buildConfigInfo.explore_image[self.dispLv])
-    eventManager:SendEvent(LuaEvent.GuideTriggerPoint, TRIGGER_TYPE.INTO_Tsansuo_MAP)
-  elseif self.buildConfigInfo.extract_type == ExtractType.EQUIP then
-    local needNum = self.buildNum
-    local canBuild = Logic.rewardLogic:CanGotEquip(needNum)
-    if not canBuild then
-      return
-    end
-    self.mDrawEquip = true
-    Service.cacheDataService:SendCacheData("buildship.BuildShip")
-  elseif self.buildConfigInfo.extract_type == ExtractType.FASHION then
-    Service.cacheDataService:SendCacheData("buildship.BuildShip")
-  else
-    return
-  end
-  local dotInfo = {
-    info = "ui_explore_map"
-  }
-  RetentionHelper.Retention(PlatformDotType.uilog, dotInfo)
+  -- if not self:_CheckExpend() then
+  --   return
+  -- end
+  -- if not self:CheckStatus() then
+  --   return
+  -- end
+  noticeManager:ShowTip("此功能尚未实现")
+  -- if self.buildConfigInfo.extract_type == ExtractType.SHIP or self.buildConfigInfo.extract_type == ExtractType.LIMIT_SHIP then
+  --   local canBuild = Logic.rewardLogic:CanGotShip(self.buildNum)
+  --   if not canBuild then
+  --     return
+  --   end
+  --   RetentionHelper.SkipAllBehaviour()
+  --   eventManager:SendEvent(LuaEvent.HomeResetModel)
+  --   eventManager:SendEvent(LuaEvent.HomeTimerStop)
+  --   SoundManager.Instance:PlayMusic("System|Laochuan")
+  --   self.m_tabWidgets.obj_map:SetActive(true)
+  --   self.m_tabWidgets.obj_close:SetActive(true)
+  --   UIHelper.SetImage(self.m_tabWidgets.img_map, self.buildConfigInfo.explore_image[self.dispLv])
+  --   UIHelper.SetImage(self.m_tabWidgets.img_tenBg, self.buildConfigInfo.explore_image[self.dispLv])
+  --   eventManager:SendEvent(LuaEvent.GuideTriggerPoint, TRIGGER_TYPE.INTO_Tsansuo_MAP)
+  -- elseif self.buildConfigInfo.extract_type == ExtractType.EQUIP then
+  --   local needNum = self.buildNum
+  --   local canBuild = Logic.rewardLogic:CanGotEquip(needNum)
+  --   if not canBuild then
+  --     return
+  --   end
+  --   self.mDrawEquip = true
+  --   Service.cacheDataService:SendCacheData("buildship.BuildShip")
+  -- elseif self.buildConfigInfo.extract_type == ExtractType.FASHION then
+  --   Service.cacheDataService:SendCacheData("buildship.BuildShip")
+  -- else
+  --   return
+  -- end
 end
 
 function BuildShipPage:buildEquipRetention()
@@ -461,10 +459,6 @@ end
 
 function BuildShipPage:_BuildShipCacheDataRet(ret)
   self.orderId = ret
-  local dotInfo = {
-    info = "ui_explore_seek"
-  }
-  RetentionHelper.Retention(PlatformDotType.uilog, dotInfo)
   UIHelper.SetUILock(true)
   local vector2Pos = UIHelper.GetAdapt2DPosition(Vector2.New(self.originalX, self.originalY))
   self.m_tabWidgets.obj_target.transform.localPosition = Vector3.New(vector2Pos.x, vector2Pos.y, 0)
@@ -693,10 +687,6 @@ function BuildShipPage:_ShowShip(serverRet)
   Logic.buildShipLogic:SetDisplay(true)
   Logic.buildShipLogic:DisposeCardQuality(self.allShip)
   Logic.buildShipLogic:SetHaveSSR(self.allShip, ExtractType.SHIP)
-  local dotUIInfo = {
-    info = "ui_explore_get"
-  }
-  RetentionHelper.Retention(PlatformDotType.uilog, dotUIInfo)
   UIHelper.SetUILock(false)
   self.m_tabWidgets.tween_girlPos:ResetToBeginning()
   self.m_tabWidgets.tween_girlRot:ResetToBeginning()
@@ -753,19 +743,19 @@ function BuildShipPage:GetEquipRetention(serverRet)
 end
 
 function BuildShipPage:CheckStatus()
-  local isOpen = Logic.buildShipLogic:CheckServerOpenDay(self.buildConfigInfo.id)
-  if not isOpen then
-    noticeManager:OpenTipPage(self, UIHelper.GetString(1110047))
-  else
-    isOpen = Logic.buildShipLogic:CheckActIsOpen(self.buildConfigInfo.id)
-    if not isOpen then
-      noticeManager:OpenTipPage(self, UIHelper.GetString(1001007))
-    end
-  end
-  if not isOpen then
-    self:_ReOpen()
-    return false
-  end
+  -- local isOpen = Logic.buildShipLogic:CheckServerOpenDay(self.buildConfigInfo.id)
+  -- if not isOpen then
+  --   noticeManager:OpenTipPage(self, UIHelper.GetString(1110047))
+  -- else
+  --   isOpen = Logic.buildShipLogic:CheckActIsOpen(self.buildConfigInfo.id)
+  --   if not isOpen then
+  --     noticeManager:OpenTipPage(self, UIHelper.GetString(1001007))
+  --   end
+  -- end
+  -- if not isOpen then
+  --   self:_ReOpen()
+  --   return false
+  -- end
   return true
 end
 

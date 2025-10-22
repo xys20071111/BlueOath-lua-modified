@@ -17,11 +17,12 @@ local fleetInfo = require("OfflineSettings.FleetInfo")
 local buildingInfo = require("OfflineSettings.BuildingInfo")
 local equipInfo = require("OfflineSettings.EquipInfo")
 local illustrateInfo = require("OfflineSettings.IllustrateInfo")
+local gachaInfo = require("OfflineSettings.GachaInfo")
+local userSettings = require('OfflineSettings.UserSettings')
 
 GlobalSettings = {
   uid = userInfo.Uid,
   firstLogin = false,
-  NoHX = true,
   heroBag = heroBag,
   activity = activity,
   userInfo = userInfo,
@@ -29,5 +30,7 @@ GlobalSettings = {
   fleetInfo = fleetInfo,
   buildingInfo = buildingInfo,
   equipInfo = equipInfo,
-  illustrateInfo = illustrateInfo
+  illustrateInfo = illustrateInfo,
+  gachaInfo = gachaInfo,
+  userSettings = userSettings
 }

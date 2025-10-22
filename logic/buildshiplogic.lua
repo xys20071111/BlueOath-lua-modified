@@ -680,7 +680,7 @@ function BuildShipLogic:GetBuildPeriodId(buildInfo)
   local periodId = 0
   for i, v in ipairs(buildInfo.new_period) do
     if #buildInfo.new_period_area[i] ~= 0 then
-      local isOpen = PeriodManager:IsInPeriodArea(buildInfo.new_period[i], buildInfo.new_period_area[i])
+      local isOpen = true -- PeriodManager:IsInPeriodArea(buildInfo.new_period[i], buildInfo.new_period_area[i])
       if isOpen then
         periodId = buildInfo.new_period[i]
         break
@@ -759,9 +759,9 @@ end
 function BuildShipLogic:GetOpenExplore()
   local openExplore = {}
   for _, v in pairs(self.tabBuildConfig) do
-    if self:CheckActIsOpen(v.id) and self:CheckServerOpenDay(v.id) and self:CheckOtherLimit(v) then
+    -- if self:CheckActIsOpen(v.id) and self:CheckServerOpenDay(v.id) and self:CheckOtherLimit(v) then
       table.insert(openExplore, v)
-    end
+    -- end
   end
   table.sort(openExplore, function(data1, data2)
     local dispLv1 = Data.buildShipData:GetDispCount(data1.id)

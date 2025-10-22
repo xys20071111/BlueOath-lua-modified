@@ -59,6 +59,16 @@
 
 - `HeroList`的设置方法同秘书舰，你可以无视原有的人数限制，放入你想放入的舰娘
 
-跳过版本校验的`fake-server`之后会上传
+### 锁定提督室环境
+- 在`UserSettings.json`中添加`HomeScene`条目，以下是可用值与时间的对应关系
+
+|场景名称|时间|
+|-------|----|
+|scenes/cj_tds_001|白天|
+|scenes/cj_tds_002|黄昏|
+|scenes/cj_tds_001|夜晚|
+|scenes/cj_zjm_001|旧版白天|
+|scenes/cj_zjm_002|旧版黄昏|
+|scenes/cj_zjm_003|旧版夜晚|
 
 本仓库仅供学习交流使用

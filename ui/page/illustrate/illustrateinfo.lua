@@ -81,20 +81,14 @@ function IllustrateInfo:DoOnOpen()
   local isOpenAnimoji = Face:IsSupport()
   self.tab_Widgets.btn_animoji.gameObject:SetActive(isOpenAnimoji)
   if self.type == IllustrateType.Picture then
-    self:OpenTopPage("IllustrateInfo", 1, "\229\155\190\233\137\180", self, true)
+    self:OpenTopPage("IllustrateInfo", 1, "图鉴", self, true)
   elseif self.type == IllustrateType.ActivitySSR then
-    self:OpenTopPage("IllustrateInfo", 1, "\229\141\161\230\177\160\228\191\161\230\129\175", self, true)
+    self:OpenTopPage("IllustrateInfo", 1, "卡池信息", self, true)
   end
   self.tab_Widgets.tween_2d:SetOnFinished(function()
     UIHelper.SetUILock(false)
   end)
   self:DoOnOpenInit()
-  local shipName = Data.illustrateData:GetIllustrateById(self.m_illustrateId).Name
-  local dotinfo = {
-    info = "ui_handbook_details",
-    ship_name = shipName
-  }
-  RetentionHelper.Retention(PlatformDotType.uilog, dotinfo)
   local tabParam = {
     zoom = function(param)
       self:__onModeBZoom(param)
@@ -317,7 +311,7 @@ function IllustrateInfo:_ShowRightTag(illustrateState, tagIndex)
   elseif illustrateState == IllustrateState.LOCK then
     widgets.left_tag:SetActiveToggleIndex(rightTag.Discuss)
   else
-    logError("\232\175\165\230\136\152\229\167\172\230\156\170\229\188\128\230\148\190,\230\151\160\229\155\190\233\137\180\228\191\161\230\129\175")
+    logError("该战姬未开放,无图鉴信息")
   end
 end
 

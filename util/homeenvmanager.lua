@@ -132,19 +132,21 @@ function HomeEnvManager:GetHomeScenePath()
   local curHour = curSec / oneHourSec
   local configTab = self.configInfo[sceneType]
   if configTab == nil then
-    logError("\228\184\187\229\156\186\230\153\175\231\142\175\229\162\131\231\179\187\231\187\159\230\178\161\230\156\137\230\137\190\229\136\176\229\189\147\229\137\141\231\177\187\229\158\139\229\175\185\229\186\148\231\154\132\233\133\141\231\189\174,\232\175\183\231\173\150\229\136\146\231\161\174\232\174\164\233\133\141\231\189\174\232\161\168,\229\189\147\229\137\141\231\177\187\229\158\139" .. tostring(sceneType))
+    logError("主场景环境系统没有找到当前类型对应的配置,请策划确认配置表,当前类型" .. tostring(sceneType))
     return
   end
   local length = GetTableLength(configTab)
   local scenesTab = {}
   for i = 1, length do
-    if curHour >= configTab[i].time_frame[1] and curHour <= configTab[i].time_frame[2] and self:_CheckSceneOpen(configTab[i]) then
+    if curHour >= configTab[i].time_frame[1] and curHour <= configTab[i].time_frame[2] and true then
       table.insert(scenesTab, configTab[i])
     end
   end
   local scenePath = "scenes/cj_zjm_001"
-  if #scenesTab < 1 then
-    logError("\228\184\187\229\156\186\230\153\175\231\142\175\229\162\131\231\179\187\231\187\159\230\178\161\230\156\137\230\137\190\229\136\176\229\144\136\233\128\130\231\154\132\228\184\187\229\156\186\230\153\175\239\188\140\232\175\183\231\173\150\229\136\146\231\161\174\232\174\164\233\133\141\231\189\174\232\161\168")
+  if GlobalSettings.userSettings.HomeScene then
+    scenePath = GlobalSettings.userSettings.HomeScene
+  elseif #scenesTab < 1 then
+    logError("主场景环境系统没有找到合适的主场景，请策划确认配置表")
   else
     scenePath = self:_WeightRandom(scenesTab)
   end
@@ -157,7 +159,7 @@ function HomeEnvManager:_CheckSceneOpen(scenesTab)
   if 0 < length then
     for i = 1, length do
       if not scenesTab.restrictive_condition_parameter[i] then
-        logError("\232\175\183\231\173\150\229\136\146\231\161\174\232\174\164home_scene_envir\232\161\168\228\184\173\233\153\144\229\136\182\230\157\161\228\187\182\229\146\140\229\143\130\230\149\176\229\175\185\229\186\148\230\149\176\233\135\143\230\173\163\231\161\174")
+        logError("请策划确认home_scene_envir表中限制条件和参数对应数量正确")
         return true
       end
       if not m_OpenCondition[scenesTab.restrictive_condition_type[i]](scenesTab.restrictive_condition_parameter[i]) then
