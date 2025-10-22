@@ -58,7 +58,7 @@ end
 
 function ActivityBirthdayService:GetBirthdayRefresh(arg, state)
   arg = dataChangeManager:LuaToPb(arg, module_pb.TEMPTYARG)
-  self:SendNetEvent("activitybirthday.BirthdayRefresh", arg, state)
+  -- self:SendNetEvent("activitybirthday.BirthdayRefresh", arg, state)
 end
 
 function ActivityBirthdayService:_GetOpenRefresh(ret, state, err, errmsg)
