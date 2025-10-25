@@ -19,23 +19,23 @@ function PushNoticeManager:_ChangeNoticeSetting(setting)
 end
 
 function PushNoticeManager:_PushNotice(paramList)
-  for key, param in pairs(paramList) do
-    if noticeSetting[param.key] then
-      platformManager:AddLocalNotification(param.key, param.text, param.time, param.repeatTime)
-    else
-      platformManager:CancelLocalNotification(param.key)
-    end
-  end
+  -- for key, param in pairs(paramList) do
+  --   if noticeSetting[param.key] then
+  --     platformManager:AddLocalNotification(param.key, param.text, param.time, param.repeatTime)
+  --   else
+  --     platformManager:CancelLocalNotification(param.key)
+  --   end
+  -- end
 end
 
 function PushNoticeManager:_PushAllNotice()
-  if #noticeSetting == 0 then
-    self:_ChangeNoticeSetting(SettingHelper.GetAllSetting().noticeData)
-  end
-  self:_CancelAllNotice()
-  for key, paramHandler in pairs(noticeParamMap) do
-    self:_PushNotice(paramHandler())
-  end
+  -- if #noticeSetting == 0 then
+  --   self:_ChangeNoticeSetting(SettingHelper.GetAllSetting().noticeData)
+  -- end
+  -- self:_CancelAllNotice()
+  -- for key, paramHandler in pairs(noticeParamMap) do
+  --   self:_PushNotice(paramHandler())
+  -- end
 end
 
 function PushNoticeManager:_CancelAllNotice()

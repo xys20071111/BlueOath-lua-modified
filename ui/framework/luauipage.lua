@@ -66,7 +66,7 @@ function LuaUIPage:DoShow()
   end
   self.param = self.cs_page:GetParam()
   self:RegisterAllEvent()
-  self:autoRegisterRedDot()
+  -- self:autoRegisterRedDot()
   self:__ShowScene()
   self:DoOnOpen()
 end
@@ -93,7 +93,7 @@ end
 
 function LuaUIPage:DoClose()
   self:UnregisterAllEvent()
-  self:UnregisterAllRedDotEvent()
+  -- self:UnregisterAllRedDotEvent()
   self:DestroyAllEffect()
   self:StopAllTimer()
   self:CloseTopPage()
@@ -105,15 +105,15 @@ function LuaUIPage:RegisterAllEvent()
 end
 
 function LuaUIPage:autoRegisterRedDot()
-  local redDotTable = self.cs_page:GetRedDotList()
-  if not redDotTable then
-    return
-  end
-  for i, redDot in pairs(redDotTable) do
-    if redDot and redDot.autoRegister then
-      self:RegisterRedDot(redDot)
-    end
-  end
+  -- local redDotTable = self.cs_page:GetRedDotList()
+  -- if not redDotTable then
+  --   return
+  -- end
+  -- for i, redDot in pairs(redDotTable) do
+  --   if redDot and redDot.autoRegister then
+  --     self:RegisterRedDot(redDot)
+  --   end
+  -- end
 end
 
 function LuaUIPage:RegisterEvent(eventId, funcCallback)
@@ -144,28 +144,28 @@ function LuaUIPage:UnregisterAllEvent()
 end
 
 function LuaUIPage:UnregisterAllRedDotEvent()
-  for id, v in pairs(self.redDot_eventHandlers) do
-    self:UnRegisterRedDotById(id)
-  end
-  self.redDot_eventHandlers = {}
+  -- for id, v in pairs(self.redDot_eventHandlers) do
+  --   self:UnRegisterRedDotById(id)
+  -- end
+  -- self.redDot_eventHandlers = {}
 end
 
 function LuaUIPage:UnRegisterRedDotById(id)
-  local redDotEventTbl = self.redDot_eventHandlers[id]
-  if redDotEventTbl then
-    for index, funcCallback in pairs(redDotEventTbl) do
-      self:UnregisterEvent(funcCallback[1], funcCallback[2])
-    end
-  end
-  self.redDot_eventHandlers[id] = {}
+  -- local redDotEventTbl = self.redDot_eventHandlers[id]
+  -- if redDotEventTbl then
+  --   for index, funcCallback in pairs(redDotEventTbl) do
+  --     self:UnregisterEvent(funcCallback[1], funcCallback[2])
+  --   end
+  -- end
+  -- self.redDot_eventHandlers[id] = {}
 end
 
 function LuaUIPage:RegisterRedDotEvent(id, eventId, funcCallback)
-  if self.redDot_eventHandlers[id] == nil then
-    self.redDot_eventHandlers[id] = {}
-  end
-  table.insert(self.redDot_eventHandlers[id], {eventId, funcCallback})
-  eventManager:RegisterEvent(eventId, funcCallback, self)
+  -- if self.redDot_eventHandlers[id] == nil then
+  --   self.redDot_eventHandlers[id] = {}
+  -- end
+  -- table.insert(self.redDot_eventHandlers[id], {eventId, funcCallback})
+  -- eventManager:RegisterEvent(eventId, funcCallback, self)
 end
 
 function LuaUIPage:OpenSubPage(pageName, param)
@@ -326,17 +326,17 @@ function LuaUIPage:DoOnClose()
 end
 
 function LuaUIPage:RegisterRedDotByParamList(redDot, redDotIdList, redDotParamList)
-  redDot:SetKeys(redDotIdList)
-  redDotManager:RegisterRedDotByParamList(self, redDot, redDotParamList)
+  -- redDot:SetKeys(redDotIdList)
+  -- redDotManager:RegisterRedDotByParamList(self, redDot, redDotParamList)
 end
 
 function LuaUIPage:RegisterRedDotById(redDot, redDotIdList, ...)
-  redDot:SetKeys(redDotIdList)
-  self:RegisterRedDot(redDot, ...)
+--   redDot:SetKeys(redDotIdList)
+--   self:RegisterRedDot(redDot, ...)
 end
 
 function LuaUIPage:RegisterRedDot(redDot, ...)
-  redDotManager:RegisterRedDot(self, redDot, ...)
+  -- redDotManager:RegisterRedDot(self, redDot, ...)
 end
 
 function LuaUIPage:SetDesignatedObjEnable(enable)

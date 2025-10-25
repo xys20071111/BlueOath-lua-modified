@@ -128,10 +128,6 @@ function HomePage:DoOnOpen()
   Logic.copyLogic:SetCopySign(EnterCopySign.Home)
   self:_UpdateRedDot()
   self:_PlayerData()
-  local dotInfo = {
-    info = "ui_main_scene"
-  }
-  RetentionHelper.Retention(PlatformDotType.uilog, dotInfo)
   local updateModule = moduleManager:OpenPageOpenModule()
   if updateModule ~= nil then
     moduleManager:SetOpenPageUpdateModule(nil)
@@ -147,7 +143,8 @@ function HomePage:DoOnOpen()
   if self.m_tabWidgets.obj_hide.activeSelf then
     actEnter:_CreateBanner()
   end
-  self:Refresh()
+  -- Refresh需要舰队信息，可是找不到去哪里写入，先注释掉吧
+  -- self:Refresh()
   self:BuildSuccess()
   self.m_tabWidgets.btn_announcement.gameObject:SetActive(false)
   announcementManager:EnableAnnouncement()
@@ -506,9 +503,9 @@ function HomePage:_CreateLeft(cur)
       local funConfig = configManager.GetDataById("config_function_info", tostring(functionId))
       local redDotIdList = funConfig.focus
       if redDotIdList and 0 < #redDotIdList then
-        self:RegisterRedDotById(tabPart.red_dot, redDotIdList)
+        -- self:RegisterRedDotById(tabPart.red_dot, redDotIdList)
       end
-      self:SetBuildRed(functionId, tabPart)
+      -- self:SetBuildRed(functionId, tabPart)
       local item = homeFunItem:new()
       item:Init(self, tabPart, nIndex, fifterShowTag[nIndex])
     end)
@@ -518,9 +515,9 @@ function HomePage:_CreateLeft(cur)
       local funConfig = configManager.GetDataById("config_function_info", tostring(functionId))
       local redDotIdList = funConfig.focus
       if redDotIdList and 0 < #redDotIdList then
-        self:RegisterRedDotById(tabPart.redDot, redDotIdList)
+        -- self:RegisterRedDotById(tabPart.redDot, redDotIdList)
       end
-      self:SetBuildRed(functionId, tabPart)
+      -- self:SetBuildRed(functionId, tabPart)
       if self.m_bSelectLeft and cur == nIndex and tonumber(functionId) ~= FunctionID.BuildShip then
         tabPart.tween_pos:Play(true)
         tabPart.obj_line:SetActive(true)

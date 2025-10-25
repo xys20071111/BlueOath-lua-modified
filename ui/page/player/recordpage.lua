@@ -446,12 +446,8 @@ function RecordPage:_UpdateUserData()
 end
 
 function RecordPage:_SetFinish()
-  local tabInfo = Logic.homeLogic:GetSecretaryInfo()
-  if tabInfo ~= nil then
-    RetentionHelper.Retention(PlatformDotType.secretary, tabInfo)
-  end
   Logic.homeLogic:SetChangeGirl(true)
-  noticeManager:OpenTipPage(self, "\231\167\152\228\185\166\232\136\176\230\155\180\230\141\162\230\136\144\229\138\159")
+  noticeManager:OpenTipPage(self, "秘书舰更换成功")
 end
 
 function RecordPage:_ChangeScene()

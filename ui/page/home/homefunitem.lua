@@ -37,9 +37,9 @@ function HomeFunItem:_SetFunDisplay(funId, part)
   local funConfig = configManager.GetDataById("config_function_info", tostring(funId))
   UIHelper.SetImage(part.image_fun, funConfig.icon, true)
   local redDotIdList = funConfig.focus
-  if redDotIdList and 0 < #redDotIdList then
-    self.page:RegisterRedDotById(part.redDot, redDotIdList)
-  end
+  -- if redDotIdList and 0 < #redDotIdList then
+  --   self.page:RegisterRedDotById(part.redDot, redDotIdList)
+  -- end
   part.txt_iconName.text = funConfig.name
   if not moduleManager:CheckFunc(funId, false) then
     part.obj_lock:SetActive(funConfig.icon_Lock == 1)
@@ -64,9 +64,9 @@ function HomeFunItem:_SetModuleFunDisplay(funId, part)
   local funConfig = configManager.GetDataById("config_function_info", tostring(funId))
   UIHelper.SetImage(part.im_icon, funConfig.icon, true)
   local redDotIdList = funConfig.focus
-  if redDotIdList and 0 < #redDotIdList then
-    self.page:RegisterRedDotById(part.redDot, redDotIdList)
-  end
+  -- if redDotIdList and 0 < #redDotIdList then
+  --   self.page:RegisterRedDotById(part.redDot, redDotIdList)
+  -- end
   UIHelper.SetText(part.tx_name, funConfig.name)
   if not moduleManager:CheckFunc(funId, false) then
     part.obj_lock:SetActive(funConfig.icon_Lock == 1)

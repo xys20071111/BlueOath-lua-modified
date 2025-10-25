@@ -226,24 +226,6 @@ function LoginLogic:_CreateSuccess(msg)
 end
 
 function LoginLogic:_LoginOk()
-  local seacopyId = Data.copyData:GetFarestSeaCopyId()
-  local plotcopyId = Data.copyData:GetFarestPlotCopyId()
-  local dailyMax = Logic.dailyCopyLogic:GetDailyCopyInfo()
-  local towerInfo = Data.towerData:GetTowerDetail()
-  local dotInfo = {
-    info = "ui_user_login",
-    plot_max = plotcopyId,
-    sea_max = seacopyId,
-    daily_max = dailyMax,
-    tower_info = towerInfo
-  }
-  local chapterTypeConfig = configManager.GetData("config_chapter_type")
-  for key, config in pairs(chapterTypeConfig) do
-    if config.dot_key ~= "" then
-      dotInfo[config.dot_key] = Data.copyData:GetFarestCopyId(key)
-    end
-  end
-  RetentionHelper.Retention(PlatformDotType.copyMaxLog, dotInfo)
   self.loginOk = true
   self.loginConnected = true
   announcementManager:GetAnnouncementState()
