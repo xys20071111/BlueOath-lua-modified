@@ -1,6 +1,7 @@
 local require = require
 local string = string
 local table = table
+local GlobalLogFile = io.open("./log.txt", "w")
 
 function string.split(input, delimiter)
   input = tostring(input)

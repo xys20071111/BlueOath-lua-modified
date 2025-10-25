@@ -31,6 +31,7 @@ function ConfigManager.GetDataById(strName, strId, nocheck)
   end
   if WakeTable[strName][strId] == nil then
     local strJson = SQLiteConfigManager.Instance:GetJsonData(strName, tostring(strId))
+    strJson = string.gsub(strJson, "_hx", "")
     local table = cjson.decode(strJson)
     WakeTable[strName][strId] = table
   end
