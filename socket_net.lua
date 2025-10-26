@@ -96,7 +96,8 @@ function Socket.OnReceived(handle, method, time, errcode, errmsg, seq, isRespons
   end
   local pbType = types[method]
   if pbType == nil then
-    listener.handler(listener.target, nil, state, errcode, errmsg)
+    -- 这样就能强行写入一些东西了
+    listener.handler(listener.target, payload, state, errcode, errmsg)
   elseif payload == nil then
     log("OnReceived: payload is nil")
     listener.handler(listener.target, nil, state, errcode, errmsg)

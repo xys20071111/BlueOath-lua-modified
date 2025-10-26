@@ -1,4 +1,5 @@
 local FleetService = class("servic.FleetService", Service.BaseService)
+local cjson = require("cjson")
 
 function FleetService:initialize()
   self:_InitHandlers()
@@ -7,6 +8,17 @@ end
 function FleetService:_InitHandlers()
   self:BindEvent("tactic.SetHerosTactic", self._SetHerosTactic, self)
   self:BindEvent("tactic.GetHerosTactic", self._GetHerosTactic, self)
+  self:BindEvent("tactic.custom.ForceWriteFleetInfo", self._ForceWriteFleetInfo, self)
+end
+
+function FleetService:_ForceWriteFleetInfo(ret, state, err, errmsg)
+  if err ~= 0 then
+    logError("Cannot write fleet info" .. errmsg)
+  else
+    local info = cjson.decode(ret) -- dataChangeManager:PbToLua(ret, tactic_pb.TSELFTACTIS)
+    Data.fleetData:SetData(info)
+    self:SendLuaEvent(LuaEvent.SetFleetMsg)
+  end
 end
 
 function FleetService:SendSetFleet(arg)
