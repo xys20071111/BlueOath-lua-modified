@@ -143,8 +143,7 @@ function HomePage:DoOnOpen()
   if self.m_tabWidgets.obj_hide.activeSelf then
     actEnter:_CreateBanner()
   end
-  -- Refresh需要舰队信息，可是找不到去哪里写入，先注释掉吧
-  -- self:Refresh()
+  self:Refresh()
   self:BuildSuccess()
   self.m_tabWidgets.btn_announcement.gameObject:SetActive(false)
   announcementManager:EnableAnnouncement()
