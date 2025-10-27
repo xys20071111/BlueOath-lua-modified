@@ -1,7 +1,9 @@
 local IllustrateService = class("service.IllustrateService", Service.BaseService)
+local cjson = require("cjson")
 
 function IllustrateService:initialize()
   self:BindEvent("illustrate.IllustrateInfo", self._IllustrateInfo, self)
+  self:BindEvent("illustrate.custom.IllustrateInfo", self._ForceWriteIllustrateInfo, self)
   self:BindEvent("illustrate.IllustrateNew", self._IllustrateNew, self)
   self:BindEvent("illustrate.OldIllustrateInfo", self._OldIllustrateInfo, self)
   self:BindEvent("illustrate.AddBehaviour", self._AddBehaviour, self)
@@ -96,6 +98,26 @@ function IllustrateService:_IllustrateInfo(ret, state, err, errmsg)
   end
   if ret ~= nil then
     local args = dataChangeManager:PbToLua(ret, illustrate_pb.TILLUSTRATEINFORET)
+    Data.illustrateData:SetIllustrateData(args)
+    Data.wishData:UpdateWishHero()
+    self:SendLuaEvent(LuaEvent.UpdataIllustrateList, args)
+    if Logic.loginLogic:GetLoginOK() == true then
+      local noticeParam = Logic.illustrateLogic:GetPushNoticeParams(args.VowCoolTime)
+      self:SendLuaEvent(LuaEvent.PushNotice, noticeParam)
+    end
+    if args.UseInfo ~= nil then
+      self:SendLuaEvent(LuaEvent.WISH_ItemCountRefresh)
+    end
+  end
+end
+
+function IllustrateService:_ForceWriteIllustrateInfo(ret, state, err, errmsg)
+  if err ~= 0 then
+    logError("get task info err:" .. errmsg)
+    return
+  end
+  if ret ~= nil then
+    local args = cjson.decode(ret)
     Data.illustrateData:SetIllustrateData(args)
     Data.wishData:UpdateWishHero()
     self:SendLuaEvent(LuaEvent.UpdataIllustrateList, args)
