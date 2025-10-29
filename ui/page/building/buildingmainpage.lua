@@ -33,7 +33,7 @@ function BuildingMainPage:DoInit()
 end
 
 function BuildingMainPage:DoOnOpen()
-  self:OpenTopPage("BuildingMainPage", 1, "\229\159\186\229\187\186", self, true)
+  self:OpenTopPage("BuildingMainPage", 1, "基建", self, true)
   Logic.buildingLogic:UpdateBuildings(false)
   Logic.chatLogic:InitLockedEmoji()
   self.timerTxts = {}

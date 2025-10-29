@@ -13,7 +13,7 @@ function Building2DDetailPage:DoInit()
 end
 
 function Building2DDetailPage:DoOnOpen()
-  self:OpenTopPage("Building2DDetailPage", 1, "\232\175\166\230\131\133", self, true, function()
+  self:OpenTopPage("Building2DDetailPage", 1, "详情", self, true, function()
     self:_OnBack()
   end)
   local widgets = self:GetWidgets()
@@ -30,11 +30,12 @@ function Building2DDetailPage:DoOnOpen()
   self.choosedRecipe_composeId = 0
   self.produceComposeCount = 0
   self.produceCount = self:GetProduceCount()
-  self.selectedIndex = 0
+  self.selectedIndex = 1
   self.composeMaxNum = 99
   local buildings = Data.buildingData:GetBuildingsByType(self.buildingCfg.type)
   self:BtnSelectedArrAdd()
   local index = Logic.buildingLogic:GetDetailTabIndex()
+  log("Building2DDetailPage:DoOnOpen 6")
   if index then
     self.selectedIndex = index
   else
@@ -175,9 +176,9 @@ function Building2DDetailPage:_OnClickBuild(index)
 end
 
 function Building2DDetailPage:CheckComposeReddot()
-  local showDot = Logic.redDotLogic.FactoryItemIsClicked()
-  local widgets = self:GetWidgets()
-  widgets.compose_reddot:SetActive(showDot)
+  -- local showDot = Logic.redDotLogic.FactoryItemIsClicked()
+  -- local widgets = self:GetWidgets()
+  -- widgets.compose_reddot:SetActive(showDot)
 end
 
 function Building2DDetailPage:SelectBuilding(buildingData)
@@ -232,8 +233,9 @@ function Building2DDetailPage:_UpdateBuildInfo()
   UIHelper.SetText(widgets.tx_name, self.buildingCfg.name)
   UIHelper.SetText(widgets.tx_lv, "Lv." .. self.buildingData.Level)
   UIHelper.SetImage(widgets.im_buildIcon, self.buildingCfg.typeicon)
-  local recipeId = self.buildingData.RecipeId
-  if 0 < recipeId and 0 < self.buildingData.ItemCount then
+  local recipeId = self.buildingData.RecipeId or -1
+  local itemCount = self.buildingData.ItemCount or -1
+  if 0 < recipeId and 0 < itemCount then
     local recipeCfg = configManager.GetDataById(self:GetCongfigFullNameByIndex(), recipeId)
     local itemCfg = Logic.bagLogic:GetItemByTempateId(recipeCfg.item[1], recipeCfg.item[2])
     UIHelper.SetImage(widgets.img_item, itemCfg.icon, true)

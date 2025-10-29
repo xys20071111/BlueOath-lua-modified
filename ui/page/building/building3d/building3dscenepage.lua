@@ -242,13 +242,13 @@ function Building3DScenePage:SetOtherInfo()
     if index <= bec then
       local effectFunc = attrs.BuildingEffects[index]
       local key, value = Logic.buildingLogic[effectFunc](Logic.buildingLogic, self.buildingData)
-      UIHelper.SetText(tabPart.txt_key, key .. "\239\188\154")
+      UIHelper.SetText(tabPart.txt_key, key .. "：")
       UIHelper.SetText(tabPart.txt_value, value)
     else
       index = index - bec
       local effectFunc = attrs.HeroEffects[index]
       local key, valueStr, value = Logic.buildingLogic[effectFunc](Logic.buildingLogic, self.buildingData)
-      UIHelper.SetText(tabPart.txt_key, key .. "\239\188\154")
+      UIHelper.SetText(tabPart.txt_key, key .. "：")
       UIHelper.SetText(tabPart.txt_value, valueStr)
     end
   end)
