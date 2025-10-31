@@ -20,15 +20,6 @@ function MarryBookPage:RegisterAllEvent()
 end
 
 function MarryBookPage:_Dotinfo()
-  local shipInfoId = Logic.shipLogic:GetShipInfoIdByHeroId(self.param[1])
-  local name = Logic.shipLogic:GetName(shipInfoId)
-  local loveInfo, num = Logic.marryLogic:GetLoveInfo(self.param[1], MarryType.Love)
-  local dotinfo = {
-    info = "ui_open_marrybook",
-    ship_name = name,
-    affection = math.modf(num / 10000)
-  }
-  RetentionHelper.Retention(PlatformDotType.uilog, dotinfo)
 end
 
 function MarryBookPage:_LoadInformation()
@@ -38,7 +29,7 @@ function MarryBookPage:_LoadInformation()
   local noMarry = configManager.GetDataById("config_parameter", 155).arrValue
   local marryed = configManager.GetDataById("config_parameter", 156).arrValue
   local singleGirl = Data.heroData:GetHeroById(self.param[1])
-  if singleGirl.Name ~= "" then
+  if singleGirl.Name and singleGirl.Name ~= "" then
     UIHelper.SetText(self.tab_Widgets.tx_girlName, singleGirl.Name)
     self.tab_Widgets.tx_des.text = string.format(loveInfo.affection_describe, singleGirl.Name)
   else
