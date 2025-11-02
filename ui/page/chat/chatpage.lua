@@ -15,9 +15,9 @@ local ChannelShowType = {
 local ChannelTipStr = {
   [ChatChannel.WorldBase] = nil,
   [ChatChannel.Guild] = nil,
-  [ChatChannel.Friend] = "\232\175\183\233\128\137\230\139\169\228\184\128\228\189\141\229\165\189\229\143\139\229\188\128\229\167\139\232\129\138\229\164\169",
-  [ChatChannel.Personal] = "\232\175\183\233\128\137\230\139\169\228\184\128\228\189\141\231\142\169\229\174\182\229\188\128\229\167\139\229\175\134\232\129\138",
-  [ChatChannel.System] = "\231\179\187\231\187\159\233\162\145\233\129\147\228\184\141\232\131\189\229\143\145\233\128\129\230\182\136\230\129\175",
+  [ChatChannel.Friend] = "请选择一位好友开始聊天",
+  [ChatChannel.Personal] = "请选择一位玩家开始密聊",
+  [ChatChannel.System] = "系统频道不能发送消息",
   [ChatChannel.Team] = nil
 }
 local ChannelTogMap = {
@@ -86,7 +86,7 @@ function ChatPage:_RegisterListeners()
   end
   self:_initChannelTog()
   local packs = clone(configManager.GetData("config_emoji_pack"))
-  table.insert(packs, 1, {type_name = "\230\156\128\232\191\145"})
+  table.insert(packs, 1, {type_name = "最近"})
   local packCount = #packs
   self.emojiParts = {}
   UIHelper.CreateSubPart(widgets.tog_item, widgets.trans_emojiGroup, packCount, function(index, part)
@@ -428,7 +428,7 @@ function ChatPage:_ShowUserInfo(widgets, channelType)
   elseif channelType == ChatChannel.Personal then
     tabUserList = Logic.chatLogic:GetRecentChatUser()
   else
-    logError(ChatChannelStr[channelType] .. "\233\162\145\233\129\147\228\184\141\228\188\154\230\152\190\231\164\186\231\148\168\230\136\183\229\136\151\232\161\168,\232\175\183\230\163\128\230\159\165ChatPage:_ShowUserInfo()")
+    logError(ChatChannelStr[channelType] .. "频道不会显示用户列表,请检查ChatPage:_ShowUserInfo()")
     return
   end
   self:_LoadUserList(widgets.iil_usersv, widgets.obj_userItem, tabUserList)

@@ -166,7 +166,7 @@ end
 
 function BuildShipPage:DoOnOpen()
   self.uid = Data.userData:GetUserUid()
-  self:OpenTopPage("BuildShipPage", 1, "\230\142\162\231\180\162", self, false)
+  self:OpenTopPage("BuildShipPage", 1, "探索", self, false)
   eventManager:SendEvent(LuaEvent.TopUpdateCurrency, {
     {5, 2},
     {

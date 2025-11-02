@@ -13,7 +13,7 @@ local modelQualityBg = {
   "uipic_ui_common_bg_jinsepinzhi",
   "uipic_ui_common_bg_caisepinzhi"
 }
-local Content = {txt_remould = "\230\148\185%s"}
+local Content = {txt_remould = "改%s"}
 local HeroTypeKind = {
   [HeroIndexType.Destroyer] = "uipic_ui_common_im_quzhu_da",
   [HeroIndexType.LightCruiser] = "uipic_ui_common_im_qingxun_da",
