@@ -17,7 +17,7 @@ local TitleTab = {
   "R",
   "N"
 }
-local RewardType = {Twenty = 1, Hundred = 2}
+local RewardType = { Twenty = 1, Hundred = 2 }
 local ShowBoxLimitNum = 2
 
 function BuildShipLogic:initialize()
@@ -200,7 +200,8 @@ function BuildShipLogic:CheckActIsOpen(buildId)
             return false
           end
           local tagTimeArray = paramConf.arrValue
-          local tagTime = time.getIntervalByString(string.format("%d%02d%02d%02d%02d%02d", tagTimeArray[1], tagTimeArray[2], tagTimeArray[3], tagTimeArray[4], tagTimeArray[5], tagTimeArray[6]))
+          local tagTime = time.getIntervalByString(string.format("%d%02d%02d%02d%02d%02d", tagTimeArray[1],
+            tagTimeArray[2], tagTimeArray[3], tagTimeArray[4], tagTimeArray[5], tagTimeArray[6]))
           if startTime >= tagTime then
             if config.statue == 0 then
               return false
@@ -265,7 +266,8 @@ function BuildShipLogic:GetDisplayInfo(buildConfig)
             timeLimitUp[i].dropNameStr = upInfos[i]
           else
             timeLimitUp[i].dropNameStr = ""
-            logError("\230\156\170\233\133\141\231\189\174R\228\184\142N\231\154\132\229\135\186\231\142\176Up\230\166\130\231\142\135")
+            logError(
+            "\230\156\170\233\133\141\231\189\174R\228\184\142N\231\154\132\229\135\186\231\142\176Up\230\166\130\231\142\135")
           end
         elseif buildConfig.up_type == 0 then
           timeLimitUp[i].dropNameStr = UIHelper.GetString(upName[i])
@@ -285,7 +287,7 @@ end
 
 function BuildShipLogic:GetSpecialInfo(upInfoTb)
   local shipTypeId = Logic.shipLogic:GetHeroType(Logic.shipLogic:GetShipInfoId(upInfoTb[1]))
-  local shipType = Logic.shipLogic:GetShipTypeName({shipTypeId})
+  local shipType = Logic.shipLogic:GetShipTypeName({ shipTypeId })
   local shipName = Logic.shipLogic:GetShipShowById(upInfoTb[1]).ship_name
   local rate = tostring(upInfoTb[2] / 100) .. "%"
   return shipType .. " : " .. shipName .. "(" .. rate .. ")"
@@ -540,7 +542,8 @@ function BuildShipLogic:BoxRewardChooseFlg(flg)
 end
 
 function BuildShipLogic:CheckTimesRewardInBuild(limit, id, rewardType)
-  local usedCountTab = rewardType == RewardType.Twenty and Data.buildShipData:GetUsedBoxCoundTab(id) or Data.buildShipData:GetUsedRewardCoundTab(id)
+  local usedCountTab = rewardType == RewardType.Twenty and Data.buildShipData:GetUsedBoxCoundTab(id) or
+  Data.buildShipData:GetUsedRewardCoundTab(id)
   local normalCount = Data.buildShipData:GetBuildShipCount(id)
   local limitCount = limit
   local needDraw = limitCount - normalCount
@@ -720,7 +723,8 @@ function BuildShipLogic:GetShowBoxReward(rewardTypeTab, buildConfigInfo)
 end
 
 function BuildShipLogic:_CheckRewardDate(id, limitCount, rewardType)
-  local dateTab = rewardType == TotalExploreReward.ChooseShip and Data.buildShipData:GetUsedBoxCoundTab(id) or Data.buildShipData:GetUsedRewardCoundTab(id)
+  local dateTab = rewardType == TotalExploreReward.ChooseShip and Data.buildShipData:GetUsedBoxCoundTab(id) or
+  Data.buildShipData:GetUsedRewardCoundTab(id)
   local noGet = true
   if #dateTab ~= 0 then
     for _, num in ipairs(dateTab) do
@@ -735,7 +739,8 @@ end
 
 function BuildShipLogic:DisposeBoxDate(buildConfigInfo, limitCount, rewardType, index)
   local config = {}
-  local dropTab = rewardType == TotalExploreReward.ChooseShip and buildConfigInfo.twenty_drop or buildConfigInfo.hundred_reward
+  local dropTab = rewardType == TotalExploreReward.ChooseShip and buildConfigInfo.twenty_drop or
+  buildConfigInfo.hundred_reward
   for j, k in ipairs(dropTab) do
     if k[1] == limitCount then
       if rewardType == TotalExploreReward.ChooseShip then
@@ -759,9 +764,11 @@ end
 function BuildShipLogic:GetOpenExplore()
   local openExplore = {}
   for _, v in pairs(self.tabBuildConfig) do
-    if self:CheckActIsOpen(v.id) and self:CheckServerOpenDay(v.id) and self:CheckOtherLimit(v) then
-      table.insert(openExplore, v)
-    end
+    pcall(function()
+      if self:CheckActIsOpen(v.id) and self:CheckServerOpenDay(v.id) and self:CheckOtherLimit(v) then
+        table.insert(openExplore, v)
+      end
+    end)
   end
   table.sort(openExplore, function(data1, data2)
     local dispLv1 = Data.buildShipData:GetDispCount(data1.id)
