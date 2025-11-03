@@ -40,14 +40,20 @@ function SelectedShipPageLogic:FilterHero(heroId, tabHaveShip)
   local fleetMap = Logic.fleetLogic:GetHeroFleetMap()
   local secretaryId = Data.userData:GetUserData().SecretaryId
   local bathHero = Data.bathroomData:GetBathHeroId()
-  local arrProgress = Data.studyData:GetStudyData().ArrProgress
+  local arrProgress = Data.studyData:GetStudyData().ArrProgress or {}
   local arrProgressSet = {}
   for _, v in ipairs(arrProgress) do
     arrProgressSet[v.HeroId] = 0
   end
   local filterFunc = function(v, k)
     local id = v.HeroId
-    return heroId ~= id and not Logic.shipLogic:IsInFleet(id) and not v.Lock and not Logic.shipLogic:IsInCrusade(id) and arrProgressSet[id] == nil and secretaryId ~= id and bathHero[id] == nil
+    return heroId ~= id
+      and not Logic.shipLogic:IsInFleet(id)
+      and not v.Lock
+      and not Logic.shipLogic:IsInCrusade(id)
+      and arrProgressSet[id] == nil
+      and secretaryId ~= id
+      and bathHero[id] == nil
   end
   local tmp = {}
   for k, v in pairs(tabHaveShip) do
