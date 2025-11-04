@@ -649,7 +649,7 @@ end
 
 function ShipLogic:GetPSkillName(pskillId)
   if type(pskillId) == "table" then
-    return "\230\136\152\229\167\172\230\173\166\232\163\133"
+    return "战姬武装"
   end
   local id = self:GetPSkillDisplayIdByGroupId(pskillId)
   return self:GetPSkillDisplayConfigById(id).skill_name
@@ -1468,7 +1468,7 @@ end
 function ShipLogic:GetReplaceSkillId(pSkillId, heroId)
   local skillSerData = Data.heroData:GetHeroById(heroId).PSkill
   for _, v in ipairs(skillSerData) do
-    if v.PSkillId == pSkillId and v.Replace ~= 0 then
+    if v.PSkillId == pSkillId and v.Replace and v.Replace ~= 0 then
       return v.Replace
     end
   end
