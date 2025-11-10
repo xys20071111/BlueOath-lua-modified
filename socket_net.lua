@@ -54,9 +54,9 @@ function Socket.OnReceived(handle, method, time, errcode, errmsg, seq, isRespons
       end
     end
   end
-  -- if printout then
-    log("[RECEIVED] message: " .. method .. ", errcode: " .. tostring(errcode) .. ", errmsg: " .. errmsg)
-  -- end
+  if printout then
+  log("[RECEIVED] message: " .. method .. ", errcode: " .. tostring(errcode) .. ", errmsg: " .. errmsg)
+  end
   if time ~= nil and time ~= 0 then
     _FixTime(time)
   end
@@ -102,9 +102,16 @@ function Socket.OnReceived(handle, method, time, errcode, errmsg, seq, isRespons
     log("OnReceived: payload is nil")
     listener.handler(listener.target, nil, state, errcode, errmsg)
   else
-    local obj = pbType()
-    obj:ParseFromString(payload)
-    listener.handler(listener.target, obj, state, errcode, errmsg)
+    xpcall(function()
+      local obj = pbType()
+      obj:ParseFromString(payload)
+      listener.handler(listener.target, obj, state, errcode, errmsg)
+    end, function (msg)
+      logError(msg)
+      local bin = io.open(string.format("err-%s.bin", method), "w")
+      bin:write(payload)
+      bin:close()
+    end)
   end
   if isResponse == 1 then
   end
@@ -152,7 +159,7 @@ function Socket.Disconnect()
 end
 
 function Socket.RegisterHandler(eventName, handler, target, pbType)
-  Socket.Listeners[eventName] = {handler = handler, target = target}
+  Socket.Listeners[eventName] = { handler = handler, target = target }
   if pbType ~= nil then
     types[eventName] = pbType
   end
@@ -163,7 +170,7 @@ function Socket.UnregisterHandler(eventName)
 end
 
 function Socket.Send(method, args, state, waitRecv)
-  local requestState = {params = state}
+  local requestState = { params = state }
   requestState.__needToken = true
   tokenNum = tokenNum + 1
   if tokenNum == 1 then

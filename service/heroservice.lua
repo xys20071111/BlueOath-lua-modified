@@ -1,4 +1,5 @@
 local HeroService = class("servic.HeroService", Service.BaseService)
+local cjson = require("cjson")
 
 function HeroService:initialize()
   self:_InitHandlers()
@@ -7,6 +8,7 @@ end
 function HeroService:_InitHandlers()
   self:BindEvent("hero.GetHeroInfo", self._GetHeroInfo, self)
   self:BindEvent("hero.UpdateHeroBagData", self._UpdateHeroBagData, self)
+  self:BindEvent("hero.custom.UpdateHeroBagData", self._CustomUpdateHeroBagData, self)
   self:BindEvent("hero.HeroIntensify", self._HeroIntensify, self)
   self:BindEvent("hero.ChangeEquip", self._ChangeEquip, self)
   self:BindEvent("hero.HeroAdvance", self._HeroBreak, self)
@@ -124,6 +126,16 @@ function HeroService:_UpdateHeroBagData(ret, state, err, errmsg)
   end
 end
 
+function HeroService:_CustomUpdateHeroBagData(ret, state, err, errmsg)
+  if ret ~= nil then
+    local info = cjson.decode(ret)
+    Data.heroData:SetData(info)
+    Data.wishData:UpdateWishHero()
+    Data.equipData:RefreshHeroEquipData()
+    self:SendLuaEvent(LuaEvent.UpdateHeroData)
+  end
+end
+
 function HeroService:SendHeroBreak(heroid, consumeIds, consumeItemIds)
   local args = {
     HeroId = heroid,
@@ -143,7 +155,7 @@ function HeroService:_HeroBreak(ret, state, err, errmsg)
 end
 
 function HeroService:SendHeroLock(heroId, bLock)
-  local args = {HeroId = heroId, lock = bLock}
+  local args = { HeroId = heroId, lock = bLock }
   args = dataChangeManager:LuaToPb(args, hero_pb.TLOCKHEROARG)
   self:SendNetEvent("hero.LockHero", args, args)
 end
@@ -158,7 +170,7 @@ function HeroService:_HeroSetLock(ret, state, err, errmsg)
 end
 
 function HeroService:SendRetireHero(heroIds, isDisEquip)
-  local args = {HeroIds = heroIds, IsDisEquip = isDisEquip}
+  local args = { HeroIds = heroIds, IsDisEquip = isDisEquip }
   args = dataChangeManager:LuaToPb(args, hero_pb.TRETIREHEROARG)
   self:SendNetEvent("hero.RetireHero", args)
 end
@@ -250,7 +262,7 @@ function HeroService:_UpdateHeroData(ret, state, err, errmsg)
 end
 
 function HeroService:_SendHeroLFurther(heroId)
-  local args = {HeroId = heroId}
+  local args = { HeroId = heroId }
   args = dataChangeManager:LuaToPb(args, hero_pb.THEROADVMAXLVARG)
   self:SendNetEvent("hero.HeroAdvMaxLv", args)
 end
@@ -352,7 +364,7 @@ function HeroService:_GetEquipLockTransplant(ret, state, err, errmsg)
 end
 
 function HeroService:_SendCombinationLevelUp(heroId)
-  local args = {HeroId = heroId}
+  local args = { HeroId = heroId }
   args = dataChangeManager:LuaToPb(args, hero_pb.TCOMBINEUPARG)
   self:SendNetEvent("hero.HeroCombineUpLv", args)
 end
@@ -361,12 +373,12 @@ function HeroService:_GetCombLvUpCallBack(ret, state, err, errmsg)
   if err ~= 0 then
     logError("hero HeroCombineUpLv err:" .. errmsg)
   else
-    self:SendLuaEvent(LuaEvent.UpdateShipCombinationInfo, {isLevelUp = true})
+    self:SendLuaEvent(LuaEvent.UpdateShipCombinationInfo, { isLevelUp = true })
   end
 end
 
 function HeroService:_SendCombinationLevelUpFast(heroId)
-  local args = {HeroId = heroId}
+  local args = { HeroId = heroId }
   args = dataChangeManager:LuaToPb(args, hero_pb.TCOMBINEUPARG)
   self:SendNetEvent("hero.HeroCombineQuickLevelUp", args)
 end
@@ -375,12 +387,12 @@ function HeroService:_GetCombLvUpFastCallBack(ret, state, err, errmsg)
   if err ~= 0 then
     logError("hero HeroCombineQuickLevelUp err:" .. errmsg)
   else
-    self:SendLuaEvent(LuaEvent.UpdateShipCombinationInfo, {isLevelUp = true})
+    self:SendLuaEvent(LuaEvent.UpdateShipCombinationInfo, { isLevelUp = true })
   end
 end
 
 function HeroService:_SendCombinationBreakUp(heroId)
-  local args = {HeroId = heroId}
+  local args = { HeroId = heroId }
   args = dataChangeManager:LuaToPb(args, hero_pb.TCOMBINEUPARG)
   self:SendNetEvent("hero.HeroCombineBreak", args)
 end
@@ -389,7 +401,7 @@ function HeroService:_GetCombBreakUpCallBack(ret, state, err, errmsg)
   if err ~= 0 then
     logError("hero HeroCombineBreak err:" .. errmsg)
   else
-    self:SendLuaEvent(LuaEvent.UpdateShipCombinationInfo, {isBreak = true})
+    self:SendLuaEvent(LuaEvent.UpdateShipCombinationInfo, { isBreak = true })
   end
 end
 
