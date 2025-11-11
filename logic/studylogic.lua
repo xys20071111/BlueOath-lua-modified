@@ -371,7 +371,7 @@ end
 
 function StudyLogic:CheckHeroAlreadyStudy(heroId)
   local data = Data.studyData:GetStudyData()
-  for i, v in pairs(data.ArrProgress) do
+  for i, v in pairs(data.ArrProgress or {}) do
     if v.HeroId == heroId then
       return true
     end
