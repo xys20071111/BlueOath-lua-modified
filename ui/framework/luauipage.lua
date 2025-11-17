@@ -7,6 +7,7 @@ function LuaUIPage:Init(cs_page)
   self.m_timerTable = {}
   self.redDot_eventHandlers = {}
   self.tab_Widgets = self.cs_page:GetComponentsNeed()
+  log("Open page: " .. cs_page.name)
 end
 
 function LuaUIPage:GetComponentNeed(tabFields)
@@ -51,14 +52,6 @@ end
 function LuaUIPage:DoShow()
   local pageName = self:GetName()
   local config = configManager.GetDataById("config_ui_config", pageName)
-  if config.page_type == 1 then
-    RetentionHelper.SkipAllBehaviour()
-  end
-  if config.info and config.info ~= "" then
-    RetentionHelper.Retention(PlatformDotType.uilog, {
-      info = config.info
-    })
-  end
   if config.bgm == "home" then
     homeEnvManager:PlayHomeBgm()
   elseif config.bgm ~= "" then

@@ -1001,7 +1001,7 @@ end
 
 function HomePage:_TickBuildCharge()
   self:StartTimer(self.build_timer)
-  local sequeData = Data.buildData:GetData()
+  local sequeData = Data.buildData:GetData() or {}
   local timeServer = time.getSvrTime()
   for v, k in pairs(sequeData.BuildingList) do
     if timeServer >= k.EndTime then

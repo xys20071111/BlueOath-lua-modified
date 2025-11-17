@@ -155,14 +155,15 @@ function MagazineLogic:IsInList(list, value)
 end
 
 function MagazineLogic:GetMagazineState(id)
-  local configs = Logic.magazineLogic:GetSortAndOpen()
-  if configs[1].id == id and PeriodManager:IsInPeriodArea(configs[1].period, configs[1].task_period_area) then
-    return MagazineState.Active
-  elseif Data.magazineData:IsUnLockById(id) then
-    return MagazineState.UnLock
-  else
-    return MagazineState.Lock
-  end
+  return MagazineState.Active
+  -- local configs = Logic.magazineLogic:GetSortAndOpen()
+  -- if configs[1].id == id and PeriodManager:IsInPeriodArea(configs[1].period, configs[1].task_period_area) then
+  --   return MagazineState.Active
+  -- elseif Data.magazineData:IsUnLockById(id) then
+  --   return MagazineState.UnLock
+  -- else
+  --   return MagazineState.Lock
+  -- end
 end
 
 return MagazineLogic

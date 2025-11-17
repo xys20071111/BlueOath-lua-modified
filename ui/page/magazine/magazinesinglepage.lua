@@ -103,7 +103,8 @@ function MagazineSinglePage:ShowContent()
   local sum = Logic.rewardLogic:GetPossessNum(itemInfo[1], itemInfo[2])
   UIHelper.SetLocText(widgets.tx_left, 4000032, sum)
   local state = Logic.magazineLogic:GetMagazineState(self.magazineId)
-  widgets.btn_bookmark.gameObject:SetActive(state == MagazineState.Lock and self.magazineConfig.special ~= MagazineSpecial.Special)
+  widgets.btn_bookmark.gameObject:SetActive(state == MagazineState.Lock and
+  self.magazineConfig.special ~= MagazineSpecial.Special)
   widgets.im_mask:SetActive(state == MagazineState.Lock and self.magazineConfig.special ~= MagazineSpecial.Special)
   self:ShowPageLeft()
   self:ShowPageRight()
@@ -129,11 +130,11 @@ function MagazineSinglePage:ShowPageLeft()
     local taskData = Data.taskData:GetTaskDataById(taskId, TaskType.Magazine)
     local taskConfig = configManager.GetDataById("config_task_magazine", taskId)
     UIHelper.SetText(tabPart.tx_task, taskConfig.desc)
-    local max = Logic.taskLogic:GetTotalCount(taskId, TaskType.Magazine)
-    local cur = Logic.taskLogic:GetCurCount(taskData, max)
+    local max = 0 -- Logic.taskLogic:GetTotalCount(taskId, TaskType.Magazine) or 0
+    local cur = 0 -- Logic.taskLogic:GetCurCount(taskData, max) or 0
     local reward = Logic.rewardLogic:FormatRewardById(taskConfig.rewards)
     local num = reward[1].Num
-    local state = Logic.taskLogic:GetTaskFinishState(taskId, TaskType.Magazine)
+    local state = 1 -- Logic.taskLogic:GetTaskFinishState(taskId, TaskType.Magazine)
     UIHelper.CreateSubPart(tabPart.star, tabPart.content_star, num, function(indexSub, tabPartSub)
       tabPartSub.star_on:SetActive(state ~= TaskState.TODO)
     end)
@@ -169,11 +170,11 @@ function MagazineSinglePage:ShowPageRight()
     local taskData = Data.taskData:GetTaskDataById(taskId, TaskType.Magazine)
     local taskConfig = configManager.GetDataById("config_task_magazine", taskId)
     UIHelper.SetText(tabPart.tx_task, taskConfig.desc)
-    local max = Logic.taskLogic:GetTotalCount(taskId, TaskType.Magazine)
-    local cur = Logic.taskLogic:GetCurCount(taskData, max)
+    local max = 0 -- Logic.taskLogic:GetTotalCount(taskId, TaskType.Magazine)
+    local cur = 0 -- Logic.taskLogic:GetCurCount(taskData, max)
     local reward = Logic.rewardLogic:FormatRewardById(taskConfig.rewards)
     local num = reward[1].Num
-    local state = Logic.taskLogic:GetTaskFinishState(taskId, TaskType.Magazine)
+    local state = 1 -- Logic.taskLogic:GetTaskFinishState(taskId, TaskType.Magazine)
     UIHelper.CreateSubPart(tabPart.star, tabPart.content_star, num, function(indexSub, tabPartSub)
       tabPartSub.star_on:SetActive(state ~= TaskState.TODO)
     end)
@@ -360,21 +361,25 @@ function MagazineSinglePage:SetActivePage(_bool)
 end
 
 function MagazineSinglePage:_ClickRight()
-  self:initPageId()
-  if self.isJapan then
-    if self.indexRight <= 2 then
-      self:_ClickClose()
-      return
+  xpcall(function()
+    self:initPageId()
+    if self.isJapan then
+      if self.indexRight <= 2 then
+        self:_ClickClose()
+        return
+      end
+      self.index = self.index - 2
+    else
+      if self.indexRight >= #self.page_id_list then
+        self:_ClickClose()
+        return
+      end
+      self.index = self.index + 2
     end
-    self.index = self.index - 2
-  else
-    if self.indexRight >= #self.page_id_list then
-      self:_ClickClose()
-      return
-    end
-    self.index = self.index + 2
-  end
-  self:_BookFlip()
+    self:_BookFlip()
+  end, function(msg)
+    logError(msg)
+  end)
 end
 
 function MagazineSinglePage:ShowButton()

@@ -107,10 +107,11 @@ function Socket.OnReceived(handle, method, time, errcode, errmsg, seq, isRespons
       obj:ParseFromString(payload)
       listener.handler(listener.target, obj, state, errcode, errmsg)
     end, function (msg)
+      log(string.format("Pb Error: %s", method))
       logError(msg)
-      local bin = io.open(string.format("err-%s.bin", method), "w")
-      bin:write(payload)
-      bin:close()
+      -- local bin = io.open(string.format("err-%s.bin", method), "w")
+      -- bin:write(payload)
+      -- bin:close()
     end)
   end
   if isResponse == 1 then
