@@ -1,5 +1,4 @@
 local HeroService = class("servic.HeroService", Service.BaseService)
-local cjson = require("cjson")
 
 function HeroService:initialize()
   self:_InitHandlers()

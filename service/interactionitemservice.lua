@@ -6,6 +6,7 @@ end
 
 function InteractionItemService:_InitHandlers()
   self:BindEvent("interactionitem.RefreshInteractionItems", self._RefreshInteractionItems, self)
+  self:BindEvent("interactionitem.custom.RefreshInteractionItems", self._CustomRefreshInteractionItems, self)
   self:BindEvent("interactionitem.GetItemReward", self._GetInteractionItemRet, self)
   self:BindEvent("interactionitem.BuyChristmasFurniture", self._BuyChristmasFurnitureRet, self)
   self:BindEvent("interactionitem.GetSpringPaperFlowerReward", self._GetClickSpringPaperFlowerRet, self)
@@ -117,6 +118,15 @@ function InteractionItemService:_RefreshInteractionItems(ret, state, err, errmsg
     return
   end
   local info = dataChangeManager:PbToLua(ret, interactionitem_pb.TINTERACTIONITEMRET)
+  Data.interactionItemData:SetData(info)
+end
+
+function InteractionItemService:_CustomRefreshInteractionItems(ret, state, err, errmsg)
+  if err ~= 0 then
+    logError(" _Refresh InteractionItems err : " .. errmsg)
+    return
+  end
+  local info = cjson.decode(ret)
   Data.interactionItemData:SetData(info)
 end
 

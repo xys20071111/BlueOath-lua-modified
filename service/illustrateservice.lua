@@ -1,5 +1,4 @@
 local IllustrateService = class("service.IllustrateService", Service.BaseService)
-local cjson = require("cjson")
 
 function IllustrateService:initialize()
   self:BindEvent("illustrate.IllustrateInfo", self._IllustrateInfo, self)

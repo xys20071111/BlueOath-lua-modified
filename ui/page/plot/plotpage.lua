@@ -1186,7 +1186,7 @@ function PlotPage:_PlotOverImpForGame()
     plotManager:SetReadPassFlag(self.tabPlotInfo[self.playTimes].plot_episode_id)
   end
   if plotManager.EditorMode then
-    log("\229\189\147\229\137\141\229\164\132\228\186\142\231\188\150\232\190\145\230\168\161\229\188\143")
+    log("当前处于编辑模式")
     return
   end
   plotManager:PlotEnd(self.curTriggerId)

@@ -1,5 +1,4 @@
 local SyncJsonData = class("data.SyncJsonData", Data.BaseData)
-local cjson = require("cjson")
 
 function SyncJsonData:initialize()
   self.jsonMap = {}

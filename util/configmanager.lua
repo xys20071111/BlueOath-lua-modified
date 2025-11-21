@@ -6,6 +6,7 @@ local WakeTableGroup = {}
 function ConfigManager.GetDataById(strName, strId, nocheck)
   if not strName or not strId then
     local str = string.format("config:%s strId:%s", tostring(strName), tostring(strId))
+    logError(str)
     noticeManager:ShowMsgBox(str)
     return nil
   end
@@ -29,6 +30,7 @@ function ConfigManager.GetDataById(strName, strId, nocheck)
   if WakeTable[strName] == nil then
     WakeTable[strName] = {}
   end
+  -- log(string.format("[ConfigManager] loading %s/%s.json", strName, strId))
   if WakeTable[strName][strId] == nil then
     local strJson = SQLiteConfigManager.Instance:GetJsonData(strName, tostring(strId))
     strJson = string.gsub(strJson, "_hx", "")

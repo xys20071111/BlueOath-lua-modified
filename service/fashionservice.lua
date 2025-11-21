@@ -1,5 +1,4 @@
 local FashionService = class("servic.FashionService", Service.BaseService)
-local cjson = require("cjson")
 
 function FashionService:initialize()
   self:_InitHandlers()

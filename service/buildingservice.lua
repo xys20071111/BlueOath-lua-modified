@@ -1,5 +1,4 @@
 local BuildingService = class("servic.BuildingService", Service.BaseService)
-local cjson = require("cjson")
 
 function BuildingService:initialize()
   self:_InitHandlers()

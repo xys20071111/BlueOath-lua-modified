@@ -1,5 +1,4 @@
 local FleetService = class("servic.FleetService", Service.BaseService)
-local cjson = require("cjson")
 
 function FleetService:initialize()
   self:_InitHandlers()

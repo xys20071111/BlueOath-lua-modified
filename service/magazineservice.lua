@@ -1,5 +1,4 @@
 local MagazineService = class("servic.MagazineService", Service.BaseService)
-local cjson = require('cjson')
 
 function MagazineService:initialize()
   self:_InitHandlers()
