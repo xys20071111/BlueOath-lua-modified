@@ -7,7 +7,6 @@ end
 function MagazineService:_InitHandlers()
   self:BindEvent("magazine.GetMagazine", self._GetMagazine, self)
   self:BindEvent("magazine.UpdateMagazineInfo", self._UpdateMagazineInfo, self)
-  self:BindEvent("magazine.custom.UpdateMagazineInfo", self._CustomUpdateMagazineInfo, self)
   self:BindEvent("magazine.AddHero", self._GetAddHero, self)
   self:BindEvent("magazine.Vote", self._Vote, self)
   self:BindEvent("magazine.FetchMagazineReward", self._SendFetchReward, self)
@@ -29,16 +28,6 @@ function MagazineService:_UpdateMagazineInfo(ret, state, err, errmsg)
     logError("_GetMagazine failed " .. errmsg)
   elseif ret ~= nil then
     local info = dataChangeManager:PbToLua(ret, magazine_pb.TRETMAGAZINEINFO)
-    Data.magazineData:SetData(info)
-    self:SendLuaEvent(LuaEvent.GetMagazineMsg)
-  end
-end
-
-function MagazineService:_CustomUpdateMagazineInfo(ret, state, err, errmsg)
-  if err ~= 0 then
-    logError("_GetMagazine failed " .. errmsg)
-  elseif ret ~= nil then
-    local info = cjson.decode(ret)
     Data.magazineData:SetData(info)
     self:SendLuaEvent(LuaEvent.GetMagazineMsg)
   end
