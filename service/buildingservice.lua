@@ -8,7 +8,6 @@ end
 function BuildingService:_InitHandlers()
   self:BindEvent("building.AddBuilding", self._OnAddBuilding, self)
   self:BindEvent("building.UpdateBuildingInfo", self._UpdateBuildingInfo, self)
-  self:BindEvent("building.custom.UpdateBuildingInfo", self._CustomUpdateBuildingInfo, self)
   self:BindEvent("building.UpgradeBuilding", self._OnUpBuilding, self)
   self:BindEvent("building.DegradeBuilding", self._OnDownBuilding, self)
   self:BindEvent("building.SetHero", self._OnSetBuildingHero, self)
@@ -216,7 +215,6 @@ function BuildingService:_ReceiveResource(ret, state, err, errmsg)
 end
 
 function BuildingService:_UpdateBuildingInfo(ret, state, err, errmsg)
-  log(ret)
   if err == 0 then
     local buildingInfo = dataChangeManager:PbToLua(ret, building_pb.TUSERBUILDINGINFO)
     Data.buildingData:SetData(buildingInfo)
@@ -225,16 +223,6 @@ function BuildingService:_UpdateBuildingInfo(ret, state, err, errmsg)
       local noticeParam = Logic.buildingLogic:GetPushNoticeParams(buildingInfo.BuildingInfos)
       self:SendLuaEvent(LuaEvent.PushNotice, noticeParam)
     end
-  else
-    logError("err: " .. err .. ", errmsg: " .. errmsg)
-  end
-end
-
-function BuildingService:_CustomUpdateBuildingInfo(ret, state, err, errmsg)
-  if err == 0 then
-    local buildingInfo = cjson.decode(ret)
-    Data.buildingData:SetData(buildingInfo)
-    self:SendLuaEvent(LuaEvent.BuildingRefreshData)
   else
     logError("err: " .. err .. ", errmsg: " .. errmsg)
   end

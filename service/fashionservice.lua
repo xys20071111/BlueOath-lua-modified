@@ -6,7 +6,6 @@ end
 
 function FashionService:_InitHandlers()
   self:BindEvent("fashion.updateData", self._FashionUpdate, self)
-  self:BindEvent("fashion.custom.updateData", self._CustomFashionUpdate, self)
   self:BindEvent("fashion.fashionReplaceReward", self._FashionReplaceReward, self)
   self:BindEvent("fashion.Equip", self._EquipFashion, self)
 end
@@ -22,21 +21,10 @@ function FashionService:EquipFashion(fashionTid, fashionState, heroId)
 end
 
 function FashionService:_FashionUpdate(ret, state, err, errmsg)
-  log(ret)
   if err ~= 0 then
     logError("Fashion Update failed err:" .. err .. errmsg)
   else
     local fashionInfo = dataChangeManager:PbToLua(ret, fashion_pb.TFASHIONLIST)
-    Data.fashionData:SetData(fashionInfo)
-    self:SendLuaEvent(LuaEvent.UpdateFashionInfo)
-  end
-end
-
-function FashionService:_CustomFashionUpdate(ret, state, err, errmsg)
-  if err ~= 0 then
-    logError("Fashion Update failed err:" .. err .. errmsg)
-  else
-    local fashionInfo = cjson.decode(ret) -- dataChangeManager:PbToLua(ret, fashion_pb.TFASHIONLIST)
     Data.fashionData:SetData(fashionInfo)
     self:SendLuaEvent(LuaEvent.UpdateFashionInfo)
   end
